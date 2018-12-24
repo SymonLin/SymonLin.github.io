@@ -361,7 +361,7 @@
         
           
             <p>本系列文章最终目标是为了快速搭建一个可用的搜索服务。</p>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>近期公司在重构老系统，需求是要求知识库支持模糊搜索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch搜索引擎实现。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>近期公司在重构老系统，需求是要求知识库支持模糊搜索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch(下文简称es)搜索引擎实现。</p>
 <hr>
 <h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><p>因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。</p>
 <ul>
@@ -393,11 +393,11 @@
 <li><code>倒排索引</code>；类似于传统关系型数据库中的索引概念，可以提升数据检索速度</li>
 </ul>
 <h4 id="4-类型（type）"><a href="#4-类型（type）" class="headerlink" title="4.类型（type）"></a>4.类型（type）</h4><p>一个索引包含一个或多个type，相当于传统关系型数据库中的表</p>
-<h4 id="5-文档"><a href="#5-文档" class="headerlink" title="5.文档"></a>5.文档</h4><p>相当于传统关系型数据库中的数据行</p>
-<h4 id="6-分片"><a href="#6-分片" class="headerlink" title="6.分片"></a>6.分片</h4><ul>
+<h4 id="5-文档（document）"><a href="#5-文档（document）" class="headerlink" title="5.文档（document）"></a>5.文档（document）</h4><p>相当于传统关系型数据库中的数据行</p>
+<h4 id="6-分片（shards）"><a href="#6-分片（shards）" class="headerlink" title="6.分片（shards）"></a>6.分片（shards）</h4><ul>
 <li>是一个底层的<code>[工作单元]</code>，仅保存了全部数据的一部分</li>
 <li>是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里</li>
-<li>当集群规模扩大或者缩小时，elasticsearch会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
+<li>当集群规模扩大或者缩小时，es会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
 <li>分为<code>[主分片]</code>和<code>[副本分片]</code></li>
 <li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配<strong>5个主分片和1份副本（每个主分片拥有一个副本分片）</strong></li>
 <li>相同主分片的副本分片不会放在同一个节点</li>
@@ -405,11 +405,42 @@
 <h6 id="①-主分片"><a href="#①-主分片" class="headerlink" title="① 主分片"></a>① 主分片</h6><blockquote>
 <p>索引内任意一个文档都归属于一个主分片，所以主分片的数目<strong>决定着索引能够保存的最大数据量</strong></p>
 </blockquote>
-<h6 id="②-副本分片"><a href="#②-副本分片" class="headerlink" title="② 副本分片"></a>② 副本分片</h6><blockquote>
+<h6 id="②-副本分片（replicas）"><a href="#②-副本分片（replicas）" class="headerlink" title="② 副本分片（replicas）"></a>② 副本分片（replicas）</h6><blockquote>
 <p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
 </blockquote>
 <hr>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><h4 id="3-kibana"><a href="#3-kibana" class="headerlink" title="3.kibana"></a>3.kibana</h4>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ul>
+<li>1.下载安装包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如果提示-bash: wget: command not found则需要先安装wget<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><p>2.解压并移动到local目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/<span class="built_in">local</span>/elasticsearch</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.修改config目录下的elasticsearch.yml文件</p>
+</li>
+<li>4.启动并在后台运行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注：es版本&gt; = 5.0.0时，是不可用超级管理员运行的，此时需要切换到普通账号或者新建es账号</p>
+<h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><ul>
+<li><p>1.下载安装包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.解压并移动到local目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/<span class="built_in">local</span>/logstash</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="3-kibana"><a href="#3-kibana" class="headerlink" title="3.kibana"></a>3.kibana</h4><ul>
+<li><p>1.下载安装包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.解压并移动到local目录下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/<span class="built_in">local</span>/kibana</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="4-安装head插件"><a href="#4-安装head插件" class="headerlink" title="4.安装head插件"></a>4.安装head插件</h4>
           
         
       

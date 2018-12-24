@@ -289,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/Hello-Hexo/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/elasticsearch-1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Symon Lin">
@@ -308,7 +308,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/09/Hello-Hexo/" itemprop="url">Hello,Hexo</a></h1>
+                <a class="post-title-link" href="/2018/12/09/elasticsearch-1/" itemprop="url">从零搭建ES搜索服务（一）基本概念及环境搭建</a></h1>
         
 
         <div class="post-meta">
@@ -360,7 +360,32 @@
       
         
           
-            
+            <p>本系列文章最终目标是为了快速搭建一个可用的搜索服务。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>近期公司在重构老系统，需求是要求知识库需要支持模糊搜索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch搜索引擎实现。</p>
+<h2 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h2><p>因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。</p>
+<ul>
+<li>elasticsearch 5.5.3<blockquote>
+<p>一个基于Lucene的搜索服务器，提供了分布式的全文搜索引擎</p>
+</blockquote>
+</li>
+<li>logstash 5.5.3<blockquote>
+<p>开源的服务器端数据处理管道</p>
+</blockquote>
+</li>
+<li>kibana 5.5.3<blockquote>
+<p>开源的分析和可视化平台</p>
+</blockquote>
+</li>
+<li>springboot 2.0.4</li>
+</ul>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><h4 id="1-集群（cluster"><a href="#1-集群（cluster" class="headerlink" title="1.集群（cluster"></a>1.集群（cluster</h4><p>集群是由一个或者多个拥有相同cluster.name配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
+<h4 id="2-节点（node）"><a href="#2-节点（node）" class="headerlink" title="2.节点（node）"></a>2.节点（node）</h4><p>一个运行中的Elasticsearch实例称为一个节点</p>
+<ul>
+<li>主节点负责管理集群范围内的所有变更，例如增加/删除索引，或者增加/删除节点等，且不需要涉及到文档级别的变更和搜索等操作</li>
+<li>任何节点都能成为主节点</li>
+<li>当集群只有一个主节点，即使流量增加也不会成为瓶颈<h4 id="3-索引（index）"><a href="#3-索引（index）" class="headerlink" title="3.索引（index）"></a>3.索引（index）</h4><h4 id="4-类型（type）"><a href="#4-类型（type）" class="headerlink" title="4.类型（type）"></a>4.类型（type）</h4><h4 id="5-文档"><a href="#5-文档" class="headerlink" title="5.文档"></a>5.文档</h4><h4 id="6-分片"><a href="#6-分片" class="headerlink" title="6.分片"></a>6.分片</h4></li>
+</ul>
+
           
         
       

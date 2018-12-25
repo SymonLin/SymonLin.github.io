@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="本系列文章最终目标是为了快速搭建一个可用的搜索服务。 背景近期公司在重构老系统，需求是要求知识库支持模糊搜索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch(下文简称es)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。  elasticsearch 5.5.3 一个基于Lucene的搜">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-24T13:06:37.000Z">
+<meta property="og:updated_time" content="2018-12-25T02:19:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（一）基本概念及环境搭建">
 <meta name="twitter:description" content="本系列文章最终目标是为了快速搭建一个可用的搜索服务。 背景近期公司在重构老系统，需求是要求知识库支持模糊搜索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch(下文简称es)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。  elasticsearch 5.5.3 一个基于Lucene的搜">
@@ -408,20 +408,20 @@
 <p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
 </blockquote>
 <hr>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ul>
-<li>1.下载安装包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ol>
+<li>下载安装包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+</ol>
 <p>如果提示-bash: wget: command not found则需要先安装wget<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>2.解压并移动到local目录下</p>
+<ol start="2">
+<li><p>解压并移动到local目录下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/<span class="built_in">local</span>/elasticsearch</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>3.修改config目录下的elasticsearch.yml文件</p>
+<li><p>修改config目录下的elasticsearch.yml文件</p>
 </li>
-<li>4.启动并在后台运行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
+<li>启动并在后台运行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+</ol>
 <p>注：es版本&gt; = 5.0.0时，是不可用超级管理员运行的，此时需要切换到普通账号或者新建es账号</p>
 <h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><ul>
 <li><p>1.下载安装包：</p>

@@ -409,20 +409,20 @@
 <p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
 </blockquote>
 <hr>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ul>
-<li>1.下载安装包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ol>
+<li>下载安装包：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+</ol>
 <p>如果提示-bash: wget: command not found则需要先安装wget<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><p>2.解压并移动到local目录下</p>
+<ol start="2">
+<li><p>解压并移动到local目录下</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/<span class="built_in">local</span>/elasticsearch</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>3.修改config目录下的elasticsearch.yml文件</p>
+<li><p>修改config目录下的elasticsearch.yml文件</p>
 </li>
-<li>4.启动并在后台运行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
+<li>启动并在后台运行<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
+</ol>
 <p>注：es版本&gt; = 5.0.0时，是不可用超级管理员运行的，此时需要切换到普通账号或者新建es账号</p>
 <h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><ul>
 <li><p>1.下载安装包：</p>

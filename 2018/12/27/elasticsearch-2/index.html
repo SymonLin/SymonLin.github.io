@@ -79,13 +79,21 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="前言上篇介绍了ES的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。 安装 ik 分词器1.1 ik 分词器简介GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik提供两种分词模式：「 ik_max_word 」及「 ik_smart 」     分词模式 描述     ik_max_word 会将文本做最细粒度">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从零搭建ES搜索服务（二）基础搜索">
+<meta property="og:url" content="http://yoursite.com/2018/12/27/elasticsearch-2/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言上篇介绍了ES的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。 安装 ik 分词器1.1 ik 分词器简介GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik提供两种分词模式：「 ik_max_word 」及「 ik_smart 」     分词模式 描述     ik_max_word 会将文本做最细粒度">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p19">
+<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p20">
+<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p25">
+<meta property="og:updated_time" content="2018-12-27T09:43:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="从零搭建ES搜索服务（二）基础搜索">
+<meta name="twitter:description" content="前言上篇介绍了ES的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。 安装 ik 分词器1.1 ik 分词器简介GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik提供两种分词模式：「 ik_max_word 」及「 ik_smart 」     分词模式 描述     ik_max_word 会将文本做最细粒度">
+<meta name="twitter:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p19">
 
 
 
@@ -115,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2018/12/27/elasticsearch-2/">
 
 
 
 
 
-  <title>Hexo</title>
+  <title>从零搭建ES搜索服务（二）基础搜索 | Hexo</title>
   
 
 
@@ -140,8 +148,7 @@
     
   
 
-  <div class="container sidebar-position-right 
-  page-home">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -274,9 +281,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -306,9 +313,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/27/elasticsearch-2/" itemprop="url">从零搭建ES搜索服务（二）基础搜索</a></h1>
+          <h1 class="post-title" itemprop="name headline">从零搭建ES搜索服务（二）基础搜索</h1>
         
 
         <div class="post-meta">
@@ -358,9 +363,7 @@
       
 
       
-        
-          
-            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上篇介绍了ES的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。</p>
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上篇介绍了ES的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。</p>
 <h3 id="安装-ik-分词器"><a href="#安装-ik-分词器" class="headerlink" title="安装 ik 分词器"></a>安装 ik 分词器</h3><h4 id="1-1-ik-分词器简介"><a href="#1-1-ik-分词器简介" class="headerlink" title="1.1 ik 分词器简介"></a>1.1 ik 分词器简介</h4><p>GitHub 地址：<a href="https://github.com/medcl/elasticsearch-analysis-ik" target="_blank" rel="noopener">https://github.com/medcl/elasticsearch-analysis-ik</a><br>提供两种分词模式：「 ik_max_word 」及「 ik_smart 」 </p>
 <table>
 <thead>
@@ -501,8 +504,6 @@
 </blockquote>
 <p>⑤ 再次执行步骤二增量同步<code>源索引 v1</code>中已修改但没同步到<code>新索引「 v2 」</code>中的数据<br>⑥ 最后删除<code>源索引「 v1 」</code></p>
 
-          
-        
       
     </div>
     
@@ -519,298 +520,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/elasticsearch-1/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Symon Lin">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM4cubib93RxwqSCOV9kURrI89qvBh3uwbdynttkkcyHQicsiamuqju1yJN9guNDibCKgfV9DZhTXHbqvQ/132">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/elasticsearch-1/" itemprop="url">从零搭建ES搜索服务（一）基本概念及环境搭建</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-09T15:41:46+08:00">
-                2018-12-09
-              </time>
+              <a href="/2018/12/09/elasticsearch-1/" rel="next" title="从零搭建ES搜索服务（一）基本概念及环境搭建">
+                <i class="fa fa-chevron-left"></i> 从零搭建ES搜索服务（一）基本概念及环境搭建
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。</p>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>近期公司在重构老系统，需求是要求知识库支持模糊搜索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch(下文简称es)搜索引擎实现。</p>
-<hr>
-<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。</p>
-<ul>
-<li>elasticsearch 5.5.3<blockquote>
-<p>一个基于Lucene的搜索服务器，提供了分布式的全文搜索引擎</p>
-</blockquote>
-</li>
-<li>logstash 5.5.3<blockquote>
-<p>开源的服务器端数据处理管道</p>
-</blockquote>
-</li>
-<li>kibana 5.5.3<blockquote>
-<p>开源的分析和可视化平台</p>
-</blockquote>
-</li>
-<li>springboot 2.0.4</li>
-</ul>
-<hr>
-<h3 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h3><ul>
-<li>Linux Centos 7.3</li>
-<li>JDK 1.8</li>
-</ul>
-<hr>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="1-集群（cluster）"><a href="#1-集群（cluster）" class="headerlink" title="1.集群（cluster）"></a>1.集群（cluster）</h4><p>集群是由一个或者多个拥有相同cluster.name配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
-<h4 id="2-节点（node）"><a href="#2-节点（node）" class="headerlink" title="2.节点（node）"></a>2.节点（node）</h4><p>一个运行中的Elasticsearch实例称为一个节点</p>
-<ul>
-<li>主节点负责管理集群范围内的所有变更，例如增加/删除索引，或者增加/删除节点等，且不需要涉及到文档级别的变更和搜索等操作</li>
-<li>任何节点都能成为主节点</li>
-<li>当集群只有一个主节点，即使流量增加也不会成为瓶颈</li>
-</ul>
-<h4 id="3-索引（index）"><a href="#3-索引（index）" class="headerlink" title="3.索引（index）"></a>3.索引（index）</h4><ul>
-<li><code>名词</code>；类似于传统关系数据库中的一个<em>数据库</em></li>
-<li><code>动词</code>；索引一个文档就是存储一个文档到一个<em>索引</em>(名词)中以便它可以被检索和查询到。类似于SQL语句中的INSERT关键词</li>
-<li><code>倒排索引</code>；类似于传统关系型数据库中的索引概念，可以提升数据检索速度</li>
-</ul>
-<h4 id="4-类型（type）"><a href="#4-类型（type）" class="headerlink" title="4.类型（type）"></a>4.类型（type）</h4><p>一个索引包含一个或多个type，相当于传统关系型数据库中的表</p>
-<h4 id="5-文档（document）"><a href="#5-文档（document）" class="headerlink" title="5.文档（document）"></a>5.文档（document）</h4><p>相当于传统关系型数据库中的数据行</p>
-<h4 id="6-分片（shards）"><a href="#6-分片（shards）" class="headerlink" title="6.分片（shards）"></a>6.分片（shards）</h4><ul>
-<li>是一个底层的<code>[工作单元]</code>，仅保存了全部数据的一部分</li>
-<li>是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里</li>
-<li>当集群规模扩大或者缩小时，es会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
-<li>分为<code>[主分片]</code>和<code>[副本分片]</code></li>
-<li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配<strong>5个主分片和1份副本（每个主分片拥有一个副本分片）</strong></li>
-<li>相同主分片的副本分片不会放在同一个节点</li>
-</ul>
-<h6 id="①-主分片"><a href="#①-主分片" class="headerlink" title="① 主分片"></a>① 主分片</h6><blockquote>
-<p>索引内任意一个文档都归属于一个主分片，所以主分片的数目<strong>决定着索引能够保存的最大数据量</strong></p>
-</blockquote>
-<h6 id="②-副本分片（replicas）"><a href="#②-副本分片（replicas）" class="headerlink" title="② 副本分片（replicas）"></a>② 副本分片（replicas）</h6><blockquote>
-<p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
-</blockquote>
-<hr>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/local/elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改config目录下的elasticsearch.yml文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim elasticsearch.yml</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 去掉行开头的#并重命名集群名，这里命名为compass</span><br><span class="line">cluster.name: compass</span><br><span class="line">// 去掉行开头的#并重命名节点名，这里命名为node-1</span><br><span class="line">node.name: node-1</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li><p>进入bin目录启动es并在后台运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动之后测试是否正常运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl 127.0.0.1:9200</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;node-1&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;compass&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;Zuj5FBMUTjuHQXlAHreGvA&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;5.5.3&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;9305a5e&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2017-09-07T15:56:59.599Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;6.6.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<hr>
-<p><strong>① 注：如果提示<code>-bash: wget: command not found</code>则需要先安装wget</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong>② 注：es版本&gt; = 5.0.0时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建es账号</strong><br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15" alt="0389398b3f52e69123eb3956ba578142.png"></p>
-<p><code>解决办法：</code></p>
-<ol>
-<li><p>新建用户组elasticsearch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建用户并指定用户组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -g elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改es目录所属者</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chown -R elasticsearch:elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>切换用户后再次启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<p><strong>③ 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</strong></p>
-<p><code>解决办法：</code></p>
-<ol>
-<li><p>修改elasticsearch.yml中的<code>network.host</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启es出现却如下报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [3] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max number of threads [3818] for user [elasticsearch] is too low, increase to at least [4096]</span><br><span class="line">[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]<blockquote>
-<p>每个进程最大同时打开文件数太小</p>
-</blockquote>
-</li>
-</ul>
-<p>修改/etc/security/limits.conf文件，增加如下配置，用户退出后重新登录生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br></pre></td></tr></table></figure>
-<ul>
-<li>[2]: max number of threads [3818] for user [es] is too low, increase to at least [4096]<blockquote>
-<p>最大线程个数太低</p>
-</blockquote>
-</li>
-</ul>
-<p>同上修改/etc/security/limits.conf文件，增加如下配置，用户退出后重新登录生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nproc 4096</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
-<ul>
-<li>[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]<blockquote>
-<p>一个进程能拥有的最多的内存区域</p>
-</blockquote>
-</li>
-</ul>
-<p>修改/etc/sysctl.conf文件，增加如下配置，执行命令<code>sysctl -p</code>生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>切换到elasticsearch用户并重启，curl测试成功</li>
-</ol>
-<p><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16" alt="c7f7e7cbdd2b002f4683a81f54553178.png"></p>
-<hr>
-<h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/local/logstash</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<h4 id="3-kibana"><a href="#3-kibana" class="headerlink" title="3.kibana"></a>3.kibana</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改config目录下的kibana.yml文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的#</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动kibana，浏览器访问<a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="4-elasticsearch-head插件"><a href="#4-elasticsearch-head插件" class="headerlink" title="4.elasticsearch-head插件"></a>4.elasticsearch-head插件</h4><blockquote>
-<p><a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">https://github.com/mobz/elasticsearch-head</a></p>
-<ol>
-<li>chrome浏览器网上应用商品搜索elasticsearch-head<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p18" alt="f236776df10df88ce7c2747b53e70498.png"></li>
-<li>安装插件后点击浏览器地址栏右侧<code>放大镜图标</code>，顶部输入框中的localhost修改为服务器地址即可查看es服务状态<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p17" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></li>
-</ol>
-</blockquote>
-<hr>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此ELK环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -820,138 +551,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/09/hello-world/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Symon Lin">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM4cubib93RxwqSCOV9kURrI89qvBh3uwbdynttkkcyHQicsiamuqju1yJN9guNDibCKgfV9DZhTXHbqvQ/132">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/09/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-09T15:27:48+08:00">
-                2018-12-09
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -959,6 +563,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -979,8 +587,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -1024,6 +641,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-ik-分词器"><span class="nav-number">2.</span> <span class="nav-text">安装 ik 分词器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-ik-分词器简介"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 ik 分词器简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装步骤"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 安装步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据同步"><span class="nav-number">3.</span> <span class="nav-text">数据同步</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-方案设计"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 方案设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-实现步骤"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 实现步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-安装-logstash-input-jdbc-插件"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.2.1 安装 logstash-input-jdbc 插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-MySQL-同步数据配置"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2.2 MySQL 同步数据配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-3-自定义模板配置"><span class="nav-number">3.2.3.</span> <span class="nav-text">2.2.3 自定义模板配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-4-自动重载配置文件"><span class="nav-number">3.2.4.</span> <span class="nav-text">2.2.4 自动重载配置文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">4.</span> <span class="nav-text">代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-搭建SpringBoot项目"><span class="nav-number">4.0.1.</span> <span class="nav-text">3.1 搭建SpringBoot项目</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-引入核心依赖包"><span class="nav-number">4.0.2.</span> <span class="nav-text">3.2 引入核心依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-添加SpringBoot-ES相关配置项"><span class="nav-number">4.0.3.</span> <span class="nav-text">3.3 添加SpringBoot ES相关配置项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-4-核心代码"><span class="nav-number">4.0.4.</span> <span class="nav-text">3.4 核心代码</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它"><span class="nav-number">6.</span> <span class="nav-text">其它</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-注意事项"><span class="nav-number">6.0.1.</span> <span class="nav-text">4.1 注意事项</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-如何使-ES-中的字段名与-Java-实体字段名保持一致？"><span class="nav-number">6.0.2.</span> <span class="nav-text">4.2 如何使 ES 中的字段名与 Java 实体字段名保持一致？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-Logstash-自定义模板详解"><span class="nav-number">6.0.3.</span> <span class="nav-text">4.3 Logstash 自定义模板详解</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-Logstash-多个配置文件里的-input-、filter-、-output-是否相互独立？"><span class="nav-number">6.0.4.</span> <span class="nav-text">4.4 Logstash 多个配置文件里的 input 、filter 、 output 是否相互独立？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-5-如何不停机重建索引？"><span class="nav-number">6.0.5.</span> <span class="nav-text">4.5 如何不停机重建索引？</span></a></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1164,6 +797,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

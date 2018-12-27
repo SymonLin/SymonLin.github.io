@@ -622,173 +622,107 @@
       
         
           
-            <p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。</p>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>近期公司在重构老系统，需求是要求知识库支持模糊搜索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路确定通过elasticsearch(下文简称es)搜索引擎实现。</p>
+            <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。</p>
 <hr>
-<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为5.5.3，下文选用的技术框架均基于此版本。</p>
-<ul>
-<li>elasticsearch 5.5.3<blockquote>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
+<hr>
+<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。</p>
+<p>① Elasticsearch 5.5.3</p>
+<blockquote>
 <p>一个基于Lucene的搜索服务器，提供了分布式的全文搜索引擎</p>
 </blockquote>
-</li>
-<li>logstash 5.5.3<blockquote>
+<p>② Logstash 5.5.3</p>
+<blockquote>
 <p>开源的服务器端数据处理管道</p>
 </blockquote>
-</li>
-<li>kibana 5.5.3<blockquote>
+<p>③ Kibana 5.5.3</p>
+<blockquote>
 <p>开源的分析和可视化平台</p>
 </blockquote>
-</li>
-<li>springboot 2.0.4</li>
-</ul>
+<p>④ SpringBoot 2.0.4</p>
 <hr>
 <h3 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h3><ul>
 <li>Linux Centos 7.3</li>
 <li>JDK 1.8</li>
 </ul>
 <hr>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="1-集群（cluster）"><a href="#1-集群（cluster）" class="headerlink" title="1.集群（cluster）"></a>1.集群（cluster）</h4><p>集群是由一个或者多个拥有相同cluster.name配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
-<h4 id="2-节点（node）"><a href="#2-节点（node）" class="headerlink" title="2.节点（node）"></a>2.节点（node）</h4><p>一个运行中的Elasticsearch实例称为一个节点</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="1-1-集群（-cluster-）"><a href="#1-1-集群（-cluster-）" class="headerlink" title="1.1 集群（ cluster ）"></a>1.1 集群（ cluster ）</h4><p>集群是由一个或者多个拥有相同 cluster.name 配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
+<h4 id="1-2-节点（-node-）"><a href="#1-2-节点（-node-）" class="headerlink" title="1.2 节点（ node ）"></a>1.2 节点（ node ）</h4><p>一个运行中的 ES 实例称为一个节点</p>
 <ul>
 <li>主节点负责管理集群范围内的所有变更，例如增加/删除索引，或者增加/删除节点等，且不需要涉及到文档级别的变更和搜索等操作</li>
 <li>任何节点都能成为主节点</li>
 <li>当集群只有一个主节点，即使流量增加也不会成为瓶颈</li>
 </ul>
-<h4 id="3-索引（index）"><a href="#3-索引（index）" class="headerlink" title="3.索引（index）"></a>3.索引（index）</h4><ul>
+<h4 id="1-3-索引（-index-）"><a href="#1-3-索引（-index-）" class="headerlink" title="1.3 索引（ index ）"></a>1.3 索引（ index ）</h4><ul>
 <li><code>名词</code>；类似于传统关系数据库中的一个<em>数据库</em></li>
-<li><code>动词</code>；索引一个文档就是存储一个文档到一个<em>索引</em>(名词)中以便它可以被检索和查询到。类似于SQL语句中的INSERT关键词</li>
+<li><code>动词</code>；索引一个文档就是存储一个文档到一个<em>索引</em>(名词)中以便它可以被检索和查询到。类似于 SQL 语句中的 INSERT 关键词</li>
 <li><code>倒排索引</code>；类似于传统关系型数据库中的索引概念，可以提升数据检索速度</li>
 </ul>
-<h4 id="4-类型（type）"><a href="#4-类型（type）" class="headerlink" title="4.类型（type）"></a>4.类型（type）</h4><p>一个索引包含一个或多个type，相当于传统关系型数据库中的表</p>
-<h4 id="5-文档（document）"><a href="#5-文档（document）" class="headerlink" title="5.文档（document）"></a>5.文档（document）</h4><p>相当于传统关系型数据库中的数据行</p>
-<h4 id="6-分片（shards）"><a href="#6-分片（shards）" class="headerlink" title="6.分片（shards）"></a>6.分片（shards）</h4><ul>
+<h4 id="1-4-类型（-type-）"><a href="#1-4-类型（-type-）" class="headerlink" title="1.4 类型（ type ）"></a>1.4 类型（ type ）</h4><p>一个索引包含一个或多个 type ，相当于传统关系型数据库中的表</p>
+<h4 id="1-5-文档（-document-）"><a href="#1-5-文档（-document-）" class="headerlink" title="1.5 文档（ document ）"></a>1.5 文档（ document ）</h4><p>相当于传统关系型数据库中的数据行</p>
+<h4 id="1-6-分片（-shards-）"><a href="#1-6-分片（-shards-）" class="headerlink" title="1.6 分片（ shards  ）"></a>1.6 分片（ shards  ）</h4><ul>
 <li>是一个底层的<code>[工作单元]</code>，仅保存了全部数据的一部分</li>
 <li>是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里</li>
-<li>当集群规模扩大或者缩小时，es会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
+<li>当集群规模扩大或者缩小时， ES 会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
 <li>分为<code>[主分片]</code>和<code>[副本分片]</code></li>
-<li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配<strong>5个主分片和1份副本（每个主分片拥有一个副本分片）</strong></li>
+<li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配「 5 」个主分片和「 1 」份副本（每个主分片拥有一个副本分片）</li>
 <li>相同主分片的副本分片不会放在同一个节点</li>
 </ul>
-<h6 id="①-主分片"><a href="#①-主分片" class="headerlink" title="① 主分片"></a>① 主分片</h6><blockquote>
+<p>① 主分片</p>
+<blockquote>
 <p>索引内任意一个文档都归属于一个主分片，所以主分片的数目<strong>决定着索引能够保存的最大数据量</strong></p>
 </blockquote>
-<h6 id="②-副本分片（replicas）"><a href="#②-副本分片（replicas）" class="headerlink" title="② 副本分片（replicas）"></a>② 副本分片（replicas）</h6><blockquote>
+<p>② 副本分片（ replicas ）</p>
+<blockquote>
 <p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
 </blockquote>
 <hr>
-<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><h4 id="1-Elasticsearch"><a href="#1-Elasticsearch" class="headerlink" title="1.Elasticsearch"></a>1.Elasticsearch</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/local/elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改config目录下的elasticsearch.yml文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim elasticsearch.yml</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 去掉行开头的#并重命名集群名，这里命名为compass</span><br><span class="line">cluster.name: compass</span><br><span class="line">// 去掉行开头的#并重命名节点名，这里命名为node-1</span><br><span class="line">node.name: node-1</span><br></pre></td></tr></table></figure>
-<ol start="4">
-<li><p>进入bin目录启动es并在后台运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动之后测试是否正常运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl 127.0.0.1:9200</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="2-1-Elasticsearch"><a href="#2-1-Elasticsearch" class="headerlink" title="2.1 Elasticsearch"></a>2.1 Elasticsearch</h4><h5 id="2-1-1-安装步骤"><a href="#2-1-1-安装步骤" class="headerlink" title="2.1.1 安装步骤"></a>2.1.1 安装步骤</h5><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/local/elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>③ 修改 config 目录下的 elasticsearch.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim elasticsearch.yml</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 去掉行开头的 # 并重命名集群名，这里命名为 compass</span><br><span class="line">cluster.name: compass</span><br><span class="line">// 去掉行开头的 # 并重命名节点名，这里命名为 node-1</span><br><span class="line">node.name: node-1</span><br></pre></td></tr></table></figure>
+<p>④ 进入 bin 目录启动 ES 并在后台运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure></p>
+<p>⑤ 启动之后测试是否正常运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl 127.0.0.1:9200</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;node-1&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;compass&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;Zuj5FBMUTjuHQXlAHreGvA&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;5.5.3&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;9305a5e&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2017-09-07T15:56:59.599Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;6.6.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<hr>
-<p><strong>① 注：如果提示<code>-bash: wget: command not found</code>则需要先安装wget</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure></p>
-<hr>
-<p><strong>② 注：es版本&gt; = 5.0.0时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建es账号</strong><br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15" alt="0389398b3f52e69123eb3956ba578142.png"></p>
-<p><code>解决办法：</code></p>
-<ol>
-<li><p>新建用户组elasticsearch</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>新建用户并指定用户组</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -g elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改es目录所属者</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chown -R elasticsearch:elasticsearch elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>切换用户后再次启动</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su elasticsearch</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<hr>
-<p><strong>③ 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</strong></p>
-<p><code>解决办法：</code></p>
-<ol>
-<li><p>修改elasticsearch.yml中的<code>network.host</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启es出现却如下报错</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [3] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max number of threads [3818] for user [elasticsearch] is too low, increase to at least [4096]</span><br><span class="line">[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ul>
-<li>[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]<blockquote>
+<h5 id="2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><a href="#2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget" class="headerlink" title="2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget"></a>2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure>
+<h5 id="2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15" alt="0389398b3f52e69123eb3956ba578142.png"></p>
+<p><code>解决办法：</code><br>① 新建用户组 elasticsearch<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>② 新建用户并指定用户组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -g elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>③ 修改 ES 目录所属者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chown -R elasticsearch:elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
+<p>④ 切换用户后再次启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su elasticsearch</span><br></pre></td></tr></table></figure></p>
+<h5 id="2-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><a href="#2-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？" class="headerlink" title="2.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？"></a>2.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</h5><p><code>解决办法：</code><br>① 修改 elasticsearch.yml 中的「network.host」<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure></p>
+<p>② 重启 ES 出现如果如下报错，请依次按下面的步骤解决<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [3] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max number of threads [3818] for user [elasticsearch] is too low, increase to at least [4096]</span><br><span class="line">[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br></pre></td></tr></table></figure></p>
+<p><strong>[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</strong></p>
+<blockquote>
 <p>每个进程最大同时打开文件数太小</p>
 </blockquote>
-</li>
-</ul>
-<p>修改/etc/security/limits.conf文件，增加如下配置，用户退出后重新登录生效</p>
+<p>修改 /etc/security/limits.conf 文件，增加如下配置，用户退出后重新登录生效</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br></pre></td></tr></table></figure>
-<ul>
-<li>[2]: max number of threads [3818] for user [es] is too low, increase to at least [4096]<blockquote>
+<p><strong>[2]: max number of threads [3818] for user [es] is too low, increase to at least [4096]</strong></p>
+<blockquote>
 <p>最大线程个数太低</p>
 </blockquote>
-</li>
-</ul>
-<p>同上修改/etc/security/limits.conf文件，增加如下配置，用户退出后重新登录生效</p>
+<p>同上修改 /etc/security/limits.conf 文件，增加如下配置，用户退出后重新登录生效</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nproc 4096</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
-<ul>
-<li>[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]<blockquote>
+<p><strong>[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</strong></p>
+<blockquote>
 <p>一个进程能拥有的最多的内存区域</p>
 </blockquote>
-</li>
-</ul>
-<p>修改/etc/sysctl.conf文件，增加如下配置，执行命令<code>sysctl -p</code>生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>切换到elasticsearch用户并重启，curl测试成功</li>
-</ol>
-<p><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16" alt="c7f7e7cbdd2b002f4683a81f54553178.png"></p>
+<p>修改 /etc/sysctl.conf 文件，增加如下配置，执行命令「 sysctl -p 」生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
+<p>③ 切换到 elasticsearch 用户并重启， curl 测试成功<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16" alt="c7f7e7cbdd2b002f4683a81f54553178.png"></p>
 <hr>
-<h4 id="2-logstash"><a href="#2-logstash" class="headerlink" title="2.logstash"></a>2.logstash</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/local/logstash</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
+<h4 id="2-2-Logstash"><a href="#2-2-Logstash" class="headerlink" title="2.2 Logstash"></a>2.2 Logstash</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/local/logstash</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h4 id="3-kibana"><a href="#3-kibana" class="headerlink" title="3.kibana"></a>3.kibana</h4><ol>
-<li><p>下载安装包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解压并移动到local目录下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>修改config目录下的kibana.yml文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的#</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>启动kibana，浏览器访问<a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h4 id="4-elasticsearch-head插件"><a href="#4-elasticsearch-head插件" class="headerlink" title="4.elasticsearch-head插件"></a>4.elasticsearch-head插件</h4><blockquote>
-<p><a href="https://github.com/mobz/elasticsearch-head" target="_blank" rel="noopener">https://github.com/mobz/elasticsearch-head</a></p>
-<ol>
-<li>chrome浏览器网上应用商品搜索elasticsearch-head<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p18" alt="f236776df10df88ce7c2747b53e70498.png"></li>
-<li>安装插件后点击浏览器地址栏右侧<code>放大镜图标</code>，顶部输入框中的localhost修改为服务器地址即可查看es服务状态<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p17" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></li>
-</ol>
-</blockquote>
+<h4 id="2-3-Kibana"><a href="#2-3-Kibana" class="headerlink" title="2.3 Kibana"></a>2.3 Kibana</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure></p>
+<p>③ 修改 config 目录下的 kibana.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的 #</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure></p>
+<p>④ 启动 Kibana ，浏览器访问 <a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① chrome 浏览器网上应用商店搜索 elasticsearch head<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p18" alt="f236776df10df88ce7c2747b53e70498.png"><br>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p17" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></p>
 <hr>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此ELK环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
 
           
         

@@ -82,15 +82,15 @@
 <meta name="description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从零搭建ES搜索服务（二）基础搜索">
+<meta property="og:title" content="从零搭建ES搜索服务（三）同义词搜索">
 <meta property="og:url" content="http://yoursite.com/2018/12/28/elasticsearch-3/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p28">
-<meta property="og:updated_time" content="2018-12-28T07:28:51.000Z">
+<meta property="og:updated_time" content="2018-12-28T07:37:43.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从零搭建ES搜索服务（二）基础搜索">
+<meta name="twitter:title" content="从零搭建ES搜索服务（三）同义词搜索">
 <meta name="twitter:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
 <meta name="twitter:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p28">
 
@@ -128,7 +128,7 @@
 
 
 
-  <title>从零搭建ES搜索服务（二）基础搜索 | Hexo</title>
+  <title>从零搭建ES搜索服务（三）同义词搜索 | Hexo</title>
   
 
 
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从零搭建ES搜索服务（二）基础搜索</h1>
+          <h1 class="post-title" itemprop="name headline">从零搭建ES搜索服务（三）同义词搜索</h1>
         
 
         <div class="post-meta">

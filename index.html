@@ -743,10 +743,11 @@
 <blockquote>
 <p>注：上述查询类似于 MySQL 中的 select 语句「select * from yb_knowledge where is_deleted = 0 and (knowledge_title like ‘%keyword%’ or knowledge_content like ‘%keyword%’)」</p>
 </blockquote>
-<p>④ 获取返回结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Page&lt;KnowledgeDO&gt; page = knowledgeRepository.search(getKnowledgeSearchQuery(param));</span><br></pre></td></tr></table></figure></p>
+<p>④ 获取返回结果</p>
 <blockquote>
 <p>注：最终结果默认会按照相关性得分倒序排序，即每个文档跟查询关键词的匹配程度</p>
 </blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Page&lt;KnowledgeDO&gt; page = knowledgeRepository.search(getKnowledgeSearchQuery(param));</span><br></pre></td></tr></table></figure>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此一个简易的搜索服务已经实现完毕，后续将继续介绍一些附加功能，如同义词搜索、拼音搜索以及搜索结果高亮等</p>
 <hr>

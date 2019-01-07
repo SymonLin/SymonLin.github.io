@@ -90,7 +90,7 @@
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p19">
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p20">
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p25">
-<meta property="og:updated_time" content="2019-01-07T12:42:34.000Z">
+<meta property="og:updated_time" content="2019-01-07T12:45:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（二）基础搜索">
 <meta name="twitter:description" content="前言上篇介绍了 ES 的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。  安装 ik 分词器1.1 ik 分词器简介GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik提供两种分词模式：「 ik_max_word 」及「 ik_smart 」     分词模式 描述     ik_max_word 会将文本做最">
@@ -450,11 +450,10 @@
 <blockquote>
 <p>注：上述查询类似于 MySQL 中的 select 语句「select * from yb_knowledge where is_deleted = 0 and (knowledge_title like ‘%keyword%’ or knowledge_content like ‘%keyword%’)」</p>
 </blockquote>
-<p>④ 获取返回结果</p>
+<p>④ 获取返回结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Page&lt;KnowledgeDO&gt; page = knowledgeRepository.search(getKnowledgeSearchQuery(param));</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>注：最终结果默认会按照相关性得分倒序排序，即每个文档跟查询关键词的匹配程度</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Page&lt;KnowledgeDO&gt; page = knowledgeRepository.search(getKnowledgeSearchQuery(param));</span><br></pre></td></tr></table></figure>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此一个简易的搜索服务已经实现完毕，后续将继续介绍一些附加功能，如同义词搜索、拼音搜索以及搜索结果高亮等</p>
 <hr>

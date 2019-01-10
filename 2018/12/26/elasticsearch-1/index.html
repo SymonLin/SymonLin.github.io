@@ -89,9 +89,9 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15">
 <meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16">
-<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p26">
-<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p17">
-<meta property="og:updated_time" content="2018-12-28T08:00:57.000Z">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/elasticsearch-head1.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/elasticsearch-head2.png">
+<meta property="og:updated_time" content="2019-01-10T11:31:09.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（一）基本概念及环境搭建">
 <meta name="twitter:description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
@@ -501,8 +501,8 @@
 <p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure></p>
 <p>③ 修改 config 目录下的 kibana.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的 #</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure></p>
 <p>④ 启动 Kibana ，浏览器访问 <a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p26" alt="ed2360013bdf22da10c0ee9c0935b9ed.png"></p>
-<p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p17" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></p>
+<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/elasticsearch-head1.png" alt="elasticsearch-head1.png"></p>
+<p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="http://pl44efaq8.bkt.clouddn.com/elasticsearch-head2.png" alt="elasticsearch-head2.png"></p>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
 

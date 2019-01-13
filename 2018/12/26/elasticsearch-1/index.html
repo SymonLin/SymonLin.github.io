@@ -94,15 +94,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15">
-<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
+<meta property="og:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p16">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png">
-<meta property="og:updated_time" content="2019-01-11T06:52:16.000Z">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png">
+<meta property="og:updated_time" content="2019-01-13T05:55:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（一）基本概念及环境搭建">
 <meta name="twitter:description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
-<meta name="twitter:image" content="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15">
+<meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
 
 
 
@@ -393,8 +393,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-11T14:52:16+08:00">
-                2019-01-11
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-13T13:55:26+08:00">
+                2019-01-13
               </time>
             
           </span>
@@ -550,7 +550,7 @@
 <p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;node-1&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;compass&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;Zuj5FBMUTjuHQXlAHreGvA&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;5.5.3&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;9305a5e&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2017-09-07T15:56:59.599Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;6.6.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
 <h5 id="2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><a href="#2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget" class="headerlink" title="2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget"></a>2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure>
-<h5 id="2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="evernotecid://77A02A3E-73E0-431E-945A-670AB8716448/wwwevernotecom/34977246/ENResource/p15" alt="0389398b3f52e69123eb3956ba578142.png"></p>
+<h5 id="2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png" alt="0389398b3f52e69123eb3956ba578142.png"></p>
 <blockquote>
 <p>解决办法：</p>
 </blockquote>
@@ -589,8 +589,8 @@
 <p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure></p>
 <p>③ 修改 config 目录下的 kibana.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的 #</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure></p>
 <p>④ 启动 Kibana ，浏览器访问 <a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png" alt="ed2360013bdf22da10c0ee9c0935b9ed.png"></p>
-<p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></p>
+<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png" alt="ed2360013bdf22da10c0ee9c0935b9ed.png"></p>
+<p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png" alt="d927bee8bddeceffef16e7e5063cd5ba.png"></p>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
 

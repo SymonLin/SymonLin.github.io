@@ -95,7 +95,7 @@
 <meta property="og:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png">
-<meta property="og:updated_time" content="2019-01-13T05:55:24.000Z">
+<meta property="og:updated_time" content="2019-01-14T11:56:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（三）同义词搜索">
 <meta name="twitter:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
@@ -390,8 +390,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-13T13:55:24+08:00">
-                2019-01-13
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T19:56:11+08:00">
+                2019-01-14
               </time>
             
           </span>
@@ -509,7 +509,7 @@
 <blockquote>
 <p>注：重建索引后可以通过「_analyze」测试分词结果</p>
 </blockquote>
-<p><img src="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png" alt="eca43baa4e65841d234755e4774142c7.png"></p>
+<p><img src="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png" alt="blog_3_1.png"></p>
 <p>④ 原本在索引中已存在的数据不受同义词动态更新的影响，可以通过以下命令手动更新<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">'http://localhost:9200/yb_knowledge/_update_by_query?conflicts=proceed'</span></span><br></pre></td></tr></table></figure></p>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此同义词搜索已经实现完毕，后续将继续介绍其他附加功能，如拼音搜索以及搜索结果高亮等。</p>

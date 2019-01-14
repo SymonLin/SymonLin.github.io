@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
+<meta name="description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或多">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建ES搜索服务（六）相关性排序优化">
 <meta property="og:url" content="http://yoursite.com/2019/01/14/elasticsearch-6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
+<meta property="og:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或多">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-14T04:43:35.000Z">
+<meta property="og:updated_time" content="2019-01-14T08:59:25.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（六）相关性排序优化">
-<meta name="twitter:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
+<meta name="twitter:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或多">
 
 
 
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T12:43:35+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T16:59:25+08:00">
                 2019-01-14
               </time>
             
@@ -443,7 +443,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.2k
+                  2.2k
                 </span>
               
 
@@ -459,7 +459,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  8
                 </span>
               
             </div>
@@ -482,40 +482,102 @@
       
         <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。</p>
 <hr>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="2-1-排序"><a href="#2-1-排序" class="headerlink" title="2.1 排序"></a>2.1 排序</h4><p>默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。</p>
-<h5 id="2-1-1-相关性排序（默认）"><a href="#2-1-1-相关性排序（默认）" class="headerlink" title="2.1.1 相关性排序（默认）"></a>2.1.1 相关性排序（默认）</h5><p>在 ES 中，<em>相关性评分</em> 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。</p>
-<h5 id="2-1-2-按照字段值排序"><a href="#2-1-2-按照字段值排序" class="headerlink" title="2.1.2 按照字段值排序"></a>2.1.2 按照字段值排序</h5><p>使用「 sort 」参数实现，可指定一个或多个字段。</p>
+<h3 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h3><h4 id="2-1-排序"><a href="#2-1-排序" class="headerlink" title="2.1 排序"></a>2.1 排序</h4><p>默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。</p>
+<h5 id="2-1-1-相关性排序（默认）"><a href="#2-1-1-相关性排序（默认）" class="headerlink" title="2.1.1 相关性排序（默认）"></a>2.1.1 相关性排序（默认）</h5><p>在 ES 中<em>相关性评分</em> 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。</p>
+<h5 id="2-1-2-按照字段值排序"><a href="#2-1-2-按照字段值排序" class="headerlink" title="2.1.2 按照字段值排序"></a>2.1.2 按照字段值排序</h5><p>使用「 sort 」参数实现，可指定一个或多个字段。然而使用 sort 排序过于绝对，它会直接忽略文档本身的相关度，因此仅适合在某些特殊场景使用。</p>
 <blockquote>
-<p>注：如果以字符串字段进行排序，除了索引一份用于全文查询的数据，还需要索引一份原始的未经分析器处理（即 not_analyzed ）的数据。这就需要使用「 <code>fields</code> 」参数实现同一个字段多种索引方式，这里的「索引」是动词相当于「存储」的概念。</p>
+<p>注：如果以字符串字段进行排序，除了索引一份用于全文查询的数据，还需要索引一份原始的未经分析器处理（即 not_analyzed ）的数据。这就需要使用<code>「 fields 」</code>参数实现同一个字段多种索引方式，这里的「索引」是动词相当于「存储」的概念。</p>
 </blockquote>
 <h4 id="2-2-相关性算法"><a href="#2-2-相关性算法" class="headerlink" title="2.2 相关性算法"></a>2.2 相关性算法</h4><p>ES 5.X 版本将相关性算法由之前的「 TF/IDF 」算法改为了更先进的「 BM25 」算法。</p>
 <h5 id="2-2-1-TF-IDF-评分算法"><a href="#2-2-1-TF-IDF-评分算法" class="headerlink" title="2.2.1 TF/IDF 评分算法"></a>2.2.1 TF/IDF 评分算法</h5><blockquote>
-<p>ES版本 &lt; 5 的评分算法</p>
+<p>ES版本 &lt; 5 的评分算法，即词频/逆向文档频率。</p>
 </blockquote>
 <h6 id="①-词频（-Term-frequency-）"><a href="#①-词频（-Term-frequency-）" class="headerlink" title="① 词频（ Term frequency ）"></a>① 词频（ Term frequency ）</h6><p>搜索词在文档中出现的频率，频率越高，相关度越高。计算公式如下：<br>$$tf(t\ \ in\ \ d) = \sqrt{frequency}$$<br>搜索词「 t 」在文档「 d 」的<strong>词频</strong>「 tf 」是该词在文档中出现次数的平方根。</p>
-<h6 id="②-逆向文档频率（-Inverse-document-frequency-）"><a href="#②-逆向文档频率（-Inverse-document-frequency-）" class="headerlink" title="② 逆向文档频率（ Inverse document frequency ）"></a>② 逆向文档频率（ Inverse document frequency ）</h6><p>搜索词在索引（单个分片）所有文档里出现的频率，频率越高，相关度越低。用人话描述就是「物以稀为贵」，计算公式如下：<br>$$idf(t) = 1 + log \frac{docCount}{docFreq + 1}$$<br>搜索词「 t 」的<strong>逆向文档频率</strong>「 idf 」是索引中的文档总数除以所有包含该词的文档数，然后求其对数。</p>
+<h6 id="②-逆向文档频率（-Inverse-document-frequency-）"><a href="#②-逆向文档频率（-Inverse-document-frequency-）" class="headerlink" title="② 逆向文档频率（ Inverse document frequency ）"></a>② 逆向文档频率（ Inverse document frequency ）</h6><p>搜索词在索引（单个分片）所有文档里出现的频率，频率越高，相关度越低。用人话描述就是<code>「物以稀为贵」</code>，计算公式如下：<br>$$idf(t) = 1 + log \frac{docCount}{docFreq + 1}$$<br>搜索词「 t 」的<strong>逆向文档频率</strong>「 idf 」是索引中的文档总数除以所有包含该词的文档数，然后求其对数。</p>
 <h6 id="③-字段长度归一值（-Field-length-norm-）"><a href="#③-字段长度归一值（-Field-length-norm-）" class="headerlink" title="③ 字段长度归一值（ Field length norm ）"></a>③ 字段长度归一值（ Field length norm ）</h6><p>字段的长度，字段越短，相关度越高。计算公式如下：<br>$$norm(d) = \frac{1}{\sqrt{numTerms}}$$<br><strong>字段长度归一值</strong>「 norm 」是字段中词数平方根的倒数。</p>
 <blockquote>
 <p>注：前面公式中提到的「文档」实际上是指文档里的某个字段</p>
 </blockquote>
 <h5 id="2-2-2-BM25-评分算法"><a href="#2-2-2-BM25-评分算法" class="headerlink" title="2.2.2 BM25 评分算法"></a>2.2.2 BM25 评分算法</h5><blockquote>
-<p>ES &gt;= 5 的评分算法；BM25 的 BM 是缩写自 Best Match， 25 貌似是经过 25 次迭代调整之后得出的算法。它也是基于 TF / IDF 算法进化来的。</p>
+<p>ES版本 &gt;= 5 的评分算法；BM25 的 BM 是缩写自 Best Match， 25 貌似是经过 25 次迭代调整之后得出的算法。它也是基于 TF / IDF 算法进化来的。</p>
 </blockquote>
 <p>对于给定查询语句「Q」，其中包含关键词「$q_{1}$,…$q_{n}$」，那么文档「D」的 BM25 评分计算公式如下：<br>$$score(D,Q) = \sum_{i=1}^NIDF(q_{i})\ ·\ \frac{f(q_{i},D)\ ·\ (k_{1}+1)}{f(q_{i},D)+k_{1}\ ·\ (1-b+b\ ·\ \frac{|D|}{avgdl})}$$<br>这个公式看起来很唬人，尤其是那个求和符号，不过分解开来还是比较好理解的。</p>
 <p>总体而言，主要还是分三部分，<strong>TF - IDF - Document Length</strong></p>
 <ul>
 <li>IDF 的计算公式调整为如下所示，其中N 为文档总数， $n(q_{i})$ 为包含搜索词 $q_{i}$ 的文档数。<br>$$IDF(q_{i}) = 1 + log\frac{N-n(q_{i})+0.5}{n(q_{i})+0.5}$$</li>
 <li>$f(q_{i},D)$ 为 $q_{i}$ 在文档 D 中的「 TF 」，| D | 是文档的长度，avgdl 是平均文档长度。<br>先不看 IDF 和 Document Length 的部分， 则公式变为 TF * ($k_{1}$ + 1) / (TF + $k_{1}$)，<br>相比传统的 TF/IDF 而言，BM25 抑制了 TF 对整体评分的影响程度，虽然同样都是增函数，但是 BM25 中，TF 越大，带来的影响无限趋近于 ($k_{1}$ + 1)，这里 $k_{1}$ 值通常取 [1.2, 2.0]，而传统的 TF/IDF 则会没有临界点的无限增长。</li>
-<li>至于文档长度| D | 的影响，可以看到在命中搜索词的情况下，文档越短，相关性越高，具体影响程度又可以由公式中的 b 来调整，当设值为 0 的时候，就跟将 norms 设置为 false 一样，忽略文档长度的影响。</li>
+<li>至于文档长度 | D | 的影响，可以看到在命中搜索词的情况下，文档越短，相关性越高，具体影响程度又可以由公式中的 b 来调整，当设值为 0 的时候，就跟将 norms 设置为 false 一样，忽略文档长度的影响。</li>
 <li>最后再对所有搜索词的计算结果求和，就是 ES5 中一般查询的得分了。</li>
 </ul>
-<h4 id="2-3-理解评分标准"><a href="#2-3-理解评分标准" class="headerlink" title="2.3 理解评分标准"></a>2.3 理解评分标准</h4><p>① 展示返回结果评分的得来依据<br>使用「 explain 」参数，将其设为 true 就可得到详细信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XGET http://localhost:9200/yb_knowledge/_search?explain</span><br></pre></td></tr></table></figure></p>
-<p>返回结果中每条数据都多了「 _explanation 」字段，具体如下所示：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">//@todo</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h3 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h3><h4 id="3-1-现实需求"><a href="#3-1-现实需求" class="headerlink" title="3.1 现实需求"></a>3.1 现实需求</h4><blockquote>
-<p>要求搜索文章时，关键字出现在标题时的权重要比出现在内容中高，同时要考虑「引用次数」对最终排序的影响。</p>
-</blockquote>
-<h4 id="3-2-代码实现"><a href="#3-2-代码实现" class="headerlink" title="3.2 代码实现"></a>3.2 代码实现</h4><h5 id="3-2-1-调整搜索字段权重"><a href="#3-2-1-调整搜索字段权重" class="headerlink" title="3.2.1 调整搜索字段权重"></a>3.2.1 调整搜索字段权重</h5><h5 id="3-2-2-按引用次数提升权重"><a href="#3-2-2-按引用次数提升权重" class="headerlink" title="3.2.2 按引用次数提升权重"></a>3.2.2 按引用次数提升权重</h5>
+<h3 id="实际案例"><a href="#实际案例" class="headerlink" title="实际案例"></a>实际案例</h3><h4 id="3-1-现实需求"><a href="#3-1-现实需求" class="headerlink" title="3.1 现实需求"></a>3.1 现实需求</h4><p>要求搜索文章时，搜索词出现在标题时的权重要比出现在内容中高，同时要考虑「引用次数」对最终排序的影响。</p>
+<h4 id="3-2-实现方法"><a href="#3-2-实现方法" class="headerlink" title="3.2 实现方法"></a>3.2 实现方法</h4><h5 id="3-2-1-调整搜索字段权重"><a href="#3-2-1-调整搜索字段权重" class="headerlink" title="3.2.1 调整搜索字段权重"></a>3.2.1 调整搜索字段权重</h5><p>通过调整字段的 boost 参数实现自定义权重，此处将标题的权重调整为内容的两倍。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private SearchQuery getKnowledgeSearchQuery(KnowledgeSearchParam param) &#123;</span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    BoolQueryBuilder queryBuilder = QueryBuilders.boolQuery();</span><br><span class="line">    queryBuilder.must(QueryBuilders.termQuery(<span class="string">"isDeleted"</span>, IsDeletedEnum.NO.getKey()));</span><br><span class="line">    queryBuilder.should(QueryBuilders.matchQuery(knowledgeTitleFieldName, param.getKeyword()).boost(2.0f));</span><br><span class="line">    queryBuilder.should(QueryBuilders.matchQuery(knowledgeContentFieldName, param.getKeyword()));</span><br><span class="line">    <span class="built_in">return</span> new NativeSearchQueryBuilder()</span><br><span class="line">            .withPageable(pageable)</span><br><span class="line">            .withQuery(queryBuilder)</span><br><span class="line">            .withHighlightFields(knowledgeTitleField, knowledgeContentField)</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h5 id="3-2-2-按引用次数提升权重"><a href="#3-2-2-按引用次数提升权重" class="headerlink" title="3.2.2 按引用次数提升权重"></a>3.2.2 按引用次数提升权重</h5><p>这里通过 function score 实现重打分操作。根据上面的需求，我们将使用 field value factor 函数指定「 referenceCount 」字段计算分数并与 _score 相加作为最终评分进行排序。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">private SearchQuery getKnowledgeSearchQuery(KnowledgeSearchParam param) &#123;</span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    // 引用次数更多的知识点排在靠前的位置</span><br><span class="line">    // 对应的公式为：_score = _score + <span class="built_in">log</span> (1 + 0.1 * referenceCount)</span><br><span class="line">    ScoreFunctionBuilder scoreFunctionBuilder = ScoreFunctionBuilders</span><br><span class="line">            .fieldValueFactorFunction(<span class="string">"referenceCount"</span>)</span><br><span class="line">            .modifier(FieldValueFactorFunction.Modifier.LN1P)</span><br><span class="line">            .factor(0.1f);</span><br><span class="line">    FunctionScoreQueryBuilder functionScoreQuery = QueryBuilders</span><br><span class="line">            .functionScoreQuery(boolQuery, scoreFunctionBuilder)</span><br><span class="line">            .boostMode(CombineFunction.SUM);</span><br><span class="line">    <span class="built_in">return</span> new NativeSearchQueryBuilder()</span><br><span class="line">            .withPageable(pageable)</span><br><span class="line">            .withQuery(functionScoreQuery)</span><br><span class="line">            .withHighlightFields(knowledgeTitleField, knowledgeContentField)</span><br><span class="line">            .build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上述的 function score 是 ES 用于处理文档分值的 DSL（领域专用语言），它预定义了一些计算分值的函数：</p>
+<h6 id="①-weight"><a href="#①-weight" class="headerlink" title="① weight"></a>① weight</h6><p>为每个文档应用一个简单的权重提升值：当 weight 为 2 时，最终结果为 2 * _score</p>
+<h6 id="②-field-value-factor"><a href="#②-field-value-factor" class="headerlink" title="② field_value_factor"></a>② field_value_factor</h6><p>通过文档中某个字段的值计算出一个分数且使用该值修改 _score，具有以下属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>field</td>
+<td>指定字段名</td>
+</tr>
+<tr>
+<td>factor</td>
+<td>对字段值进行预处理，乘以指定的数值，默认为 1</td>
+</tr>
+<tr>
+<td>modifier</td>
+<td>将字段值进行加工，默认为 none</td>
+</tr>
+<tr>
+<td>boost_mode</td>
+<td>控制函数与 _score 合并的结果，默认为 multiply</td>
+</tr>
+</tbody>
+</table>
+<h6 id="③-random-score"><a href="#③-random-score" class="headerlink" title="③ random_score"></a>③ random_score</h6><p>为每个用户都使用一个随机评分对结果排序，可以实现对于用户的个性化推荐。</p>
+<h6 id="④-衰减函数"><a href="#④-衰减函数" class="headerlink" title="④ 衰减函数"></a>④ 衰减函数</h6><p>提供一个更复杂的公式，描述了这样一种情况：对于一个字段，它有一个理想值，而字段实际的值越偏离这个理想值就越不符合期望。具有以下属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>origin（原点）</td>
+<td>该字段的理想值，满分 1.0</td>
+</tr>
+<tr>
+<td>offset（偏移量）</td>
+<td>与原点相差在偏移量之内的值也可以得到满分</td>
+</tr>
+<tr>
+<td>scale（衰减规模）</td>
+<td>当值超出原点到偏移量这段范围，它所得的分数就开始衰减，衰减规模决定了分数衰减速度的快慢</td>
+</tr>
+<tr>
+<td>decay（衰减值）</td>
+<td>该字段可以被接受的值，默认为 0.5</td>
+</tr>
+</tbody>
+</table>
+<h6 id="⑤-script-score"><a href="#⑤-script-score" class="headerlink" title="⑤ script_score"></a>⑤ script_score</h6><p>支持自定义脚本完全控制评分计算</p>
+<h5 id="3-2-3-理解评分标准"><a href="#3-2-3-理解评分标准" class="headerlink" title="3.2.3 理解评分标准"></a>3.2.3 理解评分标准</h5><p>通过JAVA API 实现相关功能后，输出评分说明可以帮助我们更好的理解评分过程以及后续调整算法参数。</p>
+<p>① 首先定义一个打印搜索结果的方法，设置 explain = true 即可输出 explanation 。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public void debugSearchQuery(SearchQuery searchQuery, String indexName) &#123;</span><br><span class="line">    SearchRequestBuilder searchRequestBuilder = elasticsearchTemplate.getClient().prepareSearch(indexName).setTypes(indexName);</span><br><span class="line">    searchRequestBuilder.setSearchType(SearchType.DFS_QUERY_THEN_FETCH);</span><br><span class="line">    searchRequestBuilder.setFrom(0).setSize(10);</span><br><span class="line">    searchRequestBuilder.setExplain(<span class="literal">true</span>);</span><br><span class="line">    searchRequestBuilder.setQuery(searchQuery.getQuery());</span><br><span class="line">    SearchResponse searchResponse;</span><br><span class="line">    try &#123;</span><br><span class="line">        searchResponse = searchRequestBuilder.execute().get();</span><br><span class="line">        long totalCount = searchResponse.getHits().getTotalHits();</span><br><span class="line">        log.info(<span class="string">"总条数 totalCount:"</span> + totalCount);</span><br><span class="line">        //遍历结果数据</span><br><span class="line">        SearchHit[] hitList = searchResponse.getHits().getHits();</span><br><span class="line">        <span class="keyword">for</span> (SearchHit hit : hitList) &#123;</span><br><span class="line">            log.info(<span class="string">"SearchHit hit explanation:&#123;&#125;\nsource:&#123;&#125;"</span>, hit.getExplanation().toString(), hit.getSourceAsString());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; catch (InterruptedException | ExecutionException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>② 之后调用接口，其 explanation 结果展示如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">19.491358 = sum of</span><br><span class="line">  19.309036 = sum of:</span><br><span class="line">    19.309036 = sum of:</span><br><span class="line">      19.309036 = weight(knowledgeTitle.pinyin:<span class="built_in">test</span> <span class="keyword">in</span> 181) [PerFieldSimilarity], result of:</span><br><span class="line">        19.309036 = score(doc=181,freq=1.0 = termFreq=1.0</span><br><span class="line">), product of:</span><br><span class="line">          2.0 = boost</span><br><span class="line">          6.2461066 = idf, computed as <span class="built_in">log</span>(1 + (docCount - docFreq + 0.5) / (docFreq + 0.5)) from:</span><br><span class="line">            2.0 = docFreq</span><br><span class="line">            1289.0 = docCount</span><br><span class="line">          1.5456858 = tfNorm, computed as (freq * (k1 + 1)) / (freq + k1 * (1 - b + b * fieldLength / avgFieldLength)) from:</span><br><span class="line">            1.0 = termFreq=1.0</span><br><span class="line">            1.2 = parameter k1</span><br><span class="line">            0.75 = parameter b</span><br><span class="line">            29.193172 = avgFieldLength</span><br><span class="line">            4.0 = fieldLength</span><br><span class="line">    0.0 = match on required clause, product of:</span><br><span class="line">      0.0 = <span class="comment"># clause</span></span><br><span class="line">      1.0 = isDeleted:[0 TO 0], product of:</span><br><span class="line">        1.0 = boost</span><br><span class="line">        1.0 = queryNorm</span><br><span class="line">  0.18232156 = min of:</span><br><span class="line">    0.18232156 = field value <span class="keyword">function</span>: ln1p(doc[<span class="string">'referenceCount'</span>].value * factor=0.1)</span><br><span class="line">    3.4028235E38 = maxBoost</span><br></pre></td></tr></table></figure></p>
+<p>其中 idf = 6.2461066，tfNorm = 1.5456858，boost = 2.0，由于此时只有一个搜索字段，因此 score = idf <em> tfNorm </em> boost = 19.309036；与此同时 field value function = 0.18232156；最终得分 sum = 19.309036 + 0.18232156 = 19.491358 。</p>
+<hr>
+<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此一个简单需求的相关性排序优化已经实现完毕，由于业务的关系暂时未涉及其他复杂的场景，所以此篇仅仅作为一个入门介绍。</p>
+
       
     </div>
     
@@ -705,7 +767,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-排序"><span class="nav-text">2.1 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-相关性排序（默认）"><span class="nav-text">2.1.1 相关性排序（默认）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-按照字段值排序"><span class="nav-text">2.1.2 按照字段值排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相关性算法"><span class="nav-text">2.2 相关性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-TF-IDF-评分算法"><span class="nav-text">2.2.1 TF/IDF 评分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-词频（-Term-frequency-）"><span class="nav-text">① 词频（ Term frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-逆向文档频率（-Inverse-document-frequency-）"><span class="nav-text">② 逆向文档频率（ Inverse document frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-字段长度归一值（-Field-length-norm-）"><span class="nav-text">③ 字段长度归一值（ Field length norm ）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-BM25-评分算法"><span class="nav-text">2.2.2 BM25 评分算法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-理解评分标准"><span class="nav-text">2.3 理解评分标准</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际案例"><span class="nav-text">实际案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-现实需求"><span class="nav-text">3.1 现实需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-代码实现"><span class="nav-text">3.2 代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-调整搜索字段权重"><span class="nav-text">3.2.1 调整搜索字段权重</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-按引用次数提升权重"><span class="nav-text">3.2.2 按引用次数提升权重</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关概念"><span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-排序"><span class="nav-text">2.1 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-相关性排序（默认）"><span class="nav-text">2.1.1 相关性排序（默认）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-按照字段值排序"><span class="nav-text">2.1.2 按照字段值排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相关性算法"><span class="nav-text">2.2 相关性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-TF-IDF-评分算法"><span class="nav-text">2.2.1 TF/IDF 评分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-词频（-Term-frequency-）"><span class="nav-text">① 词频（ Term frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-逆向文档频率（-Inverse-document-frequency-）"><span class="nav-text">② 逆向文档频率（ Inverse document frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-字段长度归一值（-Field-length-norm-）"><span class="nav-text">③ 字段长度归一值（ Field length norm ）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-BM25-评分算法"><span class="nav-text">2.2.2 BM25 评分算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际案例"><span class="nav-text">实际案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-现实需求"><span class="nav-text">3.1 现实需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-实现方法"><span class="nav-text">3.2 实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-调整搜索字段权重"><span class="nav-text">3.2.1 调整搜索字段权重</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-按引用次数提升权重"><span class="nav-text">3.2.2 按引用次数提升权重</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-weight"><span class="nav-text">① weight</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-field-value-factor"><span class="nav-text">② field_value_factor</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-random-score"><span class="nav-text">③ random_score</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#④-衰减函数"><span class="nav-text">④ 衰减函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#⑤-script-score"><span class="nav-text">⑤ script_score</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-理解评分标准"><span class="nav-text">3.2.3 理解评分标准</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li></ol></div>
             
 
           </div>
@@ -746,7 +808,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">8.9k</span>
+    <span title="Site words total count">9.9k</span>
   
 </div>
 

@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-14T04:33:11.000Z">
+<meta property="og:updated_time" content="2019-01-14T04:39:58.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（六）相关性排序优化">
 <meta name="twitter:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T12:33:11+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T12:39:58+08:00">
                 2019-01-14
               </time>
             
@@ -494,25 +494,19 @@
 </blockquote>
 <h6 id="①-词频（-Term-frequency-）"><a href="#①-词频（-Term-frequency-）" class="headerlink" title="① 词频（ Term frequency ）"></a>① 词频（ Term frequency ）</h6><p>搜索词在文档中出现的频率，频率越高，相关度越高。计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf(t\ \ in\ \ d) = \sqrt&#123;frequency&#125;</span><br></pre></td></tr></table></figure></p>
 <p>搜索词「 t 」在文档「 d 」的<strong>词频</strong>「 tf 」是该词在文档中出现次数的平方根。</p>
-<h6 id="②-逆向文档频率（-Inverse-document-frequency-）"><a href="#②-逆向文档频率（-Inverse-document-frequency-）" class="headerlink" title="② 逆向文档频率（ Inverse document frequency ）"></a>② 逆向文档频率（ Inverse document frequency ）</h6><p>搜索词在索引（单个分片）所有文档里出现的频率，频率越高，相关度越低。用人话描述就是「物以稀为贵」，计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">idf(t) = 1 + log \frac&#123;docCount&#125;&#123;docFreq + 1&#125;</span><br></pre></td></tr></table></figure></p>
-<p>搜索词「 t 」的<strong>逆向文档频率</strong>「 idf 」是索引中的文档总数除以所有包含该词的文档数，然后求其对数。</p>
-<h6 id="③-字段长度归一值（-Field-length-norm-）"><a href="#③-字段长度归一值（-Field-length-norm-）" class="headerlink" title="③ 字段长度归一值（ Field length norm ）"></a>③ 字段长度归一值（ Field length norm ）</h6><p>字段的长度，字段越短，相关度越高。计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">norm(d) = \frac&#123;1&#125;&#123;\sqrt&#123;numTerms&#125;&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong>字段长度归一值</strong>「 norm 」是字段中词数平方根的倒数。</p>
+<h6 id="②-逆向文档频率（-Inverse-document-frequency-）"><a href="#②-逆向文档频率（-Inverse-document-frequency-）" class="headerlink" title="② 逆向文档频率（ Inverse document frequency ）"></a>② 逆向文档频率（ Inverse document frequency ）</h6><p>搜索词在索引（单个分片）所有文档里出现的频率，频率越高，相关度越低。用人话描述就是「物以稀为贵」，计算公式如下：<br>$$idf(t) = 1 + log \frac{docCount}{docFreq + 1}$$<br>搜索词「 t 」的<strong>逆向文档频率</strong>「 idf 」是索引中的文档总数除以所有包含该词的文档数，然后求其对数。</p>
+<h6 id="③-字段长度归一值（-Field-length-norm-）"><a href="#③-字段长度归一值（-Field-length-norm-）" class="headerlink" title="③ 字段长度归一值（ Field length norm ）"></a>③ 字段长度归一值（ Field length norm ）</h6><p>字段的长度，字段越短，相关度越高。计算公式如下：<br>$$norm(d) = \frac{1}{\sqrt{numTerms}}$$<br><strong>字段长度归一值</strong>「 norm 」是字段中词数平方根的倒数。</p>
 <blockquote>
 <p>注：前面公式中提到的「文档」实际上是指文档里的某个字段</p>
 </blockquote>
 <h5 id="2-2-2-BM25-评分算法"><a href="#2-2-2-BM25-评分算法" class="headerlink" title="2.2.2 BM25 评分算法"></a>2.2.2 BM25 评分算法</h5><blockquote>
 <p>ES &gt;= 5 的评分算法；BM25 的 BM 是缩写自 Best Match， 25 貌似是经过 25 次迭代调整之后得出的算法。它也是基于 TF / IDF 算法进化来的。</p>
 </blockquote>
-<p>对于给定查询语句「Q」，其中包含关键词「$q_{1}$,…$q_{n}$」，那么文档「D」的 BM25 评分计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">score(D,Q) = \sum_&#123;i=1&#125;^NIDF(q_&#123;i&#125;)\ ·\ \frac&#123;f(q_&#123;i&#125;,D)\ ·\ (k_&#123;1&#125;+1)&#125;&#123;f(q_&#123;i&#125;,D)+k_&#123;1&#125;\ ·\ (1-b+b\ ·\ \frac&#123;|D|&#125;&#123;avgdl&#125;)&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这个公式看起来很唬人，尤其是那个求和符号，不过分解开来还是比较好理解的。</p>
+<p>对于给定查询语句「Q」，其中包含关键词「$q_{1}$,…$q_{n}$」，那么文档「D」的 BM25 评分计算公式如下：<br>$$score(D,Q) = \sum_{i=1}^NIDF(q_{i})\ ·\ \frac{f(q_{i},D)\ ·\ (k_{1}+1)}{f(q_{i},D)+k_{1}\ ·\ (1-b+b\ ·\ \frac{|D|}{avgdl})}$$<br>这个公式看起来很唬人，尤其是那个求和符号，不过分解开来还是比较好理解的。</p>
 <p>总体而言，主要还是分三部分，<strong>TF - IDF - Document Length</strong></p>
 <ul>
-<li><p>IDF 的计算公式调整为如下所示，其中N 为文档总数， $n(q_{i})$ 为包含搜索词 $q_{i}$ 的文档数。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IDF(q_&#123;i&#125;) = 1 + log\frac&#123;N-n(q_&#123;i&#125;)+0.5&#125;&#123;n(q_&#123;i&#125;)+0.5&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>$f(q_{i},D)$ 为 $q_{i}$ 在文档 D 中的「 TF 」，| D | 是文档的长度，avgdl 是平均文档长度。<br>先不看 IDF 和 Document Length 的部分， 则公式变为 TF * ($k_{1}$ + 1) / (TF + $k_{1}$)，<br>相比传统的 TF/IDF 而言，BM25 抑制了 TF 对整体评分的影响程度，虽然同样都是增函数，但是 BM25 中，TF 越大，带来的影响无限趋近于 ($k_{1}$ + 1)，这里 $k_{1}$ 值通常取 [1.2, 2.0]，而传统的 TF/IDF 则会没有临界点的无限增长。</p>
-</li>
+<li>IDF 的计算公式调整为如下所示，其中N 为文档总数， $n(q_{i})$ 为包含搜索词 $q_{i}$ 的文档数。<br>$$IDF(q_{i}) = 1 + log\frac{N-n(q_{i})+0.5}{n(q_{i})+0.5}$$</li>
+<li>$f(q_{i},D)$ 为 $q_{i}$ 在文档 D 中的「 TF 」，| D | 是文档的长度，avgdl 是平均文档长度。<br>先不看 IDF 和 Document Length 的部分， 则公式变为 TF * ($k_{1}$ + 1) / (TF + $k_{1}$)，<br>相比传统的 TF/IDF 而言，BM25 抑制了 TF 对整体评分的影响程度，虽然同样都是增函数，但是 BM25 中，TF 越大，带来的影响无限趋近于 ($k_{1}$ + 1)，这里 $k_{1}$ 值通常取 [1.2, 2.0]，而传统的 TF/IDF 则会没有临界点的无限增长。</li>
 <li>至于文档长度| D | 的影响，可以看到在命中搜索词的情况下，文档越短，相关性越高，具体影响程度又可以由公式中的 b 来调整，当设值为 0 的时候，就跟将 norms 设置为 false 一样，忽略文档长度的影响。</li>
 <li>最后再对所有搜索词的计算结果求和，就是 ES5 中一般查询的得分了。</li>
 </ul>
@@ -753,7 +747,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9k</span>
+    <span title="Site words total count">8.9k</span>
   
 </div>
 

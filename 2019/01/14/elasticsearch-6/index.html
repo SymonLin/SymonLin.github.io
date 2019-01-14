@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或多">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-14T09:04:47.000Z">
+<meta property="og:updated_time" content="2019-01-14T09:57:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（六）相关性排序优化">
 <meta name="twitter:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或多">
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T17:04:47+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T17:57:20+08:00">
                 2019-01-14
               </time>
             
@@ -459,7 +459,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  8
+                  9
                 </span>
               
             </div>
@@ -577,6 +577,11 @@
 <p>其中 idf = 6.2461066，tfNorm = 1.5456858，boost = 2.0，由于此时只有一个搜索字段，因此 score = idf <em> tfNorm </em> boost = 19.309036；与此同时 field value function = 0.18232156；最终得分 sum = 19.309036 + 0.18232156 = 19.491358 。</p>
 <hr>
 <h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此一个简单需求的相关性排序优化已经实现完毕，由于业务的关系暂时未涉及其他复杂的场景，所以此篇仅仅作为一个入门介绍。</p>
+<hr>
+<h3 id="参考博文"><a href="#参考博文" class="headerlink" title="参考博文"></a>参考博文</h3><ul>
+<li><a href="https://blog.csdn.net/wwd0501/article/details/78652850" target="_blank" rel="noopener">通过Function Score Query优化Elasticsearch搜索结果(综合排序)</a></li>
+<li><a href="https://xguox.me/how-elasticsearch-5-scoring-with-bm25.html" target="_blank" rel="noopener">Elasticsearch 5.X(Lucene 6) 的 BM25 相关度算法</a></li>
+</ul>
 
       
     </div>
@@ -767,7 +772,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关概念"><span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-排序"><span class="nav-text">2.1 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-相关性排序（默认）"><span class="nav-text">2.1.1 相关性排序（默认）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-按照字段值排序"><span class="nav-text">2.1.2 按照字段值排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相关性算法"><span class="nav-text">2.2 相关性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-TF-IDF-评分算法"><span class="nav-text">2.2.1 TF/IDF 评分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-词频（-Term-frequency-）"><span class="nav-text">① 词频（ Term frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-逆向文档频率（-Inverse-document-frequency-）"><span class="nav-text">② 逆向文档频率（ Inverse document frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-字段长度归一值（-Field-length-norm-）"><span class="nav-text">③ 字段长度归一值（ Field length norm ）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-BM25-评分算法"><span class="nav-text">2.2.2 BM25 评分算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际案例"><span class="nav-text">实际案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-现实需求"><span class="nav-text">3.1 现实需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-实现方法"><span class="nav-text">3.2 实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-调整搜索字段权重"><span class="nav-text">3.2.1 调整搜索字段权重</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-按引用次数提升权重"><span class="nav-text">3.2.2 按引用次数提升权重</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-weight"><span class="nav-text">① weight</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-field-value-factor"><span class="nav-text">② field_value_factor</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-random-score"><span class="nav-text">③ random_score</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#④-衰减函数"><span class="nav-text">④ 衰减函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#⑤-script-score"><span class="nav-text">⑤ script_score</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-理解评分标准"><span class="nav-text">3.2.3 理解评分标准</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关概念"><span class="nav-text">相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-排序"><span class="nav-text">2.1 排序</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-相关性排序（默认）"><span class="nav-text">2.1.1 相关性排序（默认）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-按照字段值排序"><span class="nav-text">2.1.2 按照字段值排序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-相关性算法"><span class="nav-text">2.2 相关性算法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-1-TF-IDF-评分算法"><span class="nav-text">2.2.1 TF/IDF 评分算法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-词频（-Term-frequency-）"><span class="nav-text">① 词频（ Term frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-逆向文档频率（-Inverse-document-frequency-）"><span class="nav-text">② 逆向文档频率（ Inverse document frequency ）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-字段长度归一值（-Field-length-norm-）"><span class="nav-text">③ 字段长度归一值（ Field length norm ）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-2-BM25-评分算法"><span class="nav-text">2.2.2 BM25 评分算法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实际案例"><span class="nav-text">实际案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-现实需求"><span class="nav-text">3.1 现实需求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-实现方法"><span class="nav-text">3.2 实现方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-1-调整搜索字段权重"><span class="nav-text">3.2.1 调整搜索字段权重</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-2-按引用次数提升权重"><span class="nav-text">3.2.2 按引用次数提升权重</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#①-weight"><span class="nav-text">① weight</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#②-field-value-factor"><span class="nav-text">② field_value_factor</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#③-random-score"><span class="nav-text">③ random_score</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#④-衰减函数"><span class="nav-text">④ 衰减函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#⑤-script-score"><span class="nav-text">⑤ script_score</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-3-理解评分标准"><span class="nav-text">3.2.3 理解评分标准</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考博文"><span class="nav-text">参考博文</span></a></li></ol></div>
             
 
           </div>
@@ -808,7 +813,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">9.9k</span>
+    <span title="Site words total count">10k</span>
   
 </div>
 

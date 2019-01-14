@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-14T04:39:58.000Z">
+<meta property="og:updated_time" content="2019-01-14T04:43:35.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（六）相关性排序优化">
 <meta name="twitter:description" content="前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  基本概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中，相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定一个或">
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T12:39:58+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T12:43:35+08:00">
                 2019-01-14
               </time>
             
@@ -492,8 +492,7 @@
 <h5 id="2-2-1-TF-IDF-评分算法"><a href="#2-2-1-TF-IDF-评分算法" class="headerlink" title="2.2.1 TF/IDF 评分算法"></a>2.2.1 TF/IDF 评分算法</h5><blockquote>
 <p>ES版本 &lt; 5 的评分算法</p>
 </blockquote>
-<h6 id="①-词频（-Term-frequency-）"><a href="#①-词频（-Term-frequency-）" class="headerlink" title="① 词频（ Term frequency ）"></a>① 词频（ Term frequency ）</h6><p>搜索词在文档中出现的频率，频率越高，相关度越高。计算公式如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tf(t\ \ in\ \ d) = \sqrt&#123;frequency&#125;</span><br></pre></td></tr></table></figure></p>
-<p>搜索词「 t 」在文档「 d 」的<strong>词频</strong>「 tf 」是该词在文档中出现次数的平方根。</p>
+<h6 id="①-词频（-Term-frequency-）"><a href="#①-词频（-Term-frequency-）" class="headerlink" title="① 词频（ Term frequency ）"></a>① 词频（ Term frequency ）</h6><p>搜索词在文档中出现的频率，频率越高，相关度越高。计算公式如下：<br>$$tf(t\ \ in\ \ d) = \sqrt{frequency}$$<br>搜索词「 t 」在文档「 d 」的<strong>词频</strong>「 tf 」是该词在文档中出现次数的平方根。</p>
 <h6 id="②-逆向文档频率（-Inverse-document-frequency-）"><a href="#②-逆向文档频率（-Inverse-document-frequency-）" class="headerlink" title="② 逆向文档频率（ Inverse document frequency ）"></a>② 逆向文档频率（ Inverse document frequency ）</h6><p>搜索词在索引（单个分片）所有文档里出现的频率，频率越高，相关度越低。用人话描述就是「物以稀为贵」，计算公式如下：<br>$$idf(t) = 1 + log \frac{docCount}{docFreq + 1}$$<br>搜索词「 t 」的<strong>逆向文档频率</strong>「 idf 」是索引中的文档总数除以所有包含该词的文档数，然后求其对数。</p>
 <h6 id="③-字段长度归一值（-Field-length-norm-）"><a href="#③-字段长度归一值（-Field-length-norm-）" class="headerlink" title="③ 字段长度归一值（ Field length norm ）"></a>③ 字段长度归一值（ Field length norm ）</h6><p>字段的长度，字段越短，相关度越高。计算公式如下：<br>$$norm(d) = \frac{1}{\sqrt{numTerms}}$$<br><strong>字段长度归一值</strong>「 norm 」是字段中词数平方根的倒数。</p>
 <blockquote>

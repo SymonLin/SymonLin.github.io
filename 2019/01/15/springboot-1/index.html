@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-bounce.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SpringBoot,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、前言最近公司项目准备开始重构，框架选定为 SpringBoot ，本篇主要记录了在 IDEA 中搭建 SpringBoot 多模块项目的过程。  二、系统环境 macOS Sierra 10.12.6 IntelliJ IDEA 2018.2 JDK 1.8 Maven 3.2.1   三、项目结构 biz层（业务逻辑层） dao层（数据持久层） common层（公用组件层） web层（请求处">
+<meta name="keywords" content="SpringBoot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot项目实战（一）多模块项目搭建">
+<meta property="og:url" content="https://symonlin.github.io/2019/01/15/springboot-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、前言最近公司项目准备开始重构，框架选定为 SpringBoot ，本篇主要记录了在 IDEA 中搭建 SpringBoot 多模块项目的过程。  二、系统环境 macOS Sierra 10.12.6 IntelliJ IDEA 2018.2 JDK 1.8 Maven 3.2.1   三、项目结构 biz层（业务逻辑层） dao层（数据持久层） common层（公用组件层） web层（请求处">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_1.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_2.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_3.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_4.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_5.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_6.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_7.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_8.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_9.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_10.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_11.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_12.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_13.png">
+<meta property="og:updated_time" content="2019-01-15T11:37:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot项目实战（一）多模块项目搭建">
+<meta name="twitter:description" content="一、前言最近公司项目准备开始重构，框架选定为 SpringBoot ，本篇主要记录了在 IDEA 中搭建 SpringBoot 多模块项目的过程。  二、系统环境 macOS Sierra 10.12.6 IntelliJ IDEA 2018.2 JDK 1.8 Maven 3.2.1   三、项目结构 biz层（业务逻辑层） dao层（数据持久层） common层（公用组件层） web层（请求处">
+<meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://symonlin.github.io/2019/01/15/springboot-1/">
+
+
+
+
+
+  <title>SpringBoot项目实战（一）多模块项目搭建 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br>
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+  <script>
+  (function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0f81ff2f.js","daovoice")
+  daovoice('init', {
+      app_id: "3f3548e4"
+    });
+  daovoice('update');
+  </script>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/01/15/springboot-1/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Symon Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM4cubib93RxwqSCOV9kURrI89qvBh3uwbdynttkkcyHQicsiamuqju1yJN9guNDibCKgfV9DZhTXHbqvQ/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot项目实战（一）多模块项目搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-15T19:36:45+08:00">
+                2019-01-15
+              </time>
+            
+
+            
+              <span class="post-meta-divider">|</span>
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T19:37:05+08:00">
+                2019-01-15
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  3.9k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  19
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>最近公司项目准备开始重构，框架选定为 SpringBoot ，本篇主要记录了在 IDEA 中搭建 SpringBoot 多模块项目的过程。</p>
+<hr>
+<h3 id="二、系统环境"><a href="#二、系统环境" class="headerlink" title="二、系统环境"></a>二、系统环境</h3><ul>
+<li>macOS Sierra 10.12.6</li>
+<li>IntelliJ IDEA 2018.2</li>
+<li>JDK 1.8</li>
+<li>Maven 3.2.1</li>
+</ul>
+<hr>
+<h3 id="三、项目结构"><a href="#三、项目结构" class="headerlink" title="三、项目结构"></a>三、项目结构</h3><ul>
+<li>biz层（业务逻辑层）</li>
+<li>dao层（数据持久层）</li>
+<li>common层（公用组件层）</li>
+<li>web层（请求处理层）<blockquote>
+<p>注：biz 层依赖 dao 及 common 层， web 层依赖 biz 层</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h3 id="四、项目搭建"><a href="#四、项目搭建" class="headerlink" title="四、项目搭建"></a>四、项目搭建</h3><h4 id="4-1-创建父工程"><a href="#4-1-创建父工程" class="headerlink" title="4.1 创建父工程"></a>4.1 创建父工程</h4><p>① IDEA 主面板选择菜单「Create New Project 」或者工具栏选择菜单「 File -&gt; New -&gt; Project… 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_1.png" alt="SpringBoot_1_1.png"><br>② 侧边栏选择「 Spring Initializr 」，Initializr 默认选择 Default ，然后点击「 Next 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_2.png" alt="SpringBoot_1_2.png"><br>③ 修改 Group 、 Artifact 、 Package 输入框中的值后点击「 Next 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_3.png" alt="SpringBoot_1_3.png"><br>④ 这步暂时先不需要选择，直接点「 Next 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_4.png" alt="SpringBoot_1_4.png"><br>⑤ 点击「 Finish 」创建项目<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_5.png" alt="SpringBoot_1_5.png"><br>⑥ 最终得到的项目目录结构如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">|-- demo</span><br><span class="line">  |-- .gitignore</span><br><span class="line">  |-- mvnw</span><br><span class="line">  |-- mvnw.cmd</span><br><span class="line">  |-- pom.xml</span><br><span class="line">  |-- .mvn</span><br><span class="line">  |   |-- wrapper</span><br><span class="line">  |       |-- maven-wrapper.jar</span><br><span class="line">  |       |-- maven-wrapper.properties</span><br><span class="line">  |-- src</span><br><span class="line">      |-- main</span><br><span class="line">      |   |-- java</span><br><span class="line">      |   |   |-- com</span><br><span class="line">      |   |       |-- example</span><br><span class="line">      |   |           |-- demo</span><br><span class="line">      |   |               |-- DemoApplication.java</span><br><span class="line">      |   |-- resources</span><br><span class="line">      |       |-- application.properties</span><br><span class="line">      |-- <span class="built_in">test</span></span><br><span class="line">          |-- java</span><br><span class="line">              |-- com</span><br><span class="line">                  |-- example</span><br><span class="line">                      |-- demo</span><br><span class="line">                          |-- DemoApplicationTests.java</span><br></pre></td></tr></table></figure></p>
+<p>⑦ 删除无用的 .mvn 目录、 src 目录、 mvnw 及 mvnw.cmd 文件，最终只留 .gitignore 和 pom.xml</p>
+<h4 id="4-2-创建子模块"><a href="#4-2-创建子模块" class="headerlink" title="4.2 创建子模块"></a>4.2 创建子模块</h4><p>① 选择项目根目录，右键呼出菜单，选择「 New -&gt; Module 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_6.png" alt="SpringBoot_1_6.png"><br>② 侧边栏选择「 Maven 」，点击「 Next 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_7.png" alt="SpringBoot_1_7.png"><br>③ 填写 ArifactId ，点击「 Next 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_8.png" alt="SpringBoot_1_8.png"><br>④ 修改 Module name 增加横杠提升可读性，点击「 Finish 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_9.png" alt="SpringBoot_1_9.png"><br>⑤ 同理添加「 demo-dao 」、「 demo-common 」、「 demo-web 」子模块，最终得到项目目录结构如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">|-- demo</span><br><span class="line">    |-- .gitignore</span><br><span class="line">    |-- pom.xml</span><br><span class="line">    |-- demo-biz</span><br><span class="line">    |   |-- pom.xml</span><br><span class="line">    |   |-- src</span><br><span class="line">    |       |-- main</span><br><span class="line">    |       |   |-- java</span><br><span class="line">    |       |   |-- resources</span><br><span class="line">    |       |-- <span class="built_in">test</span></span><br><span class="line">    |           |-- java</span><br><span class="line">    |-- demo-common</span><br><span class="line">    |   |-- pom.xml</span><br><span class="line">    |   |-- src</span><br><span class="line">    |       |-- main</span><br><span class="line">    |       |   |-- java</span><br><span class="line">    |       |   |-- resources</span><br><span class="line">    |       |-- <span class="built_in">test</span></span><br><span class="line">    |           |-- java</span><br><span class="line">    |-- demo-dao</span><br><span class="line">    |   |-- pom.xml</span><br><span class="line">    |   |-- src</span><br><span class="line">    |       |-- main</span><br><span class="line">    |       |   |-- java</span><br><span class="line">    |       |   |-- resources</span><br><span class="line">    |       |-- <span class="built_in">test</span></span><br><span class="line">    |           |-- java</span><br><span class="line">    |-- demo-web</span><br><span class="line">      |-- pom.xml</span><br><span class="line">      |-- src</span><br><span class="line">          |-- main</span><br><span class="line">          |   |-- java</span><br><span class="line">          |   |-- resources</span><br><span class="line">          |-- <span class="built_in">test</span></span><br><span class="line">              |-- java</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-3-整理父-pom-文件中的内容"><a href="#4-3-整理父-pom-文件中的内容" class="headerlink" title="4.3 整理父 pom 文件中的内容"></a>4.3 整理父 pom 文件中的内容</h4><p>① 删除 dependencies 标签及其中的 spring-boot-starter 和 spring-boot-starter-test 依赖，因为 SpringBoot 提供的父工程已包含，并且父 pom 原则上都是通过 dependencyManagement 标签管理依赖包。</p>
+<blockquote>
+<p>注：dependencyManagement 及 dependencies 的区别自行查阅文档</p>
+</blockquote>
+<p>② 删除 build 标签及其中的所有内容，spring-boot-maven-plugin 插件作用是打一个可运行的包，多模块项目仅仅需要在入口类所在的模块添加打包插件，这里父模块不需要打包运行。而且该插件已被包含在 SpringBoot 提供的父工程中，这里删掉即可。<br>③ 最后整理父 pom 文件中的其余内容，按其代表含义归类，整理结果如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 基本信息 --&gt;</span><br><span class="line">&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</span><br><span class="line">&lt;packaging&gt;pom&lt;/packaging&gt;</span><br><span class="line">&lt;name&gt;demo&lt;/name&gt;</span><br><span class="line">&lt;description&gt;Demo project <span class="keyword">for</span> Spring Boot&lt;/description&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 项目说明：这里作为聚合工程的父工程 --&gt;</span><br><span class="line">&lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">&lt;artifactId&gt;demo&lt;/artifactId&gt;</span><br><span class="line">&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 继承说明：这里继承SpringBoot提供的父工程 --&gt;</span><br><span class="line">&lt;parent&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.1.2.RELEASE&lt;/version&gt;</span><br><span class="line">    &lt;relativePath/&gt;</span><br><span class="line">&lt;/parent&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 模块说明：这里声明多个子模块 --&gt;</span><br><span class="line">&lt;modules&gt;</span><br><span class="line">    &lt;module&gt;demo-biz&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;demo-common&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;demo-dao&lt;/module&gt;</span><br><span class="line">    &lt;module&gt;demo-web&lt;/module&gt;</span><br><span class="line">&lt;/modules&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 属性说明 --&gt;</span><br><span class="line">&lt;properties&gt;</span><br><span class="line">    &lt;java.version&gt;1.8&lt;/java.version&gt;</span><br><span class="line">    &lt;demo.version&gt;0.0.1-SNAPSHOT&lt;/demo.version&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-4-简易-HTTP-接口测试"><a href="#4-4-简易-HTTP-接口测试" class="headerlink" title="4.4 简易 HTTP 接口测试"></a>4.4 简易 HTTP 接口测试</h4><p>准备工作都完成之后，通过一个简易的 HTTP 接口测试项目是否正常运行。</p>
+<p>① 首先在 demo-web 层创建 com.example.demo.web 包并添加入口类 DemoWebApplication.java</p>
+<blockquote>
+<p>注：com.example.demo.web 为多级目录结构并非单个目录名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.web;</span><br><span class="line"></span><br><span class="line">import org.springframework.boot.SpringApplication;</span><br><span class="line">import org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author linjian</span><br><span class="line"> * @date 2019/1/15</span><br><span class="line"> */</span><br><span class="line">@SpringBootApplication</span><br><span class="line">public class DemoWebApplication &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(DemoWebApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>② 其次在 demo-web 层的 pom 文件中添加必要的依赖包<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>② 然后在 com.example.demo.web 包中添加 controller 目录并新建一个 controller，添加 test 方法测试接口是否可以正常访问。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.web.controller;</span><br><span class="line"></span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author linjian</span><br><span class="line"> * @date 2019/1/15</span><br><span class="line"> */</span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(<span class="string">"demo"</span>)</span><br><span class="line">public class DemoController &#123;</span><br><span class="line"></span><br><span class="line">    @GetMapping(<span class="string">"test"</span>)</span><br><span class="line">    public String <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="string">"Hello World!"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>③ 最后运行 DemoWebApplication 类中的 main 方法启动项目，默认端口为 8080，访问 <a href="http://localhost:8080/demo/test" target="_blank" rel="noopener">http://localhost:8080/demo/test</a> 即可测试接口<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_10.png" alt="SpringBoot_1_10.png"></p>
+<h4 id="4-5-配置模块间的依赖关系"><a href="#4-5-配置模块间的依赖关系" class="headerlink" title="4.5 配置模块间的依赖关系"></a>4.5 配置模块间的依赖关系</h4><p>通常 JAVA Web 项目会按照功能划分不同模块，模块之间通过依赖关系进行协作，下面将完善各个模块之间的依赖关系。<br>① 首先在父 pom 文件中使用「 dependencyManagement 」标签声明所有子模块依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 依赖管理：这里统一管理依赖的版本号 --&gt;</span><br><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;demo-biz&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="variable">$&#123;demo.version&#125;</span>&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;demo-common&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="variable">$&#123;demo.version&#125;</span>&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;demo-dao&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="variable">$&#123;demo.version&#125;</span>&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;demo-web&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;<span class="variable">$&#123;demo.version&#125;</span>&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：${demo.version} 定义在 properties 标签中</p>
+</blockquote>
+<p>② 其次在 demo-biz 层中的 pom 文件中添加 demo-dao 及 demo-common 依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;demo-common&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;demo-dao&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>③ 之后在 demo-web 层中的 pom 文件中添加 demo-biz 依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;demo-biz&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-6-web-层调用-biz-层接口测试"><a href="#4-6-web-层调用-biz-层接口测试" class="headerlink" title="4.6 web 层调用 biz 层接口测试"></a>4.6 web 层调用 biz 层接口测试</h4><p>模块依赖关系配置完成之后，通过 web 层 测试下 biz 层的接口是否可以正常调用。</p>
+<p>① 首先在 demo-biz 层创建 com.example.demo.biz 包，添加 service 目录并在其中创建 DemoService 接口类及 impl 目录（用于存放接口实现类）。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.biz.service;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author linjian</span><br><span class="line"> * @date 2019/1/15</span><br><span class="line"> */</span><br><span class="line">public interface DemoService &#123;</span><br><span class="line"></span><br><span class="line">    String <span class="built_in">test</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo.biz.service.impl;</span><br><span class="line"></span><br><span class="line">import com.example.demo.biz.service.DemoService;</span><br><span class="line">import org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @author linjian</span><br><span class="line"> * @date 2019/1/15</span><br><span class="line"> */</span><br><span class="line">@Service</span><br><span class="line">public class DemoServiceImpl implements DemoService &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public String <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">        <span class="built_in">return</span> <span class="string">"interface test"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>② DemoController 通过 @Autowired 注解注入  DemoService ，修改 DemoController 的 test 方法使之调用 DemoService 的 test 方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private DemoService demoService;</span><br><span class="line"></span><br><span class="line">@GetMapping(<span class="string">"test"</span>)</span><br><span class="line">public String <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">    <span class="built_in">return</span> demoService.test();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>③ 再次运行 DemoWebApplication 类中的 main 方法启动项目，发现如下报错<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">***************************</span><br><span class="line">APPLICATION FAILED TO START</span><br><span class="line">***************************</span><br><span class="line"></span><br><span class="line">Description:</span><br><span class="line"></span><br><span class="line">Field demoService <span class="keyword">in</span> com.example.demo.web.controller.DemoController required a bean of <span class="built_in">type</span> <span class="string">'com.example.demo.biz.service.DemoService'</span> that could not be found.</span><br><span class="line"></span><br><span class="line">The injection point has the following annotations:</span><br><span class="line">	- @org.springframework.beans.factory.annotation.Autowired(required=<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">Action:</span><br><span class="line"></span><br><span class="line">Consider defining a bean of <span class="built_in">type</span> <span class="string">'com.example.demo.biz.service.DemoService'</span> <span class="keyword">in</span> your configuration.</span><br></pre></td></tr></table></figure></p>
+<p><code>原因是找不到 DemoService 类</code></p>
+<p>④ 在 DemoWebApplication 入口类中增加包扫描，设置 @SpringBootApplication 注解中的 scanBasePackages 值为 com.example.demo<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@SpringBootApplication(scanBasePackages = <span class="string">"com.example.demo"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>⑤ 设置完后重新运行 main 方法，项目正常启动，访问  <a href="http://localhost:8080/demo/test" target="_blank" rel="noopener">http://localhost:8080/demo/test</a> 测试接口<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_11.png" alt="SpringBoot_1_11.png"></p>
+<h4 id="4-7-集成-MyBatis"><a href="#4-7-集成-MyBatis" class="headerlink" title="4.7 集成 MyBatis"></a>4.7 集成 MyBatis</h4><p>以上接口均是静态的，不涉及数据库操作，下面将集成 MyBatis 访问数据库中的数据。</p>
+<p>① 首先父 pom 文件中声明 mybatis-spring-boot-starter 及 lombok 依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.3.2&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.16.22&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>② 其次在 demo-dao 层中的 pom 文件中添加上述依赖<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;mysql&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.mybatis.spring.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;mybatis-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.projectlombok&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;lombok&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>③ 之后在 demo-dao 层创建 com.example.demo.dao 包，通过 mybatis-genertaor 工具生成 dao 层相关文件（ DO 、 Mapper 、 xml ），目录结构如下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">|-- demo-dao</span><br><span class="line">    |-- pom.xml</span><br><span class="line">    |-- src</span><br><span class="line">        |-- main</span><br><span class="line">        |   |-- java</span><br><span class="line">        |   |   |-- com</span><br><span class="line">        |   |       |-- example</span><br><span class="line">        |   |           |-- demo</span><br><span class="line">        |   |               |-- dao</span><br><span class="line">        |   |                   |-- entity</span><br><span class="line">        |   |                   |   |-- UserDO.java</span><br><span class="line">        |   |                   |-- mapper</span><br><span class="line">        |   |                       |-- UserMapper.java</span><br><span class="line">        |   |-- resources</span><br><span class="line">        |       |-- mybatis</span><br><span class="line">        |           |-- UserMapper.xml</span><br><span class="line">        |-- <span class="built_in">test</span></span><br><span class="line">            |-- java</span><br></pre></td></tr></table></figure></p>
+<p>④ 然后在 demo-web 层中的 resources 目录 创建 applicatio.properties 文件并在其中添加 datasource 及 MyBatis 相关配置项<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.driverClassName = com.mysql.jdbc.Driver</span><br><span class="line">spring.datasource.url = jdbc:mysql://localhost:3306/<span class="built_in">test</span>?useUnicode=<span class="literal">true</span>&amp;characterEncoding=utf-8</span><br><span class="line">spring.datasource.username = <span class="built_in">test</span></span><br><span class="line">spring.datasource.password = 123456</span><br><span class="line"></span><br><span class="line">mybatis.mapper-locations = classpath:mybatis/*.xml</span><br><span class="line">mybatis.type-aliases-package = com.example.demo.dao.entity</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：如果生成的 xml 在 dao 层 resources 目录的子目录中则 mybatis.mapper-locations 需设置为  classpath:mybatis/*/*.xml</p>
+</blockquote>
+<p>⑤ DemoService 通过 @Autowired 注解注入 UserMapper ，修改 DemoService 的 test 方法使之调用 UserMapper 的 selectById 方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@Autowired</span><br><span class="line">private UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">@Override</span><br><span class="line">public String <span class="function"><span class="title">test</span></span>() &#123;</span><br><span class="line">    UserDO user = userMapper.selectById(1);</span><br><span class="line">    <span class="built_in">return</span> user.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>⑥ 再次运行 DemoWebApplication 类中的 main 方法启动项目，出现如下报错<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">***************************</span><br><span class="line">APPLICATION FAILED TO START</span><br><span class="line">***************************</span><br><span class="line"></span><br><span class="line">Description:</span><br><span class="line"></span><br><span class="line">Field userMapper <span class="keyword">in</span> com.example.demo.biz.service.impl.DemoServiceImpl required a bean of <span class="built_in">type</span> <span class="string">'com.example.demo.dao.mapper.business.UserMapper'</span> that could not be found.</span><br><span class="line"></span><br><span class="line">The injection point has the following annotations:</span><br><span class="line">	- @org.springframework.beans.factory.annotation.Autowired(required=<span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">Action:</span><br><span class="line"></span><br><span class="line">Consider defining a bean of <span class="built_in">type</span> <span class="string">'com.example.demo.dao.mapper.business.UserMapper'</span> <span class="keyword">in</span> your configuration.</span><br></pre></td></tr></table></figure></p>
+<p><code>原因是找不到 UserMapper 类</code><br>⑦ 在 DemoWebApplication入口类中增加 dao 层包扫描，添加 @MapperScan 注解并设置其值为 com.example.demo.dao.mapper<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@MapperScan(<span class="string">"com.example.demo.dao.mapper"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>⑧ 设置完后重新运行 main 方法，项目正常启动，访问 <a href="http://localhost:8080/demo/test" target="_blank" rel="noopener">http://localhost:8080/demo/test</a> 测试接口<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_12.png" alt="SpringBoot_1_12.png"></p>
+<hr>
+<h3 id="五、外部-Tomcat-部署-war-包"><a href="#五、外部-Tomcat-部署-war-包" class="headerlink" title="五、外部 Tomcat 部署 war 包"></a>五、外部 Tomcat 部署 war 包</h3><p>外部 Tomcat 部署的话，就不能依赖于入口类的 main 函数了，而是要以类似于 web.xml 文件配置的方式来启动 Spring应用上下文。<br>① 在入口类中继承 SpringBootServletInitializer 并实现 configure 方法<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class DemoWebApplication extends SpringBootServletInitializer &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) &#123;</span><br><span class="line">        <span class="built_in">return</span> builder.sources(DemoWebApplication.class);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        SpringApplication.run(DemoWebApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>② 之前在 demo-web 引入了 spring-boot-starter-web 的依赖，该依赖包包含内嵌的 Tomcat 容器，所以直接部署在外部 Tomcat 会冲突报错。这里在 demo-web 层中的 pom 文件中重定义 spring-boot-starter-tomcat 依赖包的「 scope 」即可解决该问题。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-starter-tomcat&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;provided&lt;/scope&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>③ 声明 demo-web 层的打包方式及最终的包名<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;packaging&gt;war&lt;/packaging&gt;</span><br><span class="line">...省略其余部分...</span><br><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;finalName&gt;demo&lt;/finalName&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
+<p>④ 此时在 demo-web 层目录执行「 mvn clean install 」即可打出一个名为 demo.war 的包。</p>
+<h3 id="五、多环境打包"><a href="#五、多环境打包" class="headerlink" title="五、多环境打包"></a>五、多环境打包</h3><p>在日常开发中，通常不止一套环境，如开发环境、测试环境、预发环境、生成环境，而每个环境的配置项可能都不一样，这就需要用到多环境打包来解决这个问题。</p>
+<p>① 在 demo-web 层的 resources 目录中新建 conf 目录，再在其中按照环境创建相应目录，这里创建开发环境「 dev 」及测试环境「 test 」，再将原本的 application.properties 文件分别拷贝一份到两个目录中，根据环境修改其中的配置项，最后删除原本的配置文件。得到目录结构如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">|-- resources</span><br><span class="line">    |-- conf</span><br><span class="line">      |-- dev</span><br><span class="line">      |   |-- application.properties</span><br><span class="line">      |-- <span class="built_in">test</span></span><br><span class="line">          |-- application.properties</span><br></pre></td></tr></table></figure></p>
+<p>② 往 demo-web 层的 pom 文件添加 profile 标签<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;profiles&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;dev&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile.env&gt;dev&lt;/profile.env&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">        &lt;activation&gt;</span><br><span class="line">            &lt;activeByDefault&gt;<span class="literal">true</span>&lt;/activeByDefault&gt;</span><br><span class="line">        &lt;/activation&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">    &lt;profile&gt;</span><br><span class="line">        &lt;id&gt;<span class="built_in">test</span>&lt;/id&gt;</span><br><span class="line">        &lt;properties&gt;</span><br><span class="line">            &lt;profile.env&gt;<span class="built_in">test</span>&lt;/profile.env&gt;</span><br><span class="line">        &lt;/properties&gt;</span><br><span class="line">    &lt;/profile&gt;</span><br><span class="line">&lt;/profiles&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：其中 dev 为默认激活的 profile ，如要增加其他环境按照上述步骤操作即可。</p>
+</blockquote>
+<p>③ 设置打包时资源文件路径<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;build&gt;</span><br><span class="line">    &lt;finalName&gt;demo&lt;/finalName&gt;</span><br><span class="line">    &lt;resources&gt;</span><br><span class="line">        &lt;resource&gt;</span><br><span class="line">            &lt;directory&gt;<span class="variable">$&#123;basedir&#125;</span>/src/main/resources&lt;/directory&gt;</span><br><span class="line">            &lt;excludes&gt;</span><br><span class="line">                &lt;exclude&gt;conf/**&lt;/exclude&gt;</span><br><span class="line">            &lt;/excludes&gt;</span><br><span class="line">        &lt;/resource&gt;</span><br><span class="line">        &lt;resource&gt;</span><br><span class="line">            &lt;directory&gt;src/main/resources/conf/<span class="variable">$&#123;profile.env&#125;</span>&lt;/directory&gt;</span><br><span class="line">        &lt;/resource&gt;</span><br><span class="line">    &lt;/resources&gt;</span><br><span class="line">&lt;/build&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：${basedir} 为当前子模块的根目录</p>
+</blockquote>
+<p>④ 打包时通过「 P 」参数指定 profile<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn clean install -P <span class="built_in">test</span></span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="六、自定义-archeType-模板"><a href="#六、自定义-archeType-模板" class="headerlink" title="六、自定义 archeType 模板"></a>六、自定义 archeType 模板</h3><h4 id="6-1-什么是-archeType-？"><a href="#6-1-什么是-archeType-？" class="headerlink" title="6.1 什么是 archeType ？"></a>6.1 什么是 archeType ？</h4><p>我们在创建 maven 项目的时，会发现有很多的 apache 提供的模板。<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_1_13.png" alt="SpringBoot_1_13.png"><br>每个模板里其实就是附带不同的依赖和插件。一般在公司私服里都会有属于本公司的一套 archeType 模板，里面有着调试好的项目用到的依赖包和版本号。</p>
+<h4 id="6-2-创建-archeType"><a href="#6-2-创建-archeType" class="headerlink" title="6.2 创建 archeType"></a>6.2 创建 archeType</h4><p>① cd 到项目根目录（即父 pom 文件所在目录）执行 mvn 命令，此时会在项目根目录生成 target 目录，其包含一个名为 generated-sources 的目录<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:create-from-project</span><br></pre></td></tr></table></figure></p>
+<p>② 然后 cd target/generated-sources/archetype/，然后执行 install 命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn install</span><br></pre></td></tr></table></figure></p>
+<p>③ 再执行 crawl 命令，在本地仓库的根目录生成 archetype-catalog.xml 骨架配置文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn archetype:crawl</span><br></pre></td></tr></table></figure></p>
+<p>文件内容如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span>?&gt;</span><br><span class="line">&lt;archetype-catalog xsi:schemaLocation=<span class="string">"http://maven.apache.org/plugins/maven-archetype-plugin/archetype-catalog/1.0.0 http://maven.apache.org/xsd/archetype-catalog-1.0.0.xsd"</span></span><br><span class="line">    xmlns=<span class="string">"http://maven.apache.org/plugins/maven-archetype-plugin/archetype-catalog/1.0.0"</span></span><br><span class="line">    xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>&gt;</span><br><span class="line">    &lt;archetypes&gt;</span><br><span class="line">        &lt;archetype&gt;</span><br><span class="line">            &lt;groupId&gt;com.example.demo&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;demo-archetype&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</span><br><span class="line">            &lt;description&gt;demo&lt;/description&gt;</span><br><span class="line">        &lt;/archetype&gt;</span><br><span class="line">    &lt;/archetypes&gt;</span><br><span class="line">&lt;/archetype-catalog&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注：创建 archetype 模板前最后先将无用的文件删除，如 .idea</p>
+</blockquote>
+<h4 id="6-3-使用-archetype-模板"><a href="#6-3-使用-archetype-模板" class="headerlink" title="6.3 使用 archetype 模板"></a>6.3 使用 archetype 模板</h4><p>执行 mvn archetype:generate -DarchetypeCatalog=local 从本地 archeType 模板中创建项目<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">~/Workspace/JAVA $ mvn archetype:generate -DarchetypeCatalog=<span class="built_in">local</span></span><br><span class="line">[INFO] Scanning <span class="keyword">for</span> projects...</span><br><span class="line">[INFO]</span><br><span class="line">[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1</span><br><span class="line">[INFO]</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] Building Maven Stub Project (No POM) 1</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO]</span><br><span class="line">[INFO] &gt;&gt;&gt; maven-archetype-plugin:3.0.1:generate (default-cli) @ standalone-pom &gt;&gt;&gt;</span><br><span class="line">[INFO]</span><br><span class="line">[INFO] &lt;&lt;&lt; maven-archetype-plugin:3.0.1:generate (default-cli) @ standalone-pom &lt;&lt;&lt;</span><br><span class="line">[INFO]</span><br><span class="line">[INFO] --- maven-archetype-plugin:3.0.1:generate (default-cli) @ standalone-pom ---</span><br><span class="line">[INFO] Generating project <span class="keyword">in</span> Interactive mode</span><br><span class="line">[INFO] No archetype defined. Using maven-archetype-quickstart (org.apache.maven.archetypes:maven-archetype-quickstart:1.0)</span><br><span class="line">Choose archetype:</span><br><span class="line">1: <span class="built_in">local</span> -&gt; com.example.demo:demo-archetype (demo)</span><br><span class="line">Choose a number or apply filter (format: [groupId:]artifactId, <span class="keyword">case</span> sensitive contains): : 1</span><br><span class="line">Define value <span class="keyword">for</span> property <span class="string">'groupId'</span>: com.orz.test</span><br><span class="line">Define value <span class="keyword">for</span> property <span class="string">'artifactId'</span>: <span class="built_in">test</span></span><br><span class="line">Define value <span class="keyword">for</span> property <span class="string">'version'</span> 1.0-SNAPSHOT: :</span><br><span class="line">Define value <span class="keyword">for</span> property <span class="string">'package'</span> com.orz.test: :</span><br><span class="line">Confirm properties configuration:</span><br><span class="line">groupId: com.orz.test</span><br><span class="line">artifactId: <span class="built_in">test</span></span><br><span class="line">version: 1.0-SNAPSHOT</span><br><span class="line">package: com.orz.test</span><br><span class="line"> Y: : y</span><br><span class="line">[INFO] ----------------------------------------------------------------------------</span><br><span class="line">[INFO] Using following parameters <span class="keyword">for</span> creating project from Archetype: demo-archetype:0.0.1-SNAPSHOT</span><br><span class="line">[INFO] ----------------------------------------------------------------------------</span><br><span class="line">[INFO] Parameter: groupId, Value: com.orz.test</span><br><span class="line">[INFO] Parameter: artifactId, Value: <span class="built_in">test</span></span><br><span class="line">[INFO] Parameter: version, Value: 1.0-SNAPSHOT</span><br><span class="line">[INFO] Parameter: package, Value: com.orz.test</span><br><span class="line">[INFO] Parameter: packageInPathFormat, Value: com/orz/<span class="built_in">test</span></span><br><span class="line">[INFO] Parameter: package, Value: com.orz.test</span><br><span class="line">[INFO] Parameter: version, Value: 1.0-SNAPSHOT</span><br><span class="line">[INFO] Parameter: groupId, Value: com.orz.test</span><br><span class="line">[INFO] Parameter: artifactId, Value: <span class="built_in">test</span></span><br><span class="line">[INFO] Parent element not overwritten <span class="keyword">in</span> /Users/linjian/Workspace/JAVA/<span class="built_in">test</span>/<span class="built_in">test</span>-biz/pom.xml</span><br><span class="line">[INFO] Parent element not overwritten <span class="keyword">in</span> /Users/linjian/Workspace/JAVA/<span class="built_in">test</span>/<span class="built_in">test</span>-common/pom.xml</span><br><span class="line">[INFO] Parent element not overwritten <span class="keyword">in</span> /Users/linjian/Workspace/JAVA/<span class="built_in">test</span>/<span class="built_in">test</span>-dao/pom.xml</span><br><span class="line">[INFO] Parent element not overwritten <span class="keyword">in</span> /Users/linjian/Workspace/JAVA/<span class="built_in">test</span>/<span class="built_in">test</span>-web/pom.xml</span><br><span class="line">[INFO] Project created from Archetype <span class="keyword">in</span> dir: /Users/linjian/Workspace/JAVA/<span class="built_in">test</span></span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] BUILD SUCCESS</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br><span class="line">[INFO] Total time: 01:01 min</span><br><span class="line">[INFO] Finished at: 2019-01-15T18:51:31+08:00</span><br><span class="line">[INFO] Final Memory: 14M/155M</span><br><span class="line">[INFO] ------------------------------------------------------------------------</span><br></pre></td></tr></table></figure></p>
+<p>首先选择使用哪个模板，会罗列出所有可用的模板，这里选择 1 ，其次输入「 groupId 」、「 articleId 」、「 version 」及「 package 」，然后输入「 Y 」确认创建，最终项目创建成功。</p>
+<h3 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h3><p>至此 SpringBoot 多模块项目的搭建已经介绍完毕，后续会在此基础上继续集成一些中间件。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Symon Lin
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://symonlin.github.io/2019/01/15/springboot-1/" title="SpringBoot项目实战（一）多模块项目搭建">https://symonlin.github.io/2019/01/15/springboot-1/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SpringBoot/" rel="tag"># SpringBoot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/14/elasticsearch-6/" rel="next" title="从零搭建ES搜索服务（六）相关性排序优化">
+                <i class="fa fa-chevron-left"></i> 从零搭建ES搜索服务（六）相关性排序优化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM4cubib93RxwqSCOV9kURrI89qvBh3uwbdynttkkcyHQicsiamuqju1yJN9guNDibCKgfV9DZhTXHbqvQ/132" alt="Symon Lin">
+            
+              <p class="site-author-name" itemprop="name">Symon Lin</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、系统环境"><span class="nav-text">二、系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、项目结构"><span class="nav-text">三、项目结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、项目搭建"><span class="nav-text">四、项目搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-创建父工程"><span class="nav-text">4.1 创建父工程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-创建子模块"><span class="nav-text">4.2 创建子模块</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-整理父-pom-文件中的内容"><span class="nav-text">4.3 整理父 pom 文件中的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-简易-HTTP-接口测试"><span class="nav-text">4.4 简易 HTTP 接口测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-配置模块间的依赖关系"><span class="nav-text">4.5 配置模块间的依赖关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-web-层调用-biz-层接口测试"><span class="nav-text">4.6 web 层调用 biz 层接口测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-7-集成-MyBatis"><span class="nav-text">4.7 集成 MyBatis</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、外部-Tomcat-部署-war-包"><span class="nav-text">五、外部 Tomcat 部署 war 包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、多环境打包"><span class="nav-text">五、多环境打包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、自定义-archeType-模板"><span class="nav-text">六、自定义 archeType 模板</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-什么是-archeType-？"><span class="nav-text">6.1 什么是 archeType ？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-创建-archeType"><span class="nav-text">6.2 创建 archeType</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-使用-archetype-模板"><span class="nav-text">6.3 使用 archetype 模板</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、结语"><span class="nav-text">七、结语</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Symon Lin</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">13.9k</span>
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      <i class="fa fa-user"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      
+    </span>
+  
+
+  
+    <span class="site-pv">
+      <i class="fa fa-eye"></i>
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  
+
+
+  
+
+  
+
+</body>
+</html>

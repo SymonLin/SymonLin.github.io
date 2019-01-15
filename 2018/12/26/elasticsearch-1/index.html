@@ -86,21 +86,21 @@
 
 
 
-<meta name="description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
+<meta name="description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建ES搜索服务（一）基本概念及环境搭建">
 <meta property="og:url" content="https://symonlin.github.io/2018/12/26/elasticsearch-1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
+<meta property="og:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png">
-<meta property="og:updated_time" content="2019-01-14T12:02:01.000Z">
+<meta property="og:updated_time" content="2019-01-15T12:01:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（一）基本概念及环境搭建">
-<meta name="twitter:description" content="前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。 ①">
+<meta name="twitter:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
 <meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
 
 
@@ -392,8 +392,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T20:02:01+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:01:27+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -447,7 +447,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k
+                  1.9k
                 </span>
               
 
@@ -484,11 +484,11 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。</p>
 <hr>
-<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
+<h3 id="二、背景"><a href="#二、背景" class="headerlink" title="二、背景"></a>二、背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
 <hr>
-<h3 id="技术选型"><a href="#技术选型" class="headerlink" title="技术选型"></a>技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。</p>
+<h3 id="三、技术选型"><a href="#三、技术选型" class="headerlink" title="三、技术选型"></a>三、技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。</p>
 <p>① Elasticsearch 5.5.3</p>
 <blockquote>
 <p>一个基于Lucene的搜索服务器，提供了分布式的全文搜索引擎</p>
@@ -503,26 +503,26 @@
 </blockquote>
 <p>④ SpringBoot 2.0.4</p>
 <hr>
-<h3 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h3><ul>
+<h3 id="四、系统环境"><a href="#四、系统环境" class="headerlink" title="四、系统环境"></a>四、系统环境</h3><ul>
 <li>Linux Centos 7.3</li>
 <li>JDK 1.8</li>
 </ul>
 <hr>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><h4 id="1-1-集群（-cluster-）"><a href="#1-1-集群（-cluster-）" class="headerlink" title="1.1 集群（ cluster ）"></a>1.1 集群（ cluster ）</h4><p>集群是由一个或者多个拥有相同 cluster.name 配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
-<h4 id="1-2-节点（-node-）"><a href="#1-2-节点（-node-）" class="headerlink" title="1.2 节点（ node ）"></a>1.2 节点（ node ）</h4><p>一个运行中的 ES 实例称为一个节点</p>
+<h3 id="五、基本概念"><a href="#五、基本概念" class="headerlink" title="五、基本概念"></a>五、基本概念</h3><h4 id="5-1-集群（-cluster-）"><a href="#5-1-集群（-cluster-）" class="headerlink" title="5.1 集群（ cluster ）"></a>5.1 集群（ cluster ）</h4><p>集群是由一个或者多个拥有相同 cluster.name 配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
+<h4 id="5-2-节点（-node-）"><a href="#5-2-节点（-node-）" class="headerlink" title="5.2 节点（ node ）"></a>5.2 节点（ node ）</h4><p>一个运行中的 ES 实例称为一个节点</p>
 <ul>
 <li>主节点负责管理集群范围内的所有变更，例如增加/删除索引，或者增加/删除节点等，且不需要涉及到文档级别的变更和搜索等操作</li>
 <li>任何节点都能成为主节点</li>
 <li>当集群只有一个主节点，即使流量增加也不会成为瓶颈</li>
 </ul>
-<h4 id="1-3-索引（-index-）"><a href="#1-3-索引（-index-）" class="headerlink" title="1.3 索引（ index ）"></a>1.3 索引（ index ）</h4><ul>
+<h4 id="5-3-索引（-index-）"><a href="#5-3-索引（-index-）" class="headerlink" title="5.3 索引（ index ）"></a>5.3 索引（ index ）</h4><ul>
 <li><code>名词</code>；类似于传统关系数据库中的一个<em>数据库</em></li>
 <li><code>动词</code>；索引一个文档就是存储一个文档到一个<em>索引</em>(名词)中以便它可以被检索和查询到。类似于 SQL 语句中的 INSERT 关键词</li>
 <li><code>倒排索引</code>；类似于传统关系型数据库中的索引概念，可以提升数据检索速度</li>
 </ul>
-<h4 id="1-4-类型（-type-）"><a href="#1-4-类型（-type-）" class="headerlink" title="1.4 类型（ type ）"></a>1.4 类型（ type ）</h4><p>一个索引包含一个或多个 type ，相当于传统关系型数据库中的表</p>
-<h4 id="1-5-文档（-document-）"><a href="#1-5-文档（-document-）" class="headerlink" title="1.5 文档（ document ）"></a>1.5 文档（ document ）</h4><p>相当于传统关系型数据库中的数据行</p>
-<h4 id="1-6-分片（-shards-）"><a href="#1-6-分片（-shards-）" class="headerlink" title="1.6 分片（ shards ）"></a>1.6 分片（ shards ）</h4><ul>
+<h4 id="5-4-类型（-type-）"><a href="#5-4-类型（-type-）" class="headerlink" title="5.4 类型（ type ）"></a>5.4 类型（ type ）</h4><p>一个索引包含一个或多个 type ，相当于传统关系型数据库中的表</p>
+<h4 id="5-5-文档（-document-）"><a href="#5-5-文档（-document-）" class="headerlink" title="5.5 文档（ document ）"></a>5.5 文档（ document ）</h4><p>相当于传统关系型数据库中的数据行</p>
+<h4 id="5-6-分片（-shards-）"><a href="#5-6-分片（-shards-）" class="headerlink" title="5.6 分片（ shards ）"></a>5.6 分片（ shards ）</h4><ul>
 <li>是一个底层的<code>「工作单元」</code>，仅保存了全部数据的一部分</li>
 <li>是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里</li>
 <li>当集群规模扩大或者缩小时， ES 会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
@@ -530,16 +530,16 @@
 <li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配「 5 」个主分片和「 1 」份副本（每个主分片拥有一个副本分片）</li>
 <li>相同主分片的副本分片不会放在同一个节点</li>
 </ul>
-<p>① 主分片</p>
+<p>① 主分片 ( Primary shard )</p>
 <blockquote>
 <p>索引内任意一个文档都归属于一个主分片，所以主分片的数目<strong>决定着索引能够保存的最大数据量</strong></p>
 </blockquote>
-<p>② 副本分片（ replicas ）</p>
+<p>② 副本分片（ Replica shard ）</p>
 <blockquote>
 <p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
 </blockquote>
 <hr>
-<h3 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h3><h4 id="2-1-Elasticsearch"><a href="#2-1-Elasticsearch" class="headerlink" title="2.1 Elasticsearch"></a>2.1 Elasticsearch</h4><h5 id="2-1-1-安装步骤"><a href="#2-1-1-安装步骤" class="headerlink" title="2.1.1 安装步骤"></a>2.1.1 安装步骤</h5><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h3 id="六、环境搭建"><a href="#六、环境搭建" class="headerlink" title="六、环境搭建"></a>六、环境搭建</h3><h4 id="6-1-Elasticsearch"><a href="#6-1-Elasticsearch" class="headerlink" title="6.1 Elasticsearch"></a>6.1 Elasticsearch</h4><h5 id="6-1-1-安装步骤"><a href="#6-1-1-安装步骤" class="headerlink" title="6.1.1 安装步骤"></a>6.1.1 安装步骤</h5><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/local/elasticsearch</span><br></pre></td></tr></table></figure></p>
 <p>③ 修改 config 目录下的 elasticsearch.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim elasticsearch.yml</span><br></pre></td></tr></table></figure></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 去掉行开头的 # 并重命名集群名，这里命名为 compass</span><br><span class="line">cluster.name: compass</span><br><span class="line">// 去掉行开头的 # 并重命名节点名，这里命名为 node-1</span><br><span class="line">node.name: node-1</span><br></pre></td></tr></table></figure>
@@ -548,8 +548,8 @@
 <blockquote>
 <p>返回结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot; : &quot;node-1&quot;,</span><br><span class="line">  &quot;cluster_name&quot; : &quot;compass&quot;,</span><br><span class="line">  &quot;cluster_uuid&quot; : &quot;Zuj5FBMUTjuHQXlAHreGvA&quot;,</span><br><span class="line">  &quot;version&quot; : &#123;</span><br><span class="line">    &quot;number&quot; : &quot;5.5.3&quot;,</span><br><span class="line">    &quot;build_hash&quot; : &quot;9305a5e&quot;,</span><br><span class="line">    &quot;build_date&quot; : &quot;2017-09-07T15:56:59.599Z&quot;,</span><br><span class="line">    &quot;build_snapshot&quot; : false,</span><br><span class="line">    &quot;lucene_version&quot; : &quot;6.6.0&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;tagline&quot; : &quot;You Know, for Search&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 </blockquote>
-<h5 id="2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><a href="#2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget" class="headerlink" title="2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget"></a>2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure>
-<h5 id="2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png" alt="0389398b3f52e69123eb3956ba578142.png"></p>
+<h5 id="6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><a href="#6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget" class="headerlink" title="6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget"></a>6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure>
+<h5 id="6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png" alt="blog_1_1.png"></p>
 <blockquote>
 <p>解决办法：</p>
 </blockquote>
@@ -557,7 +557,7 @@
 <p>② 新建用户并指定用户组<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -g elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
 <p>③ 修改 ES 目录所属者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chown -R elasticsearch:elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
 <p>④ 切换用户后再次启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su elasticsearch</span><br></pre></td></tr></table></figure></p>
-<h5 id="2-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><a href="#2-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？" class="headerlink" title="2.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？"></a>2.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</h5><blockquote>
+<h5 id="6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><a href="#6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？" class="headerlink" title="6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？"></a>6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</h5><blockquote>
 <p>解决办法：</p>
 </blockquote>
 <p>① 修改 elasticsearch.yml 中的「network.host」<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure></p>
@@ -581,17 +581,17 @@
 <p>修改 /etc/sysctl.conf 文件，增加如下配置，执行命令「 sysctl -p 」生效<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
 <p>③ 切换到 elasticsearch 用户并重启， curl 测试成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@db-develop-01 ~]<span class="comment"># curl 192.168.1.192:9200</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span> : <span class="string">"node-1"</span>,</span><br><span class="line">  <span class="string">"cluster_name"</span> : <span class="string">"compass"</span>,</span><br><span class="line">  <span class="string">"cluster_uuid"</span> : <span class="string">"mFL_a6WDTUaWbB4jKA8cWg"</span>,</span><br><span class="line">  <span class="string">"version"</span> : &#123;</span><br><span class="line">    <span class="string">"number"</span> : <span class="string">"5.5.3"</span>,</span><br><span class="line">    <span class="string">"build_hash"</span> : <span class="string">"9305a5e"</span>,</span><br><span class="line">    <span class="string">"build_date"</span> : <span class="string">"2017-09-07T15:56:59.599Z"</span>,</span><br><span class="line">    <span class="string">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"lucene_version"</span> : <span class="string">"6.6.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h4 id="2-2-Logstash"><a href="#2-2-Logstash" class="headerlink" title="2.2 Logstash"></a>2.2 Logstash</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-2-Logstash"><a href="#6-2-Logstash" class="headerlink" title="6.2 Logstash"></a>6.2 Logstash</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/local/logstash</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h4 id="2-3-Kibana"><a href="#2-3-Kibana" class="headerlink" title="2.3 Kibana"></a>2.3 Kibana</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-3-Kibana"><a href="#6-3-Kibana" class="headerlink" title="6.3 Kibana"></a>6.3 Kibana</h4><p>① 下载安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
 <p>② 解压并移动到 local 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/local/kibana</span><br></pre></td></tr></table></figure></p>
 <p>③ 修改 config 目录下的 kibana.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的 #</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure></p>
 <p>④ 启动 Kibana ，浏览器访问 <a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure></p>
-<h4 id="2-4-elasticsearch-head-插件（浏览器版）"><a href="#2-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="2.4 elasticsearch-head 插件（浏览器版）"></a>2.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png" alt="blog_1_2.png"></p>
+<h4 id="6-4-elasticsearch-head-插件（浏览器版）"><a href="#6-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="6.4 elasticsearch-head 插件（浏览器版）"></a>6.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png" alt="blog_1_2.png"></p>
 <p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png" alt="blog_1_3.png"></p>
 <hr>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
+<h3 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
 
       
     </div>
@@ -786,7 +786,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术选型"><span class="nav-text">技术选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统环境"><span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-text">基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-集群（-cluster-）"><span class="nav-text">1.1 集群（ cluster ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-节点（-node-）"><span class="nav-text">1.2 节点（ node ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3-索引（-index-）"><span class="nav-text">1.3 索引（ index ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-类型（-type-）"><span class="nav-text">1.4 类型（ type ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-文档（-document-）"><span class="nav-text">1.5 文档（ document ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-6-分片（-shards-）"><span class="nav-text">1.6 分片（ shards ）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境搭建"><span class="nav-text">环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-Elasticsearch"><span class="nav-text">2.1 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-1-安装步骤"><span class="nav-text">2.1.1 安装步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><span class="nav-text">2.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><span class="nav-text">2.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><span class="nav-text">2.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-Logstash"><span class="nav-text">2.2 Logstash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Kibana"><span class="nav-text">2.3 Kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4-elasticsearch-head-插件（浏览器版）"><span class="nav-text">2.4 elasticsearch-head 插件（浏览器版）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、背景"><span class="nav-text">二、背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、技术选型"><span class="nav-text">三、技术选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、系统环境"><span class="nav-text">四、系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、基本概念"><span class="nav-text">五、基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-集群（-cluster-）"><span class="nav-text">5.1 集群（ cluster ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-节点（-node-）"><span class="nav-text">5.2 节点（ node ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-索引（-index-）"><span class="nav-text">5.3 索引（ index ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-类型（-type-）"><span class="nav-text">5.4 类型（ type ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-文档（-document-）"><span class="nav-text">5.5 文档（ document ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-分片（-shards-）"><span class="nav-text">5.6 分片（ shards ）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、环境搭建"><span class="nav-text">六、环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-Elasticsearch"><span class="nav-text">6.1 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-1-安装步骤"><span class="nav-text">6.1.1 安装步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><span class="nav-text">6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><span class="nav-text">6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><span class="nav-text">6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Logstash"><span class="nav-text">6.2 Logstash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Kibana"><span class="nav-text">6.3 Kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-elasticsearch-head-插件（浏览器版）"><span class="nav-text">6.4 elasticsearch-head 插件（浏览器版）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、结语"><span class="nav-text">七、结语</span></a></li></ol></div>
             
 
           </div>

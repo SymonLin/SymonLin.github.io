@@ -586,8 +586,8 @@ Maven 3.2.1
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T17:57:20+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:09:28+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -675,10 +675,10 @@ Maven 3.2.1
       
         
           
-          前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。
+          一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。
 
-相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。
-2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按
+二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。
+2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -780,8 +780,8 @@ Maven 3.2.1
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T14:04:06+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:08:32+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -869,9 +869,9 @@ Maven 3.2.1
       
         
           
-          前言在实际使用中搜索结果中的关键词前端通常会以特殊形式展示，比如标记为红色使人一目了然。我们可以通过 ES 提供的高亮功能实现此效果。
+          一、前言在实际使用中搜索结果中的关键词前端通常会以特殊形式展示，比如标记为红色使人一目了然。我们可以通过 ES 提供的高亮功能实现此效果。
 
-代码实现前文查询是通过一个继承 ElasticsearchRepository 的接口实现的，但是如果要实现高亮，这种方式就满足不了了，这里我们需要通过 Elas
+二、代码实现前文查询是通过一个继承 ElasticsearchRepository 的接口实现的，但是如果要实现高亮，这种方式就满足不了了，这里我们需要通过 
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -973,8 +973,8 @@ Maven 3.2.1
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-13T13:55:23+08:00">
-                2019-01-13
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:07:02+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -1023,7 +1023,7 @@ Maven 3.2.1
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  914
+                  919
                 </span>
               
 
@@ -1062,10 +1062,10 @@ Maven 3.2.1
       
         
           
-          前言上篇介绍了 ES 的同义词搜索，使我们的搜索更强大了，然而这还远远不够，在实际使用中还可能希望搜索「fanqie」能将包含「番茄」的结果也罗列出来，这就涉及到拼音搜索了，本篇将介绍如何具体实现。
+          一、前言上篇介绍了 ES 的同义词搜索，使我们的搜索更强大了，然而这还远远不够，在实际使用中还可能希望搜索「fanqie」能将包含「番茄」的结果也罗列出来，这就涉及到拼音搜索了，本篇将介绍如何具体实现。
 
-安装 ES 拼音插件1.1 拼音插件简介
-GitHub 地址：https://github.com
+二、安装 ES 拼音插件2.1 拼音插件简介
+GitHub 地址：https://github
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1167,8 +1167,8 @@ GitHub 地址：https://github.com
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T19:56:11+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:05:30+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -1217,7 +1217,7 @@ GitHub 地址：https://github.com
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  653
+                  657
                 </span>
               
 
@@ -1256,10 +1256,10 @@ GitHub 地址：https://github.com
       
         
           
-          前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。
+          一、前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。
 
-安装 ES 同义词插件1.1 同义词插件简介
-GitHub 地址：https://github.com/ginobefun/ela
+二、安装 ES 同义词插件2.1 同义词插件简介
+GitHub 地址：https://github.com/ginobefun
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1361,8 +1361,8 @@ GitHub 地址：https://github.com/ginobefun/ela
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T19:55:44+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:05:55+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -1450,12 +1450,12 @@ GitHub 地址：https://github.com/ginobefun/ela
       
         
           
-          前言上篇介绍了 ES 的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。
+          一、前言上篇介绍了 ES 的基本概念及环境搭建，本篇将结合实际需求介绍整个实现过程及核心代码。
 
-安装 ES ik 分析器插件1.1 ik 分析器简介
+二、安装 ES ik 分析器插件2.1 ik 分析器简介
 GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik
 
-提供两种分词模式：「 ik_
+提供两种分词模式：「
           ...
           <!--noindex-->
           <div class="post-button text-center">
@@ -1557,8 +1557,8 @@ GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T20:02:01+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:01:27+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -1607,7 +1607,7 @@ GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k
+                  1.9k
                 </span>
               
 
@@ -1646,11 +1646,9 @@ GitHub 地址：https://github.com/medcl/elasticsearch-analysis-ik
       
         
           
-          前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。
+          一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。
 
-背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。
-
-
+二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实
           ...
           <!--noindex-->
           <div class="post-button text-center">

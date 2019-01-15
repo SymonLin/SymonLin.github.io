@@ -86,19 +86,19 @@
 
 
 
-<meta name="description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
+<meta name="description" content="一、前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  二、安装 ES 同义词插件2.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建ES搜索服务（三）同义词搜索">
 <meta property="og:url" content="https://symonlin.github.io/2018/12/28/elasticsearch-3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
+<meta property="og:description" content="一、前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  二、安装 ES 同义词插件2.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png">
-<meta property="og:updated_time" content="2019-01-14T11:56:11.000Z">
+<meta property="og:updated_time" content="2019-01-15T12:05:30.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（三）同义词搜索">
-<meta name="twitter:description" content="前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  安装 ES 同义词插件1.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库，支持「">
+<meta name="twitter:description" content="一、前言上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。  二、安装 ES 同义词插件2.1 同义词插件简介 GitHub 地址：https://github.com/ginobefun/elasticsearch-dynamic-synonym  定时从 MySQL 中获取自定义词库">
 <meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png">
 
 
@@ -390,8 +390,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-14T19:56:11+08:00">
-                2019-01-14
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:05:30+08:00">
+                2019-01-15
               </time>
             
           </span>
@@ -445,7 +445,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  653
+                  657
                 </span>
               
 
@@ -482,20 +482,20 @@
       
 
       
-        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 ES 的基础搜索，能满足我们基本的需求，然而在实际使用中还可能希望搜索「番茄」能将包含「西红柿」的结果也罗列出来，本篇将介绍如何实现同义词之间的搜索。</p>
 <hr>
-<h3 id="安装-ES-同义词插件"><a href="#安装-ES-同义词插件" class="headerlink" title="安装 ES 同义词插件"></a>安装 ES 同义词插件</h3><h4 id="1-1-同义词插件简介"><a href="#1-1-同义词插件简介" class="headerlink" title="1.1 同义词插件简介"></a>1.1 同义词插件简介</h4><blockquote>
+<h3 id="二、安装-ES-同义词插件"><a href="#二、安装-ES-同义词插件" class="headerlink" title="二、安装 ES 同义词插件"></a>二、安装 ES 同义词插件</h3><h4 id="2-1-同义词插件简介"><a href="#2-1-同义词插件简介" class="headerlink" title="2.1 同义词插件简介"></a>2.1 同义词插件简介</h4><blockquote>
 <p>GitHub 地址：<a href="https://github.com/ginobefun/elasticsearch-dynamic-synonym" target="_blank" rel="noopener">https://github.com/ginobefun/elasticsearch-dynamic-synonym</a></p>
 </blockquote>
 <p>定时从 MySQL 中获取自定义词库，支持「扩展词」及「停用词」</p>
-<h4 id="1-2-安装步骤"><a href="#1-2-安装步骤" class="headerlink" title="1.2 安装步骤"></a>1.2 安装步骤</h4><p>参考 GitHub 中的项目说明</p>
+<h4 id="2-2-安装步骤"><a href="#2-2-安装步骤" class="headerlink" title="2.2 安装步骤"></a>2.2 安装步骤</h4><p>参考 GitHub 中的项目说明</p>
 <hr>
-<h3 id="自定义分析器"><a href="#自定义分析器" class="headerlink" title="自定义分析器"></a>自定义分析器</h3><p>要使用「同义词插件」需要在创建索引时使用「自定义模板」并在自定义模板中「自定义分析器」。</p>
-<h4 id="2-1-相关概念"><a href="#2-1-相关概念" class="headerlink" title="2.1 相关概念"></a>2.1 相关概念</h4><p>① 字符过滤器（character filter）<br>② 分词器（tokenizer）<br>③ 词过滤器（token filter）</p>
+<h3 id="三、自定义分析器"><a href="#三、自定义分析器" class="headerlink" title="三、自定义分析器"></a>三、自定义分析器</h3><p>要使用「同义词插件」需要在创建索引时使用「自定义模板」并在自定义模板中「自定义分析器」。</p>
+<h4 id="3-1-相关概念"><a href="#3-1-相关概念" class="headerlink" title="3.1 相关概念"></a>3.1 相关概念</h4><p>① 字符过滤器（character filter）<br>② 分词器（tokenizer）<br>③ 词过滤器（token filter）</p>
 <blockquote>
 <p>自定义分析器官方文档：<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/custom-analyzers.html" target="_blank" rel="noopener">https://www.elastic.co/guide/cn/elasticsearch/guide/current/custom-analyzers.html</a></p>
 </blockquote>
-<h4 id="2-2-具体配置"><a href="#2-2-具体配置" class="headerlink" title="2.2 具体配置"></a>2.2 具体配置</h4><p>① 在上篇新建的「 yb_knowledge.json 」模板中修改「 setting 」配置，往其中添加自定义分析器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"analysis"</span>: &#123;</span><br><span class="line">    <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"synonym_filter"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"dynamic-synonym"</span>,</span><br><span class="line">            <span class="string">"expand"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"ignore_case"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"interval"</span>: 30,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">            <span class="string">"db_url"</span>: <span class="string">"jdbc:mysql://localhost:3306/elasticsearch?user=es_user&amp;password=es_pwd&amp;useUnicode=true&amp;characterEncoding=UTF8"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"analyzer"</span>: &#123;</span><br><span class="line">        <span class="string">"ik_synonym_max"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">            <span class="string">"filter"</span>: [</span><br><span class="line">                <span class="string">"synonym_filter"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ik_synonym_smart"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_smart"</span>,</span><br><span class="line">            <span class="string">"filter"</span>: [</span><br><span class="line">                <span class="string">"synonym_filter"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-2-具体配置"><a href="#3-2-具体配置" class="headerlink" title="3.2 具体配置"></a>3.2 具体配置</h4><p>① 在上篇新建的「 yb_knowledge.json 」模板中修改「 setting 」配置，往其中添加自定义分析器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"analysis"</span>: &#123;</span><br><span class="line">    <span class="string">"filter"</span>: &#123;</span><br><span class="line">        <span class="string">"synonym_filter"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"dynamic-synonym"</span>,</span><br><span class="line">            <span class="string">"expand"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"ignore_case"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"interval"</span>: 30,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">            <span class="string">"db_url"</span>: <span class="string">"jdbc:mysql://localhost:3306/elasticsearch?user=es_user&amp;password=es_pwd&amp;useUnicode=true&amp;characterEncoding=UTF8"</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"analyzer"</span>: &#123;</span><br><span class="line">        <span class="string">"ik_synonym_max"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_max_word"</span>,</span><br><span class="line">            <span class="string">"filter"</span>: [</span><br><span class="line">                <span class="string">"synonym_filter"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"ik_synonym_smart"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_smart"</span>,</span><br><span class="line">            <span class="string">"filter"</span>: [</span><br><span class="line">                <span class="string">"synonym_filter"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>自定义分析器说明：</p>
 <ul>
@@ -512,7 +512,7 @@
 <p><img src="http://pl44efaq8.bkt.clouddn.com/blog_3_1.png" alt="blog_3_1.png"></p>
 <p>④ 原本在索引中已存在的数据不受同义词动态更新的影响，可以通过以下命令手动更新<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPOST <span class="string">'http://localhost:9200/yb_knowledge/_update_by_query?conflicts=proceed'</span></span><br></pre></td></tr></table></figure></p>
 <hr>
-<h3 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h3><p>至此同义词搜索已经实现完毕，后续将继续介绍其他附加功能，如拼音搜索以及搜索结果高亮等。</p>
+<h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>至此同义词搜索已经实现完毕，后续将继续介绍其他附加功能，如拼音搜索以及搜索结果高亮等。</p>
 
       
     </div>
@@ -707,7 +707,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-ES-同义词插件"><span class="nav-text">安装 ES 同义词插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1-同义词插件简介"><span class="nav-text">1.1 同义词插件简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2-安装步骤"><span class="nav-text">1.2 安装步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义分析器"><span class="nav-text">自定义分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-相关概念"><span class="nav-text">2.1 相关概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-具体配置"><span class="nav-text">2.2 具体配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结语"><span class="nav-text">结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、安装-ES-同义词插件"><span class="nav-text">二、安装 ES 同义词插件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-同义词插件简介"><span class="nav-text">2.1 同义词插件简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-安装步骤"><span class="nav-text">2.2 安装步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、自定义分析器"><span class="nav-text">三、自定义分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-相关概念"><span class="nav-text">3.1 相关概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-具体配置"><span class="nav-text">3.2 具体配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、结语"><span class="nav-text">四、结语</span></a></li></ol></div>
             
 
           </div>

@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="一、前言上篇介绍了 ES 的同义词搜索，使我们的搜索更强大了，然而这还远远不够，在实际使用中还可能希望搜索「fanqie」能将包含「番茄」的结果也罗列出来，这就涉及到拼音搜索了，本篇将介绍如何具体实现。  二、安装 ES 拼音插件2.1 拼音插件简介 GitHub 地址：https://github.com/medcl/elasticsearch-analysis-pinyin  2.2 安装步骤">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-15T12:21:48.000Z">
+<meta property="og:updated_time" content="2019-01-21T09:59:08.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（四）拼音搜索">
 <meta name="twitter:description" content="一、前言上篇介绍了 ES 的同义词搜索，使我们的搜索更强大了，然而这还远远不够，在实际使用中还可能希望搜索「fanqie」能将包含「番茄」的结果也罗列出来，这就涉及到拼音搜索了，本篇将介绍如何具体实现。  二、安装 ES 拼音插件2.1 拼音插件简介 GitHub 地址：https://github.com/medcl/elasticsearch-analysis-pinyin  2.2 安装步骤">
@@ -388,8 +388,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:21:48+08:00">
-                2019-01-15
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-21T17:59:08+08:00">
+                2019-01-21
               </time>
             
           </span>
@@ -490,7 +490,6 @@
 <p>③ 安装成功后会在 plugins 目录出现 analysis-pinyin 文件夹</p>
 <hr>
 <h3 id="三、自定义分析器"><a href="#三、自定义分析器" class="headerlink" title="三、自定义分析器"></a>三、自定义分析器</h3><p>要使用「拼音插件」需要在创建索引时使用「自定义模板」并在自定义模板中「自定义分析器」。</p>
-<hr>
 <h4 id="3-1-具体配置"><a href="#3-1-具体配置" class="headerlink" title="3.1 具体配置"></a>3.1 具体配置</h4><p>① 在上篇新建的「 yb_knowledge.json 」模板中修改「 setting 」配置，往其中添加自定义分析器<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">"analysis"</span>: &#123;</span><br><span class="line">    <span class="string">"filter"</span>: &#123;</span><br><span class="line">        ...省略其余部分...</span><br><span class="line">        <span class="string">"pinyin_filter"</span>:&#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"pinyin"</span>,</span><br><span class="line">            <span class="string">"keep_first_letter"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"keep_separate_first_letter"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">"keep_full_pinyin"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"keep_joined_full_pinyin"</span>: <span class="literal">true</span>,                     </span><br><span class="line">            <span class="string">"none_chinese_pinyin_tokenize"</span>: <span class="literal">false</span>,</span><br><span class="line">            <span class="string">"keep_joined_full_pinyin"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"remove_duplicated_term"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"keep_original"</span>: <span class="literal">true</span>,</span><br><span class="line">            <span class="string">"limit_first_letter_length"</span>: 50,</span><br><span class="line">            <span class="string">"lowercase"</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">"analyzer"</span>: &#123;</span><br><span class="line">        ...省略其余部分...</span><br><span class="line">        <span class="string">"ik_synonym_pinyin"</span>: &#123;</span><br><span class="line">            <span class="string">"type"</span>: <span class="string">"custom"</span>,</span><br><span class="line">            <span class="string">"tokenizer"</span>: <span class="string">"ik_smart"</span>,</span><br><span class="line">            <span class="string">"filter"</span>: [<span class="string">"synonym_filter"</span>,<span class="string">"pinyin_filter"</span>]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>自定义分析器说明：</p>

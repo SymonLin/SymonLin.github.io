@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-15T12:09:28.000Z">
+<meta property="og:updated_time" content="2019-01-21T10:10:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建ES搜索服务（六）相关性排序优化">
 <meta name="twitter:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定">
@@ -388,8 +388,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-15T20:09:28+08:00">
-                2019-01-15
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-21T18:10:53+08:00">
+                2019-01-21
               </time>
             
           </span>
@@ -505,7 +505,7 @@
 <p>总体而言，主要还是分三部分，<strong>TF - IDF - Document Length</strong></p>
 <ul>
 <li>IDF 的计算公式调整为如下所示，其中N 为文档总数， $n(q_{i})$ 为包含搜索词 $q_{i}$ 的文档数。<br>$$IDF(q_{i}) = 1 + log\frac{N-n(q_{i})+0.5}{n(q_{i})+0.5}$$</li>
-<li>$f(q_{i},D)$ 为 $q_{i}$ 在文档 D 中的「 TF 」，| D | 是文档的长度，avgdl 是平均文档长度。<br>先不看 IDF 和 Document Length 的部分， 则公式变为 TF * ($k_{1}$ + 1) / (TF + $k_{1}$)，<br>相比传统的 TF/IDF 而言，BM25 抑制了 TF 对整体评分的影响程度，虽然同样都是增函数，但是 BM25 中，TF 越大，带来的影响无限趋近于 ($k_{1}$ + 1)，这里 $k_{1}$ 值通常取 [1.2, 2.0]，而传统的 TF/IDF 则会没有临界点的无限增长。</li>
+<li>$f(q_{i},D)$ 为搜索词 $q_{i}$ 在文档 D 中的「 TF 」，| D | 是文档的长度，avgdl 是平均文档长度。<br>先不看 IDF 和 Document Length 的部分， 则公式变为 TF * ($k_{1}$ + 1) / (TF + $k_{1}$)，<br>相比传统的 TF/IDF 而言，BM25 抑制了 TF 对整体评分的影响程度，虽然同样都是增函数，但是 BM25 中，TF 越大，带来的影响无限趋近于 ($k_{1}$ + 1)，这里 $k_{1}$ 值通常取 [1.2, 2.0]，而传统的 TF/IDF 则会没有临界点的无限增长。</li>
 <li>至于文档长度 | D | 的影响，可以看到在命中搜索词的情况下，文档越短，相关性越高，具体影响程度又可以由公式中的 b 来调整，当设值为 0 的时候，就跟将 norms 设置为 false 一样，忽略文档长度的影响。</li>
 <li>最后再对所有搜索词的计算结果求和，就是 ES5 中一般查询的得分了。</li>
 </ul>

@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/tool_1_7.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/tool_1_8.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/tool_1_9.png">
-<meta property="og:updated_time" content="2019-01-23T08:34:23.000Z">
+<meta property="og:updated_time" content="2019-01-23T08:38:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Postman使用技巧之多环境测试及接口依赖关系处理">
 <meta name="twitter:description" content="一、前言在日常开发中，除了正常的单元测试，某些情况我们还需要测试 HTTP 接口，团队中目前使用的是「 Postman 」这款 API调试 、 HTTP 请求工具。通常我们将经常要测试的接口按照项目归类，存放在 Postman 的收藏夹（即 Collections）中方便重复调用。然而，在多个环境测试或者接口之间有依赖关系时我们需要频繁的改动请求体，下面将介绍这两种情况的解决方法。  注：Post">
@@ -398,7 +398,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-23T16:34:23+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-23T16:38:22+08:00">
                 2019-01-23
               </time>
             
@@ -501,7 +501,7 @@
 <p>③ 输入 Environment Name，命名规则可为调试环境名+项目名，如「 local alpha」，其中 local 代表本地环境，alpha 代表项目名。然后添加一个名为 host 的变量（即VARIABLE），值为本地环境项目地址，最后点击「 Add 」按钮保存。</p>
 <p><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_3.png" alt="tool_1_3.png"></p>
 <h5 id="2-2-2-切换环境"><a href="#2-2-2-切换环境" class="headerlink" title="2.2.2 切换环境"></a>2.2.2 切换环境</h5><p>① 回到主界面可以看到 Environment 下拉框已有刚添加的环境选项。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_4.png" alt="tool_1_4.png"></p>
-<p>② 切换环境选择新创建的「 local alpha 」，然后创建一个请求测试项目中已有的 HTTP 接口，请求地址中 host 部分使用刚定义的变量，双层大括号引用变量名，如 。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_5.png" alt="tool_1_5.png"></p>
+<p>② 切换环境选择新创建的「 local alpha 」，然后创建一个请求测试项目中已有的 HTTP 接口，请求地址中 host 部分使用刚定义的变量，双层大括号引用变量名，如 <code></code>。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_5.png" alt="tool_1_5.png"></p>
 <p>③ 请求接口后正常，如需切换一个新环境则按上述步骤操作即可。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_6.png" alt="tool_1_6.png"></p>
 <h3 id="三、处理接口之间的依赖关系"><a href="#三、处理接口之间的依赖关系" class="headerlink" title="三、处理接口之间的依赖关系"></a>三、处理接口之间的依赖关系</h3><h4 id="3-1-场景"><a href="#3-1-场景" class="headerlink" title="3.1 场景"></a>3.1 场景</h4><p>上面提到了变量的使用方法，在日常开发中有可能遇到这样一个情况：大部分接口都需要用户登录之后才能访问，否则无法请求成功，用户登录成功后通常会有一个 token，此后每次请求都将在 header 中携带该参数用于识别用户身份，此时如果用户重新登录导致 token 发生了变化，那么哪些依赖 token 的接口都要相应的修改，这将是个不小的工作量。</p>
 <h4 id="3-2-解决方法"><a href="#3-2-解决方法" class="headerlink" title="3.2 解决方法"></a>3.2 解决方法</h4><h5 id="3-2-1-添加-Tests-脚本"><a href="#3-2-1-添加-Tests-脚本" class="headerlink" title="3.2.1 添加 Tests 脚本"></a>3.2.1 添加 Tests 脚本</h5><p>① 首先在用户登录接口的「 Tests 」中添加以下代码。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">pm.test(<span class="string">"Status code is 200"</span>, <span class="function"><span class="title">function</span></span> () &#123;</span><br><span class="line">    pm.response.to.have.status(200);</span><br><span class="line">&#125;);</span><br><span class="line">// 把responseBody转为json字符串</span><br><span class="line">var data = JSON.parse(responseBody);</span><br><span class="line">// 设置环境变量token，供后面的接口引用</span><br><span class="line">pm.environment.set(<span class="string">"token"</span>, data.data);</span><br></pre></td></tr></table></figure></p>
@@ -510,7 +510,7 @@
 <p>注：常用的脚本右侧都有相应的快捷方式创建</p>
 </blockquote>
 <p>② 接口调用成功后会执行上述代码将返回结果中的 data 字段设置到环境变量「 token 」中。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_8.png" alt="tool_1_8.png"></p>
-<h5 id="3-2-2-设置变量"><a href="#3-2-2-设置变量" class="headerlink" title="3.2.2 设置变量"></a>3.2.2 设置变量</h5><p>而后其余依赖 token 的接口可以在 header 中添加 key 为 token，value 为  的参数就可以正常调用接口了。就算重新登录后也不需要手动修改 header 里的 token 值，因为它会从环境变量中读取。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_9.png" alt="tool_1_9.png"></p>
+<h5 id="3-2-2-设置变量"><a href="#3-2-2-设置变量" class="headerlink" title="3.2.2 设置变量"></a>3.2.2 设置变量</h5><p>而后其余依赖 token 的接口可以在 header 中添加 key 为 token，value 为 <code></code> 的参数就可以正常调用接口了。就算重新登录后也不需要手动修改 header 里的 token 值，因为它会从环境变量中读取。<br><img src="http://pl44efaq8.bkt.clouddn.com/tool_1_9.png" alt="tool_1_9.png"></p>
 <h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>至此上述两种情况的解决方法已经介绍完了，后续如有调整会再补充。</p>
 
       

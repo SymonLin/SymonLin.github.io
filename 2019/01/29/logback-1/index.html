@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="XML 配置文件的基本结构：以 &amp;lt;configuration&amp;gt; 开头，后面有零个或多个 &amp;lt;appender&amp;gt; 元素，有零个或多个 &amp;lt;logger&amp;gt; 元素，有最多一个 &amp;lt;root&amp;gt; 元素。 1. &amp;lt;configuration&amp;gt;根节点 &amp;lt;configuration&amp;gt; 包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-29T03:49:24.000Z">
+<meta property="og:updated_time" content="2019-01-29T03:51:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Logback XML 基础配置详解">
 <meta name="twitter:description" content="XML 配置文件的基本结构：以 &amp;lt;configuration&amp;gt; 开头，后面有零个或多个 &amp;lt;appender&amp;gt; 元素，有零个或多个 &amp;lt;logger&amp;gt; 元素，有最多一个 &amp;lt;root&amp;gt; 元素。 1. &amp;lt;configuration&amp;gt;根节点 &amp;lt;configuration&amp;gt; 包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默">
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-29T11:49:24+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-29T11:51:41+08:00">
                 2019-01-29
               </time>
             
@@ -594,7 +594,26 @@
 </tr>
 </tbody>
 </table>
-<p>上述 &lt;rollingPolicy> 属性 class 定义具体的滚动策略类，「 TimeBasedRollingPolicy 」是最常用的滚动策略，它根据时间制定滚动策略，既负责滚动也负责触发滚动。有以下子节点：<br>| 常用子节点 | 描述 |<br>| — | — |<br>| &lt;fileNamePattern> | 必要节点，包含文件名及「 %d 」转换符，「 %d 」可以包含一个 java.text.SimpleDateFormat 类指定的时间格式，如 %d{yyyy-MM}，如果直接使用则默认格式为 yyyy-MM-dd |<br>| &lt;maxHistory> | 可选节点，控制保留的归档文件的最大数量，超出数量则删除旧文件 |<br>RollingFileAppender 的 &lt;file> 子节点可有可无，如果没设置则会根据 &lt;fileNamePattern> 的值每隔一段时间改变一次。</p>
+<p>上述 &lt;rollingPolicy> 属性 class 定义具体的滚动策略类，「 TimeBasedRollingPolicy 」是最常用的滚动策略，它根据时间制定滚动策略，既负责滚动也负责触发滚动。有以下子节点：</p>
+<table>
+<thead>
+<tr>
+<th>常用子节点</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&lt;fileNamePattern></td>
+<td>必要节点，包含文件名及「 %d 」转换符，「 %d 」可以包含一个 java.text.SimpleDateFormat 类指定的时间格式，如 %d{yyyy-MM}，如果直接使用则默认格式为 yyyy-MM-dd</td>
+</tr>
+<tr>
+<td>&lt;maxHistory></td>
+<td>可选节点，控制保留的归档文件的最大数量，超出数量则删除旧文件</td>
+</tr>
+</tbody>
+</table>
+<p>RollingFileAppender 的 &lt;file> 子节点可有可无，如果没设置则会根据 &lt;fileNamePattern> 的值每隔一段时间改变一次。</p>
 <h4 id="5-lt-logger"><a href="#5-lt-logger" class="headerlink" title="5. &lt;logger>"></a>5. &lt;logger></h4><p>子节点 &lt;logger> 是用来设置某一个包或具体某一个类的日志级别以及指定要使用的 appender。它有三个属性，一个必选的 name 属性，一个可选的 level 属性和一个可选的 addtivity 属性。可以包含零个或多个 &lt;appender-ref> 元素，标识该 appender 将会添加到这个 logger。</p>
 <ul>
 <li>name ：用来指定受此 logger 约束的某一个包或者具体的一个类</li>

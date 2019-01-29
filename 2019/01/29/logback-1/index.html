@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="XML 配置文件的基本结构：以  开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. 根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如果没有给出时间单位则默认为毫秒。当 scan 为 true 时，此属性生效。">
+<meta name="description" content="XML 配置文件的基本结构：以 \&amp;lt;configuration&amp;gt; 开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. \&amp;lt;configuration&amp;gt;根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如">
 <meta name="keywords" content="Logback">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Logback XML 基础配置详解">
 <meta property="og:url" content="https://symonlin.github.io/2019/01/29/logback-1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="XML 配置文件的基本结构：以  开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. 根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如果没有给出时间单位则默认为毫秒。当 scan 为 true 时，此属性生效。">
+<meta property="og:description" content="XML 配置文件的基本结构：以 \&amp;lt;configuration&amp;gt; 开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. \&amp;lt;configuration&amp;gt;根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-29T03:25:12.000Z">
+<meta property="og:updated_time" content="2019-01-29T03:44:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Logback XML 基础配置详解">
-<meta name="twitter:description" content="XML 配置文件的基本结构：以  开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. 根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如果没有给出时间单位则默认为毫秒。当 scan 为 true 时，此属性生效。">
+<meta name="twitter:description" content="XML 配置文件的基本结构：以 \&amp;lt;configuration&amp;gt; 开头，后面有零个或多个  元素，有零个或多个  元素，有最多一个  元素。 1. \&amp;lt;configuration&amp;gt;根节点  包含以下三个属性：  scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。 scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如">
 
 
 
@@ -388,7 +388,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-29T11:25:12+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-29T11:44:24+08:00">
                 2019-01-29
               </time>
             
@@ -443,7 +443,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2.1k
+                  2.2k
                 </span>
               
 
@@ -480,14 +480,14 @@
       
 
       
-        <p>XML 配置文件的基本结构：以 <configuration> 开头，后面有零个或多个 <appender> 元素，有零个或多个 <logger> 元素，有最多一个 <root> 元素。</root></logger></appender></configuration></p>
-<h4 id="1"><a href="#1" class="headerlink" title="1. "></a>1. <configuration></configuration></h4><p>根节点 <configuration> 包含以下三个属性：</configuration></p>
+        <p>XML 配置文件的基本结构：以 \&lt;configuration> 开头，后面有零个或多个 <appender> 元素，有零个或多个 <logger> 元素，有最多一个 <root> 元素。</root></logger></appender></p>
+<h4 id="1-lt-configuration"><a href="#1-lt-configuration" class="headerlink" title="1. \&lt;configuration>"></a>1. \&lt;configuration></h4><p>根节点 <configuration> 包含以下三个属性：</configuration></p>
 <ul>
 <li>scan ：当此属性设置为 true 时，配置文件如果发生改变将被重新加载，默认值为 true。</li>
 <li>scanPeriod ：设置监测配置文件是否有修改的时间间隔，默认为一分钟，如果没有给出时间单位则默认为毫秒。当 scan 为 true 时，此属性生效。</li>
-<li>debug ：当此属性设置为 true 时，将打印出 Logback 内部日志信息，实时查看 Logback 运行状态，默认值为 false。<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span>&gt;</span> </span><br><span class="line">    ...省略其余部分...</span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
-</li>
+<li>debug ：当此属性设置为 true 时，将打印出 Logback 内部日志信息，实时查看 Logback 运行状态，默认值为 false。</li>
 </ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span>&gt;</span> </span><br><span class="line">    ...省略其余部分...</span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="2"><a href="#2" class="headerlink" title="2. "></a>2. <contextname></contextname></h4><p>子节点 <contextname> 用来设置上下文名称，每个 logger 都关联到上下文，默认上下文名称为 default。可以使用该元素设置成其他名称，用于区分不同应用程序。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">contextName</span>&gt;</span>demo<span class="tag">&lt;/<span class="name">contextName</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></contextname></p>
 <h4 id="3"><a href="#3" class="headerlink" title="3. "></a>3. <property></property></h4><p>子节点 <property> 用来定义变量，有两个属性 name 和 value，可以通过 「 ${} 」在 logger 上下文中使用变量。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;<span class="name">contextName</span>&gt;</span>demo<span class="tag">&lt;/<span class="name">contextName</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"log.root"</span> <span class="attr">value</span>=<span class="string">"./logs"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"log.pattern"</span> <span class="attr">value</span>=<span class="string">"[%d&#123;'MM-dd HH:mm:ss,SSS',GMT+8:00&#125;] %level [%thread] %logger&#123;0&#125;[%line] - %msg%n"</span>/&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></property></p>
 <h4 id="4"><a href="#4" class="headerlink" title="4. "></a>4. <appender></appender></h4><p>子节点 <appender> 是负责写日志的组件，有两个必要属性 name 和 class。</appender></p>
@@ -497,7 +497,49 @@
 </ul>
 <p>下面介绍几种常用的类型：</p>
 <h5 id="4-1-ConsoleAppender"><a href="#4-1-ConsoleAppender" class="headerlink" title="4.1 ConsoleAppender"></a>4.1 ConsoleAppender</h5><p>ConsoleAppender 的作用是将日志输出到控制台<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"CONSOLE"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;log.pattern&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p><encoder> 表示对日志进行格式化，是 0.9.19 版本之后引进的，以前的版本使用 <layout>，前者是目前官方推荐的。它负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输入流。目前 PatternLayoutEncoder 是唯一有用的且默认的 encoder，有一个 <pattern> 节点用来设置日志的格式，使用「 % + 转换符 」的方式。<br>| 常用转换符 | 描述 |<br>| — | — |<br>| date{pattern} / d{pattern} | 输出时间格式，模式语法与 java.text.SimpleDateFormat 兼容 |<br>| level / le / p| 输出日志级别 |<br>| thread / t | 输出生成日志的线程名称 |<br>| logger{length} / lo{length} / c{length}| 输出日志的 logger 名称，length 可缩短名称，不输入表示输出完整全限定类名，输入 0 表示只输出类名，输入其他数字表示在保证输出包路径首字母及类名的前提下根据剩余 length 的值是否大于从右向左的完整目录名长度决定输出首字母还是完整目录名|<br>| line / L | 输出执行日志的行号 |<br>| message / msg / m | 输出日志消息 |<br>| n | 换行符 |<br>| -N | 从左到右显示 N 个字符宽度 |</pattern></layout></encoder></p>
+<p><encoder> 表示对日志进行格式化，是 0.9.19 版本之后引进的，以前的版本使用 <layout>，前者是目前官方推荐的。它负责两件事，一是把日志信息转换成字节数组，二是把字节数组写入到输入流。目前 PatternLayoutEncoder 是唯一有用的且默认的 encoder，有一个 <pattern> 节点用来设置日志的格式，使用「 % + 转换符 」的方式。</pattern></layout></encoder></p>
+<table>
+<thead>
+<tr>
+<th>常用转换符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>date{pattern} / d{pattern}</td>
+<td>输出时间格式，模式语法与 java.text.SimpleDateFormat 兼容</td>
+</tr>
+<tr>
+<td>level / le / p</td>
+<td>输出日志级别</td>
+</tr>
+<tr>
+<td>thread / t</td>
+<td>输出生成日志的线程名称</td>
+</tr>
+<tr>
+<td>logger{length} / lo{length} / c{length}</td>
+<td>输出日志的 logger 名称，length 可缩短名称，不输入表示输出完整全限定类名，输入 0 表示只输出类名，输入其他数字表示在保证输出包路径首字母及类名的前提下根据剩余 length 的值是否大于从右向左的完整目录名长度决定输出首字母还是完整目录名</td>
+</tr>
+<tr>
+<td>line / L</td>
+<td>输出执行日志的行号</td>
+</tr>
+<tr>
+<td>message / msg / m</td>
+<td>输出日志消息</td>
+</tr>
+<tr>
+<td>n</td>
+<td>换行符</td>
+</tr>
+<tr>
+<td>-N</td>
+<td>从左到右显示 N 个字符宽度</td>
+</tr>
+</tbody>
+</table>
 <h5 id="4-2-FileAppender"><a href="#4-2-FileAppender" class="headerlink" title="4.2 FileAppender"></a>4.2 FileAppender</h5><p>FileAppender 的作用是将日志输出到文件中<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"FILE"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.FileAppender"</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">file</span>&gt;</span>$&#123;log.root&#125;/demo.log<span class="tag">&lt;/<span class="name">file</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">append</span>&gt;</span>true<span class="tag">&lt;/<span class="name">append</span>&gt;</span>  </span><br><span class="line">    <span class="tag">&lt;<span class="name">encoder</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>$&#123;log.pattern&#125;<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span>  </span><br><span class="line"><span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <table>
 <thead>
@@ -557,14 +599,19 @@
 <ul>
 <li>name ：用来指定受此 logger 约束的某一个包或者具体的一个类</li>
 <li>level ：用来设置日志级别，大小写无关。五个常用的日志级别从低至高依次为 TRACE 、 DEBUG 、 INFO 、 WARN 、 ERROR ，如果未设置此属性，那么当前 logger 将会继承上级的日志级别</li>
-<li>addtivity ：是否向上级 logger 传递打印信息，默认为 true<h4 id="6"><a href="#6" class="headerlink" title="6. "></a>6. <root></root></h4>子节点 <root> 也是 <logger> 元素，但它是根 logger，是所有 logger 的上级。只有一个 level 属性，因为 name 已经被命名为「 root 」了。默认日志级别为 DEBUG。<h4 id="7"><a href="#7" class="headerlink" title="7. "></a>7. <filter></filter></h4><filter> 是 <appender> 的一个子节点，表示在当前设置的日志级别下再进行一次过滤，最基本的 filter 为 LevelFilter 和 ThresholdFilter。<h5 id="7-1-LevelFilter"><a href="#7-1-LevelFilter" class="headerlink" title="7.1 LevelFilter"></a>7.1 LevelFilter</h5>LevelFilter 即级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据 onMath 和 onMismatch 的值接收或拒绝日志。有以下子节点：</appender></filter></logger></root></li>
+<li>addtivity ：是否向上级 logger 传递打印信息，默认为 true</li>
+</ul>
+<h4 id="6"><a href="#6" class="headerlink" title="6. "></a>6. <root></root></h4><p>子节点 <root> 也是 <logger> 元素，但它是根 logger，是所有 logger 的上级。只有一个 level 属性，因为 name 已经被命名为「 root 」了。默认日志级别为 DEBUG。</logger></root></p>
+<h4 id="7"><a href="#7" class="headerlink" title="7. "></a>7. <filter></filter></h4><p><filter> 是 <appender> 的一个子节点，表示在当前设置的日志级别下再进行一次过滤，最基本的 filter 为 LevelFilter 和 ThresholdFilter。</appender></filter></p>
+<h5 id="7-1-LevelFilter"><a href="#7-1-LevelFilter" class="headerlink" title="7.1 LevelFilter"></a>7.1 LevelFilter</h5><p>LevelFilter 即级别过滤器，根据日志级别进行过滤。如果日志级别等于配置级别，过滤器会根据 onMath 和 onMismatch 的值接收或拒绝日志。有以下子节点：</p>
+<ul>
 <li><level> ：设置日志级别</level></li>
 <li><onmatch> ：用于配置符合过滤条件的操作</onmatch></li>
-<li><onmismatch> ：用于配置不符合过滤条件的操作<blockquote>
+<li><onmismatch> ：用于配置不符合过滤条件的操作</onmismatch></li>
+</ul>
+<blockquote>
 <p>例：将过滤器的日志级别配置为 INFO，所有 INFO 级别的日志交给 appender 处理，非 INFO 级别的日志被过滤掉。</p>
 </blockquote>
-</onmismatch></li>
-</ul>
 <p>① 首先定义一个 ConsoleAppender 类型的 appender，再在其中声明一个 class 为 LevelFilter 的 filter。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span> <span class="attr">scan</span>=<span class="string">"true"</span> <span class="attr">scanPeriod</span>=<span class="string">"60 seconds"</span> <span class="attr">debug</span>=<span class="string">"false"</span> &gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">appender</span> <span class="attr">name</span>=<span class="string">"CONSOLE"</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.core.ConsoleAppender"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">encoder</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pattern</span>&gt;</span>[%d&#123;'MM-dd HH:mm:ss,SSS',GMT+8:00&#125;] %level [%thread] %logger&#123;0&#125; - %msg%n<span class="tag">&lt;/<span class="name">pattern</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">encoder</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">filter</span> <span class="attr">class</span>=<span class="string">"ch.qos.logback.classic.filter.LevelFilter"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">level</span>&gt;</span>INFO<span class="tag">&lt;/<span class="name">level</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">onMatch</span>&gt;</span>ACCEPT<span class="tag">&lt;/<span class="name">onMatch</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">onMismatch</span>&gt;</span>DENY<span class="tag">&lt;/<span class="name">onMismatch</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">filter</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">appender</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">root</span> <span class="attr">level</span>=<span class="string">"DEBUG"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">appender-ref</span> <span class="attr">ref</span>=<span class="string">"CONSOLE"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">root</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>② 新建日志输出单元测试类<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LogbackTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testLog</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        log.trace(<span class="string">"=====trace====="</span>);</span><br><span class="line">        log.debug(<span class="string">"=====debug====="</span>);</span><br><span class="line">        log.info(<span class="string">"=====info====="</span>);</span><br><span class="line">        log.warn(<span class="string">"=====warn====="</span>);</span><br><span class="line">        log.error(<span class="string">"=====error====="</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>③ 输出结果为：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[01-29 10:44:00,254] INFO [main] LogbackTest - =====info=====</span><br></pre></td></tr></table></figure></p>
@@ -624,8 +671,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/23/tool-1/" rel="next" title="Postman 使用技巧之多环境测试及接口依赖关系处理">
-                <i class="fa fa-chevron-left"></i> Postman 使用技巧之多环境测试及接口依赖关系处理
+              <a href="/2019/01/27/springboot-2/" rel="next" title="Spring Boot 项目实战（二）集成 Logback 及 Javamelody">
+                <i class="fa fa-chevron-left"></i> Spring Boot 项目实战（二）集成 Logback 及 Javamelody
               </a>
             
           </div>
@@ -711,7 +758,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -766,7 +813,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1"><span class="nav-text">1. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2"><span class="nav-text">2. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3"><span class="nav-text">3. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4"><span class="nav-text">4. </span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-ConsoleAppender"><span class="nav-text">4.1 ConsoleAppender</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-FileAppender"><span class="nav-text">4.2 FileAppender</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-RollingFileAppender"><span class="nav-text">4.3 RollingFileAppender</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5"><span class="nav-text">5. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6"><span class="nav-text">6. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7"><span class="nav-text">7. </span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-LevelFilter"><span class="nav-text">7.1 LevelFilter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-ThresholdFilter"><span class="nav-text">7.2 ThresholdFilter</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-lt-configuration"><span class="nav-text">1. \&lt;configuration&gt;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2"><span class="nav-text">2. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3"><span class="nav-text">3. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4"><span class="nav-text">4. </span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-ConsoleAppender"><span class="nav-text">4.1 ConsoleAppender</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-FileAppender"><span class="nav-text">4.2 FileAppender</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-RollingFileAppender"><span class="nav-text">4.3 RollingFileAppender</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5"><span class="nav-text">5. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6"><span class="nav-text">6. </span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7"><span class="nav-text">7. </span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#7-1-LevelFilter"><span class="nav-text">7.1 LevelFilter</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#7-2-ThresholdFilter"><span class="nav-text">7.2 ThresholdFilter</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度。本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
+<meta name="description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度，本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
 <meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Spring Boot 项目实战（二）集成 Logback">
 <meta property="og:url" content="https://symonlin.github.io/2019/01/27/springboot-2/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度。本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
+<meta property="og:description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度，本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-30T10:29:39.000Z">
+<meta property="og:updated_time" content="2019-01-30T10:30:32.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 项目实战（二）集成 Logback">
-<meta name="twitter:description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度。本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
+<meta name="twitter:description" content="一、前言上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度，本篇主要介绍 Logback 集成步骤。 二、集成 Logback2.1 引入依赖包其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「">
 
 
 
@@ -389,7 +389,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-30T18:29:39+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-01-30T18:30:32+08:00">
                 2019-01-30
               </time>
             
@@ -481,7 +481,7 @@
       
 
       
-        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度。本篇主要介绍 Logback 集成步骤。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 Spring Boot 多模块项目的搭建方法以及 MyBatis 的集成。通常在调试接口或者排查问题时我们主要借助于日志，一个设计合理的日志文件配置能大大降低我们的排查难度，本篇主要介绍 Logback 集成步骤。</p>
 <h3 id="二、集成-Logback"><a href="#二、集成-Logback" class="headerlink" title="二、集成 Logback"></a>二、集成 Logback</h3><h4 id="2-1-引入依赖包"><a href="#2-1-引入依赖包" class="headerlink" title="2.1 引入依赖包"></a>2.1 引入依赖包</h4><p>其实 Spring Boot 提供的父工程中已经包含了所依赖的 Logback jar 包，可通过项目父 pom 中的 「spring-boot-starter-parent」&gt;&gt; 「spring-boot-dependencies」找到 Logback 的三个依赖包。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;logback-access&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;$&#123;logback.version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;logback-classic&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;$&#123;logback.version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;ch.qos.logback&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;logback-core&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;$&#123;logback.version&#125;&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
 <h4 id="2-2-简单日志配置"><a href="#2-2-简单日志配置" class="headerlink" title="2.2 简单日志配置"></a>2.2 简单日志配置</h4><p>在自定义日志配置之前我们可以先尝试一下 Spring Boot 默认的日志配置，可通过修改 application.properties 文件中的配置项设置。</p>
 <p><strong>① 更改默认日志级别</strong><br>默认情况下 Spring Boot 从控制台打印出来的日志级别只有 ERROR、WARN、INFO 这三种，如果需要打印 DEBUG 级别的日志，可以使用以下配置项设置。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">logging.level.root = DEBUG</span><br></pre></td></tr></table></figure></p>

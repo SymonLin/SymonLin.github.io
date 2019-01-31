@@ -1826,7 +1826,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #f5ff95;
+  background: #bfffa6;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2993,4 +2993,10 @@ pre .javascript .function {
   .post-body {
     text-align: justify;
   }
+}
+* {
+  cursor: url("http://pl44efaq8.bkt.clouddn.com/cursor-1.ico"), auto !important;
+}
+:active {
+  cursor: url("http://pl44efaq8.bkt.clouddn.com/cursor-1.ico"), auto !important;
 }

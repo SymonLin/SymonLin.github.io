@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Elasticsearch,">
+  <meta name="keywords" content="Spring Boot,">
 
 
 
@@ -86,22 +86,23 @@
 
 
 
-<meta name="description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
-<meta name="keywords" content="Elasticsearch">
+<meta name="description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
+<meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从零搭建 ES 搜索服务（一）基本概念及环境搭建">
-<meta property="og:url" content="https://symonlin.github.io/2018/12/26/elasticsearch-1/index.html">
+<meta property="og:title" content="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">
+<meta property="og:url" content="https://symonlin.github.io/2019/02/02/springboot-3/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
+<meta property="og:description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
-<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png">
-<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png">
-<meta property="og:updated_time" content="2019-01-28T11:10:42.000Z">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_1.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_2.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_3.png">
+<meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_4.png">
+<meta property="og:updated_time" content="2019-02-02T10:18:57.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="从零搭建 ES 搜索服务（一）基本概念及环境搭建">
-<meta name="twitter:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
-<meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
+<meta name="twitter:title" content="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">
+<meta name="twitter:description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
+<meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_1.png">
 
 
 
@@ -131,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://symonlin.github.io/2018/12/26/elasticsearch-1/">
+  <link rel="canonical" href="https://symonlin.github.io/2019/02/02/springboot-3/">
 
 
 
 
 
-  <title>从零搭建 ES 搜索服务（一）基本概念及环境搭建 | Symon Lin's Home</title>
+  <title>Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody | Symon Lin's Home</title>
   
 
 
@@ -318,7 +319,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2018/12/26/elasticsearch-1/">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/02/02/springboot-3/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Symon Lin">
@@ -335,7 +336,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">从零搭建 ES 搜索服务（一）基本概念及环境搭建</h1>
+          <h1 class="post-title" itemprop="name headline">Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody</h1>
         
 
         <div class="post-meta">
@@ -347,8 +348,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-26T15:41:46+08:00">
-                2018-12-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-02T18:18:45+08:00">
+                2019-02-02
               </time>
             
 
@@ -363,8 +364,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-28T19:10:42+08:00">
-                2019-01-28
+              <time title="更新于" itemprop="dateModified" datetime="2019-02-02T18:18:57+08:00">
+                2019-02-02
               </time>
             
           </span>
@@ -400,8 +401,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2018/12/26/elasticsearch-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2018/12/26/elasticsearch-1/" itemprop="commentCount"></span>
+                <a href="/2019/02/02/springboot-3/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/02/springboot-3/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -428,7 +429,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.8k
+                  1.3k
                 </span>
               
 
@@ -444,7 +445,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  7
+                  5
                 </span>
               
             </div>
@@ -465,114 +466,64 @@
       
 
       
-        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。</p>
 <hr>
-<h3 id="二、背景"><a href="#二、背景" class="headerlink" title="二、背景"></a>二、背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
-<hr>
-<h3 id="三、技术选型"><a href="#三、技术选型" class="headerlink" title="三、技术选型"></a>三、技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。</p>
-<p>① Elasticsearch 5.5.3</p>
+<h3 id="二、Swagger"><a href="#二、Swagger" class="headerlink" title="二、Swagger"></a>二、Swagger</h3><p>随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就是一款让我们更好书写 API 文档的框架。</p>
+<h4 id="2-1-为什么要用-Swagger"><a href="#2-1-为什么要用-Swagger" class="headerlink" title="2.1 为什么要用 Swagger"></a>2.1 为什么要用 Swagger</h4><p>在日常开发过程中，有一个问题始终困扰着我们，那就是接口文档的可靠性。想必我们都经历过接口变动但接口文档没更新的窘境。单独维护接口文档不仅费时费力，而且会经常遗漏。Swagger 通过在接口及实体上添加几个注解的方式就能在项目启动后自动生成接口文档，尽管这样会带来一定的代码侵入性，但与其带来的好处相比就微不足道了。</p>
+<h4 id="2-2-集成-Swagger"><a href="#2-2-集成-Swagger" class="headerlink" title="2.2 集成 Swagger"></a>2.2 集成 Swagger</h4><p>① 首先在项目父 pom 文件中定义 Swagger 的版本号且声明 Swagger 依赖。<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;properties&gt;</span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    &lt;swagger.version&gt;2.8.0&lt;/swagger.version&gt;</span><br><span class="line">&lt;/properties&gt;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencyManagement&gt;</span><br><span class="line">    &lt;dependencies&gt;</span><br><span class="line">        ...省略其余部分...</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;swagger.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">        &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;$&#123;swagger.version&#125;&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;/dependencies&gt;</span><br><span class="line">&lt;/dependencyManagement&gt;</span><br></pre></td></tr></table></figure>
+<p>② 其次在 demo-web 层中的 pom 文件中添加上述依赖<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;io.springfox&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>③ 然后在 com.example.demo.web 包中添加 config 目录并新建 Swagger 配置文件，具体内容如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.web.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.ApiInfoBuilder;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.PathSelectors;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.RequestHandlerSelectors;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.service.ApiInfo;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spi.DocumentationType;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spring.web.plugins.Docket;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/2/2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(value = <span class="string">"$&#123;swagger.enabled&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> Boolean swaggerEnabled;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .enable(swaggerEnabled)</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.example.demo.web.controller"</span>))</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                .title(<span class="string">"接口文档"</span>)</span><br><span class="line">                .description(<span class="string">"SpringBoot 集成 Swagger"</span>)</span><br><span class="line">                .termsOfServiceUrl(<span class="string">"https://symonlin.github.io"</span>)</span><br><span class="line">                .version(<span class="string">"1.0"</span>)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>其中 「 swaggerEnabled 」表示是否开启 Swagger，一般线上环境是关闭的，所以可在 application.properties 文件中设置配置项。「 apis 」设置了 controller 的包路径。</p>
+<p>④ 随后在先前创建的 DemoController 中添加 Swagger 的相关注解。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.web.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demo.biz.service.DemoService;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.Api;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiOperation;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/1/15</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Api</span>(tags = <span class="string">"demo"</span>)</span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"demo"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DemoService demoService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"test"</span>)</span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"测试"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> demoService.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>⑤ 最后启动项目，访问 <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a> 测试 Swagger。<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_1.png" alt="SpringBoot_3_1.png"></p>
+<p>⑥ 使用 Swagger UI 测试 test 接口，点击「 Try it out 」&gt;&gt; 「 Execute 」<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_2.png" alt="SpringBoot_3_2.png"><br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_3.png" alt="SpringBoot_3_3.png"></p>
+<h4 id="2-3-Swagger-常用注解说明"><a href="#2-3-Swagger-常用注解说明" class="headerlink" title="2.3 Swagger 常用注解说明"></a>2.3 Swagger 常用注解说明</h4><table>
+<thead>
+<tr>
+<th>注解</th>
+<th>说明</th>
+<th>使用位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Api</td>
+<td>描述 controller 的作用</td>
+<td>用于 controller 类上</td>
+</tr>
+<tr>
+<td>@ApiOperation</td>
+<td>描述 controller 方法的作用</td>
+<td>用于 controller 方法上</td>
+</tr>
+<tr>
+<td>@ApiParam</td>
+<td>描述 controller 方法参数的作用</td>
+<td>用于 controller 方法的参数上</td>
+</tr>
+<tr>
+<td>@ApiModel</td>
+<td>描述对象的作用</td>
+<td>用于请求对象或者返回结果对象上</td>
+</tr>
+<tr>
+<td>@ApiModelProperty</td>
+<td>描述对象里字段的作用</td>
+<td>用于请求对象或者返回结果对象里的字段上</td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p>一个基于Lucene的搜索服务器，提供了分布式的全文搜索引擎</p>
-</blockquote>
-<p>② Logstash 5.5.3</p>
-<blockquote>
-<p>开源的服务器端数据处理管道</p>
-</blockquote>
-<p>③ Kibana 5.5.3</p>
-<blockquote>
-<p>开源的分析和可视化平台</p>
-</blockquote>
-<p>④ SpringBoot 2.0.4</p>
-<hr>
-<h3 id="四、系统环境"><a href="#四、系统环境" class="headerlink" title="四、系统环境"></a>四、系统环境</h3><ul>
-<li>Linux Centos 7.3</li>
-<li>JDK 1.8</li>
-</ul>
-<hr>
-<h3 id="五、基本概念"><a href="#五、基本概念" class="headerlink" title="五、基本概念"></a>五、基本概念</h3><h4 id="5-1-集群（-cluster-）"><a href="#5-1-集群（-cluster-）" class="headerlink" title="5.1 集群（ cluster ）"></a>5.1 集群（ cluster ）</h4><p>集群是由一个或者多个拥有相同 cluster.name 配置的节点组成，共同承担数据和负载压力，当节点数量发生变化时集群将会重新平均分布所有数据。</p>
-<h4 id="5-2-节点（-node-）"><a href="#5-2-节点（-node-）" class="headerlink" title="5.2 节点（ node ）"></a>5.2 节点（ node ）</h4><p>一个运行中的 ES 实例称为一个节点</p>
-<ul>
-<li>主节点负责管理集群范围内的所有变更，例如增加/删除索引，或者增加/删除节点等，且不需要涉及到文档级别的变更和搜索等操作</li>
-<li>任何节点都能成为主节点</li>
-<li>当集群只有一个主节点，即使流量增加也不会成为瓶颈</li>
-</ul>
-<h4 id="5-3-索引（-index-）"><a href="#5-3-索引（-index-）" class="headerlink" title="5.3 索引（ index ）"></a>5.3 索引（ index ）</h4><ul>
-<li><code>名词</code>；类似于传统关系数据库中的一个<em>数据库</em></li>
-<li><code>动词</code>；索引一个文档就是存储一个文档到一个<em>索引</em>(名词)中以便它可以被检索和查询到。类似于 SQL 语句中的 INSERT 关键词</li>
-<li><code>倒排索引</code>；类似于传统关系型数据库中的索引概念，可以提升数据检索速度</li>
-</ul>
-<h4 id="5-4-类型（-type-）"><a href="#5-4-类型（-type-）" class="headerlink" title="5.4 类型（ type ）"></a>5.4 类型（ type ）</h4><p>一个索引包含一个或多个 type ，相当于传统关系型数据库中的表</p>
-<h4 id="5-5-文档（-document-）"><a href="#5-5-文档（-document-）" class="headerlink" title="5.5 文档（ document ）"></a>5.5 文档（ document ）</h4><p>相当于传统关系型数据库中的数据行</p>
-<h4 id="5-6-分片（-shards-）"><a href="#5-6-分片（-shards-）" class="headerlink" title="5.6 分片（ shards ）"></a>5.6 分片（ shards ）</h4><ul>
-<li>是一个底层的<code>「工作单元」</code>，仅保存了全部数据的一部分</li>
-<li>是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里</li>
-<li>当集群规模扩大或者缩小时， ES 会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里</li>
-<li>分为<code>「主分片」</code>和<code>「副本分片」</code></li>
-<li>在索引建立的时候就已经<u>确定了主分片数</u>，但是副本分片数<em>可以随时修改</em>；默认情况下会被分配「 5 」个主分片和「 1 」份副本（每个主分片拥有一个副本分片）</li>
-<li>相同主分片的副本分片不会放在同一个节点</li>
-</ul>
-<p>① 主分片 ( Primary shard )</p>
-<blockquote>
-<p>索引内任意一个文档都归属于一个主分片，所以主分片的数目<strong>决定着索引能够保存的最大数据量</strong></p>
-</blockquote>
-<p>② 副本分片（ Replica shard ）</p>
-<blockquote>
-<p>只是一个主分片的拷贝，作为硬件故障时保护数据不丢失的冗余备份，并为<strong>搜索和返回文档等读操作提供服务</strong></p>
+<p>注：其余注解大家可自行查阅文档</p>
 </blockquote>
 <hr>
-<h3 id="六、环境搭建"><a href="#六、环境搭建" class="headerlink" title="六、环境搭建"></a>六、环境搭建</h3><h4 id="6-1-Elasticsearch"><a href="#6-1-Elasticsearch" class="headerlink" title="6.1 Elasticsearch"></a>6.1 Elasticsearch</h4><h5 id="6-1-1-安装步骤"><a href="#6-1-1-安装步骤" class="headerlink" title="6.1.1 安装步骤"></a>6.1.1 安装步骤</h5><p>① 下载安装包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>② 解压并移动到 local 目录下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf elasticsearch-5.5.3.tar.gz</span><br><span class="line">$ mv elasticsearch-5.5.3 /usr/<span class="built_in">local</span>/elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>③ 修改 config 目录下的 elasticsearch.yml 文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim elasticsearch.yml</span><br></pre></td></tr></table></figure></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 去掉行开头的 # 并重命名集群名，这里命名为 compass</span><br><span class="line">cluster.name: compass</span><br><span class="line">// 去掉行开头的 # 并重命名节点名，这里命名为 node-1</span><br><span class="line">node.name: node-1</span><br></pre></td></tr></table></figure>
-<p>④ 进入 bin 目录启动 ES 并在后台运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./elasticsearch -d</span><br></pre></td></tr></table></figure></p>
-<p>⑤ 启动之后测试是否正常运行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl 127.0.0.1:9200</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>返回结果：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span> : <span class="string">"node-1"</span>,</span><br><span class="line">  <span class="attr">"cluster_name"</span> : <span class="string">"compass"</span>,</span><br><span class="line">  <span class="attr">"cluster_uuid"</span> : <span class="string">"Zuj5FBMUTjuHQXlAHreGvA"</span>,</span><br><span class="line">  <span class="attr">"version"</span> : &#123;</span><br><span class="line">    <span class="attr">"number"</span> : <span class="string">"5.5.3"</span>,</span><br><span class="line">    <span class="attr">"build_hash"</span> : <span class="string">"9305a5e"</span>,</span><br><span class="line">    <span class="attr">"build_date"</span> : <span class="string">"2017-09-07T15:56:59.599Z"</span>,</span><br><span class="line">    <span class="attr">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"lucene_version"</span> : <span class="string">"6.6.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-</blockquote>
-<h5 id="6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><a href="#6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget" class="headerlink" title="6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget"></a>6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install wget</span><br></pre></td></tr></table></figure>
-<h5 id="6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><a href="#6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号" class="headerlink" title="6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号"></a>6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</h5><p><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png" alt="blog_1_1.png"></p>
-<blockquote>
-<p>解决办法：</p>
-</blockquote>
-<p>① 新建用户组 elasticsearch<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>② 新建用户并指定用户组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -g elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>③ 修改 ES 目录所属者<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ chown -R elasticsearch:elasticsearch elasticsearch</span><br></pre></td></tr></table></figure></p>
-<p>④ 切换用户后再次启动<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ su elasticsearch</span><br></pre></td></tr></table></figure></p>
-<h5 id="6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><a href="#6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？" class="headerlink" title="6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？"></a>6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</h5><blockquote>
-<p>解决办法：</p>
-</blockquote>
-<p>① 修改 elasticsearch.yml 中的「network.host」<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">network.host: 0.0.0.0</span><br></pre></td></tr></table></figure></p>
-<p>② 重启 ES 出现如果如下报错，请依次按下面的步骤解决<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ERROR: [3] bootstrap checks failed</span><br><span class="line">[1]: max file descriptors [4096] <span class="keyword">for</span> elasticsearch process is too low, increase to at least [65536]</span><br><span class="line">[2]: max number of threads [3818] <span class="keyword">for</span> user [elasticsearch] is too low, increase to at least [4096]</span><br><span class="line">[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</span><br></pre></td></tr></table></figure></p>
-<p><strong>[1]: max file descriptors [4096] for elasticsearch process is too low, increase to at least [65536]</strong></p>
-<blockquote>
-<p>每个进程最大同时打开文件数太小</p>
-</blockquote>
-<p>修改 /etc/security/limits.conf 文件，增加如下配置，用户退出后重新登录生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nofile 65536</span><br><span class="line">* hard nofile 65536</span><br></pre></td></tr></table></figure>
-<p><strong>[2]: max number of threads [3818] for user [es] is too low, increase to at least [4096]</strong></p>
-<blockquote>
-<p>最大线程个数太低</p>
-</blockquote>
-<p>同上修改 /etc/security/limits.conf 文件，增加如下配置，用户退出后重新登录生效</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* soft nproc 4096</span><br><span class="line">* hard nproc 4096</span><br></pre></td></tr></table></figure>
-<p><strong>[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]</strong></p>
-<blockquote>
-<p>一个进程能拥有的最多的内存区域</p>
-</blockquote>
-<p>修改 /etc/sysctl.conf 文件，增加如下配置，执行命令「 sysctl -p 」生效<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vm.max_map_count=262144</span><br></pre></td></tr></table></figure></p>
-<p>③ 切换到 elasticsearch 用户并重启， curl 测试成功<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[root@db-develop-01 ~]$ curl 192.168.1.192:9200</span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"name"</span> : <span class="string">"node-1"</span>,</span><br><span class="line">  <span class="string">"cluster_name"</span> : <span class="string">"compass"</span>,</span><br><span class="line">  <span class="string">"cluster_uuid"</span> : <span class="string">"mFL_a6WDTUaWbB4jKA8cWg"</span>,</span><br><span class="line">  <span class="string">"version"</span> : &#123;</span><br><span class="line">    <span class="string">"number"</span> : <span class="string">"5.5.3"</span>,</span><br><span class="line">    <span class="string">"build_hash"</span> : <span class="string">"9305a5e"</span>,</span><br><span class="line">    <span class="string">"build_date"</span> : <span class="string">"2017-09-07T15:56:59.599Z"</span>,</span><br><span class="line">    <span class="string">"build_snapshot"</span> : <span class="literal">false</span>,</span><br><span class="line">    <span class="string">"lucene_version"</span> : <span class="string">"6.6.0"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"tagline"</span> : <span class="string">"You Know, for Search"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="三、JavaMelody"><a href="#三、JavaMelody" class="headerlink" title="三、JavaMelody"></a>三、JavaMelody</h3><h4 id="3-1-JavaMelody-介绍"><a href="#3-1-JavaMelody-介绍" class="headerlink" title="3.1 JavaMelody 介绍"></a>3.1 JavaMelody 介绍</h4><p>JavaMelody 是用来在 QA 和实际运行生产环境中监控 Java 或 Java EE 应用程序服务器的一个开源框架。它不是一个工具来模拟来自用户的请求，而是一个测量和计算用户在实际操作中应用程序的使用情况的工具，并以图表的形式显示，图表可以按天，周，月，年或自定义时间段查看。</p>
+<h4 id="3-2-集成-JavaMelody"><a href="#3-2-集成-JavaMelody" class="headerlink" title="3.2 集成 JavaMelody"></a>3.2 集成 JavaMelody</h4><p>① 首先在项目父 pom 文件中声明 JavaMelody 依赖<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;net.bull.javamelody&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;javamelody-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;version&gt;1.74.0&lt;/version&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure></p>
+<p>② 其次在 demo-web 层中的 pom 文件中添加上述依赖<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;net.bull.javamelody&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;javamelody-spring-boot-starter&lt;/artifactId&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure></p>
+<p>③ 最后启动项目，访问 <a href="http://localhost:8080/monitoring" target="_blank" rel="noopener">http://localhost:8080/monitoring</a> 查看<br><img src="http://pl44efaq8.bkt.clouddn.com/SpringBoot_3_4.png" alt="SpringBoot_3_4.png"><br>④ 为了加强安全性，修改默认访问地址以及设置为登录后才可访问，可在 application.properties 文件中添加以下配置项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javamelody.init-parameters.authorized-users = admin:pwd</span><br><span class="line">javamelody.init-parameters.monitoring-path = /demo/monitoring</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h4 id="6-2-Logstash"><a href="#6-2-Logstash" class="headerlink" title="6.2 Logstash"></a>6.2 Logstash</h4><p>① 下载安装包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/logstash/logstash-5.5.3.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>② 解压并移动到 local 目录下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf logstash-5.5.3.tar.gz</span><br><span class="line">$ mv logstash-5.5.3 /usr/<span class="built_in">local</span>/logstash</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h4 id="6-3-Kibana"><a href="#6-3-Kibana" class="headerlink" title="6.3 Kibana"></a>6.3 Kibana</h4><p>① 下载安装包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://artifacts.elastic.co/downloads/kibana/kibana-5.5.3-linux-x86_64.tar.gz</span><br></pre></td></tr></table></figure></p>
-<p>② 解压并移动到 local 目录下<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf kibana-5.5.3-linux-x86_64.tar.gz</span><br><span class="line">$ mv kibana-5.5.3-linux-x86_64 /usr/<span class="built_in">local</span>/kibana</span><br></pre></td></tr></table></figure></p>
-<p>③ 修改 config 目录下的 kibana.yml 文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// 去掉当前行开头的 #</span><br><span class="line">server.port: 5601</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">server.host: &quot;192.168.1.191&quot;</span><br><span class="line">// 去掉当前行开头的#并将localhost修改为具体IP</span><br><span class="line">elasticsearch.url: &quot;http://192.168.1.191:9200&quot;</span><br></pre></td></tr></table></figure></p>
-<p>④ 启动 Kibana ，浏览器访问 <a href="http://192.168.1.191:5601" target="_blank" rel="noopener">http://192.168.1.191:5601</a><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ./kibana</span><br></pre></td></tr></table></figure></p>
-<h4 id="6-4-elasticsearch-head-插件（浏览器版）"><a href="#6-4-elasticsearch-head-插件（浏览器版）" class="headerlink" title="6.4 elasticsearch-head 插件（浏览器版）"></a>6.4 elasticsearch-head 插件（浏览器版）</h4><p>① 「 Chrome 浏览器网上应用商店」或者「 Firefox 附加组件」搜索 elasticsearch head<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png" alt="blog_1_2.png"></p>
-<p>② 安装插件后点击浏览器地址栏右侧「放大镜图标」，顶部输入框中的 localhost 修改为服务器地址即可查看 ES 服务状态<br><img src="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png" alt="blog_1_3.png"></p>
-<hr>
-<h3 id="七、结语"><a href="#七、结语" class="headerlink" title="七、结语"></a>七、结语</h3><p>至此 ELK 环境搭建完毕，下一篇具体介绍如何实现基础搜索服务。</p>
+<h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>至此，Swagger 及 JavaMelody 的集成步骤已介绍完毕。</p>
 
       
     </div>
@@ -593,7 +544,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://symonlin.github.io/2018/12/26/elasticsearch-1/" title="从零搭建 ES 搜索服务（一）基本概念及环境搭建">https://symonlin.github.io/2018/12/26/elasticsearch-1/</a>
+    <a href="https://symonlin.github.io/2019/02/02/springboot-3/" title="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">https://symonlin.github.io/2019/02/02/springboot-3/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -608,7 +559,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
           
         </div>
       
@@ -621,8 +572,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/09/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2019/01/29/logback-1/" rel="next" title="Logback XML 基础配置详解">
+                <i class="fa fa-chevron-left"></i> Logback XML 基础配置详解
               </a>
             
           </div>
@@ -630,10 +581,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/12/27/elasticsearch-2/" rel="prev" title="从零搭建 ES 搜索服务（二）基础搜索">
-                从零搭建 ES 搜索服务（二）基础搜索 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -786,7 +733,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、背景"><span class="nav-text">二、背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、技术选型"><span class="nav-text">三、技术选型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、系统环境"><span class="nav-text">四、系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、基本概念"><span class="nav-text">五、基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1-集群（-cluster-）"><span class="nav-text">5.1 集群（ cluster ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2-节点（-node-）"><span class="nav-text">5.2 节点（ node ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3-索引（-index-）"><span class="nav-text">5.3 索引（ index ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4-类型（-type-）"><span class="nav-text">5.4 类型（ type ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-5-文档（-document-）"><span class="nav-text">5.5 文档（ document ）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-6-分片（-shards-）"><span class="nav-text">5.6 分片（ shards ）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、环境搭建"><span class="nav-text">六、环境搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1-Elasticsearch"><span class="nav-text">6.1 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-1-安装步骤"><span class="nav-text">6.1.1 安装步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-2-如果提示「-bash-wget-command-not-found」则需要先安装-wget"><span class="nav-text">6.1.2 如果提示「-bash: wget: command not found」则需要先安装 wget</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-3-ES-版本-gt-5-0-0-时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建-ES-账号"><span class="nav-text">6.1.3 ES 版本&gt; = 5.0.0 时，是不能用超级管理员运行的，此时需要切换到普通账号或者新建 ES 账号</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#6-1-4-只能使用127-0-01或者localhost访问，使用ip地址无法访问？"><span class="nav-text">6.1.4 只能使用127.0.01或者localhost访问，使用ip地址无法访问？</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2-Logstash"><span class="nav-text">6.2 Logstash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3-Kibana"><span class="nav-text">6.3 Kibana</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-4-elasticsearch-head-插件（浏览器版）"><span class="nav-text">6.4 elasticsearch-head 插件（浏览器版）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七、结语"><span class="nav-text">七、结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Swagger"><span class="nav-text">二、Swagger</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-为什么要用-Swagger"><span class="nav-text">2.1 为什么要用 Swagger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-集成-Swagger"><span class="nav-text">2.2 集成 Swagger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Swagger-常用注解说明"><span class="nav-text">2.3 Swagger 常用注解说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、JavaMelody"><span class="nav-text">三、JavaMelody</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-JavaMelody-介绍"><span class="nav-text">3.1 JavaMelody 介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-集成-JavaMelody"><span class="nav-text">3.2 集成 JavaMelody</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、结语"><span class="nav-text">四、结语</span></a></li></ol></div>
             
 
           </div>

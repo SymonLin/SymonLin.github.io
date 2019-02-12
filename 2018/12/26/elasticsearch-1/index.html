@@ -86,21 +86,21 @@
 
 
 
-<meta name="description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
+<meta name="description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库 like 方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建 ES 搜索服务（一）基本概念及环境搭建">
 <meta property="og:url" content="https://symonlin.github.io/2018/12/26/elasticsearch-1/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
+<meta property="og:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库 like 方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_2.png">
 <meta property="og:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_3.png">
-<meta property="og:updated_time" content="2019-02-12T10:34:51.000Z">
+<meta property="og:updated_time" content="2019-02-12T10:37:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建 ES 搜索服务（一）基本概念及环境搭建">
-<meta name="twitter:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于">
+<meta name="twitter:description" content="一、前言本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。  二、背景近期公司在重构老系统，需求是要求知识库支持全文检索。我们知道普通的数据库 like 方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。  三、技术选型因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均">
 <meta name="twitter:image" content="http://pl44efaq8.bkt.clouddn.com/blog_1_1.png">
 
 
@@ -363,7 +363,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-02-12T18:34:51+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-02-12T18:37:45+08:00">
                 2019-02-12
               </time>
             
@@ -467,7 +467,7 @@
       
         <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本系列文章最终目标是为了快速搭建一个简易可用的搜索服务。方案并不一定是最优，但实现难度较低。</p>
 <hr>
-<h3 id="二、背景"><a href="#二、背景" class="headerlink" title="二、背景"></a>二、背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库like方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
+<h3 id="二、背景"><a href="#二、背景" class="headerlink" title="二、背景"></a>二、背景</h3><p>近期公司在重构老系统，需求是要求知识库支持全文检索。<br>我们知道普通的数据库 like 方式效果及性能都不好，所以另寻出路，确定通过 Elasticsearch (下文简称「 ES 」)搜索引擎实现。</p>
 <hr>
 <h3 id="三、技术选型"><a href="#三、技术选型" class="headerlink" title="三、技术选型"></a>三、技术选型</h3><p>因公司之前购买了阿里云的ES服务且版本为 5.5.3 ，下文选用的技术框架均基于此版本。</p>
 <p>① Elasticsearch 5.5.3</p>

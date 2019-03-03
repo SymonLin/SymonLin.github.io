@@ -95,7 +95,7 @@
 <meta property="og:description" content="一、前言上篇介绍了接口文档工具 Swagger 及项目监控工具 JavaMelody 的集成过程，使项目更加健壮。在 JAVA Web 项目某些场景中，我们需要用缓存解决如热点数据访问的性能问题，业界常用的中间件如 Memcached 、 Redis 等。相比 Memcached ，Redis 支持更丰富的数据结构。本篇将主要介绍在 Spring Boot 中集成 Redis 的过程。  二、集成">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_4_1.png">
-<meta property="og:updated_time" content="2019-03-03T03:05:11.264Z">
+<meta property="og:updated_time" content="2019-03-03T03:15:50.682Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 项目实战（四）集成 Redis">
 <meta name="twitter:description" content="一、前言上篇介绍了接口文档工具 Swagger 及项目监控工具 JavaMelody 的集成过程，使项目更加健壮。在 JAVA Web 项目某些场景中，我们需要用缓存解决如热点数据访问的性能问题，业界常用的中间件如 Memcached 、 Redis 等。相比 Memcached ，Redis 支持更丰富的数据结构。本篇将主要介绍在 Spring Boot 中集成 Redis 的过程。  二、集成">
@@ -361,7 +361,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-03-03T11:05:11+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-03-03T11:15:50+08:00">
                 2019-03-03
               </time>
             
@@ -442,7 +442,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  19
+                  20
                 </span>
               
             </div>
@@ -495,7 +495,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.biz.service.impl;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demo.biz.service.DemoService;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.common.redis.CacheTime;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.common.redis.RedisClient;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.dao.entity.UserDO;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.dao.mapper.business.UserMapper;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/1/15</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoServiceImpl</span> <span class="keyword">implements</span> <span class="title">DemoService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserMapper userMapper;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RedisClient redisClient;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        UserDO user = userMapper.selectById(<span class="number">1</span>);</span><br><span class="line">        redisClient.set(<span class="string">"user:1"</span>, user, CacheTime.CACHE_EXP_FIVE_MINUTES);</span><br><span class="line">        <span class="keyword">return</span> user.toString();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>② 之后使用 Redis Desktop Manager 客户端连接 Redis 服务器，选择数据库「 1 」，查看刚存放的缓存。<br><img src="http://blog.shoegaze.com/SpringBoot_4_1.png" alt="SpringBoot_4_1.png"></p>
 <hr>
-<h3 id="三、结语"><a href="#三、结语" class="headerlink" title="三、结语"></a>三、结语</h3><p>至此 Spring Boot 集成 Redis 的具体步骤介绍完毕，我们自定义了 Redis 的序列化方式，并通过一个简单的例子测试了 Redis 的可用性。</p>
+<h3 id="三、结语"><a href="#三、结语" class="headerlink" title="三、结语"></a>三、结语</h3><p>至此 Spring Boot 集成 Redis 的具体步骤介绍完毕，我们自定义了 Redis 的序列化方式，并通过一个简单的例子测试了 Redis 的可用性，相关代码已同步至 GitHub 。</p>
 
       
     </div>

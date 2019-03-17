@@ -98,8 +98,8 @@
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_2.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_3.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_4.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_6.png">
-<meta property="og:updated_time" content="2019-03-15T10:34:48.296Z">
+<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_5.png">
+<meta property="og:updated_time" content="2019-03-17T01:55:06.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 项目实战（五）集成 Dubbo">
 <meta name="twitter:description" content="一、前言上篇介绍了 Redis 的集成过程，可用于解决热点数据访问的性能问题。随着业务复杂度的提高，单体应用越来越庞大，就好比一个类的代码行数越来越多，分而治之，切成多个类应该是更好的解决方法，所以一个庞大的单体应用分出多个小应用也更符合这种分治的思想。于是乎微服务化的概念油然而生，微服务化的第一步就是选择适用的分布式服务框架，基于团队成员有使用过「 Dubbo 」的经验，我们放弃了完全陌生的「">
@@ -365,8 +365,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-03-15T18:34:48+08:00">
-                2019-03-15
+              <time title="更新于" itemprop="dateModified" datetime="2019-03-17T09:55:06+08:00">
+                2019-03-17
               </time>
             
           </span>
@@ -498,7 +498,7 @@
 <p>注：该测试项目也需集成 Dubbo</p>
 </blockquote>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.dawn.web.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.alibaba.dubbo.config.annotation.Reference;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.remote.model.param.DemoParam;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.remote.model.result.DemoDTO;</span><br><span class="line"><span class="keyword">import</span> com.example.demo.remote.service.RpcDemoService;</span><br><span class="line"><span class="keyword">import</span> com.yibao.dawn.web.annotation.LoginIgnore;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/3/7</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"test"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TestController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Reference</span>(version = <span class="string">"1.0.0.dev"</span>)</span><br><span class="line">    <span class="keyword">private</span> RpcDemoService rpcDemoService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"dubbo"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> DemoDTO <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        DemoParam param = <span class="keyword">new</span> DemoParam();</span><br><span class="line">        param.setId(<span class="number">1</span>);</span><br><span class="line">        <span class="keyword">return</span> rpcDemoService.test(param);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>③ 启动测试项目，观察 Dubbo Admin 管理控制台消费者一栏，可以看到测试项目已经作为一个消费者调用 RpcDemoService 接口类。<br><img src="http://blog.shoegaze.com/SpringBoot_5_4.png" alt="SpringBoot_5_4.png"><br>④ 访问 <a href="http://localhost:8079/test/dubbo" target="_blank" rel="noopener">http://localhost:8079/test/dubbo</a> 查看接口返回结果。<br><img src="http://blog.shoegaze.com/SpringBoot_5_6.png" alt="SpringBoot_5_5.png"></p>
+<p>③ 启动测试项目，观察 Dubbo Admin 管理控制台消费者一栏，可以看到测试项目已经作为一个消费者调用 RpcDemoService 接口类。<br><img src="http://blog.shoegaze.com/SpringBoot_5_4.png" alt="SpringBoot_5_4.png"><br>④ 访问 <a href="http://localhost:8079/test/dubbo" target="_blank" rel="noopener">http://localhost:8079/test/dubbo</a> 查看接口返回结果。<br><img src="http://blog.shoegaze.com/SpringBoot_5_5.png" alt="SpringBoot_5_5.png"></p>
 <hr>
 <h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>至此 Spring Boot 集成 Dubbo 的过程介绍完毕，我们通过一个简易的 Dubbo 接口测试其可用性，下篇我们将介绍 HTTP 接口及 Dubbo 接口的一个重要编程规约 — <code>统一返回值</code></p>
 <blockquote>

@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="Spring Boot,">
 
 
 
@@ -87,8 +87,9 @@
 
 
 <meta name="description" content="一、前言上篇介绍了 Redis 的集成过程，可用于解决热点数据访问的性能问题。随着业务复杂度的提高，单体应用越来越庞大，就好比一个类的代码行数越来越多，分而治之，切成多个类应该是更好的解决方法，所以一个庞大的单体应用分出多个小应用也更符合这种分治的思想。于是乎微服务化的概念油然而生，微服务化的第一步就是选择适用的分布式服务框架，基于团队成员有使用过「 Dubbo 」的经验，我们放弃了完全陌生的「">
+<meta name="keywords" content="Spring Boot">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Symon Lin&#39;s Home">
+<meta property="og:title" content="Spring Boot 项目实战（五）集成 Dubbo">
 <meta property="og:url" content="https://symonlin.github.io/2019/03/15/springboot-5/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
 <meta property="og:description" content="一、前言上篇介绍了 Redis 的集成过程，可用于解决热点数据访问的性能问题。随着业务复杂度的提高，单体应用越来越庞大，就好比一个类的代码行数越来越多，分而治之，切成多个类应该是更好的解决方法，所以一个庞大的单体应用分出多个小应用也更符合这种分治的思想。于是乎微服务化的概念油然而生，微服务化的第一步就是选择适用的分布式服务框架，基于团队成员有使用过「 Dubbo 」的经验，我们放弃了完全陌生的「">
@@ -98,9 +99,9 @@
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_3.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_4.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_5_5.png">
-<meta property="og:updated_time" content="2019-03-18T03:57:35.429Z">
+<meta property="og:updated_time" content="2019-03-18T04:01:59.092Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Symon Lin&#39;s Home">
+<meta name="twitter:title" content="Spring Boot 项目实战（五）集成 Dubbo">
 <meta name="twitter:description" content="一、前言上篇介绍了 Redis 的集成过程，可用于解决热点数据访问的性能问题。随着业务复杂度的提高，单体应用越来越庞大，就好比一个类的代码行数越来越多，分而治之，切成多个类应该是更好的解决方法，所以一个庞大的单体应用分出多个小应用也更符合这种分治的思想。于是乎微服务化的概念油然而生，微服务化的第一步就是选择适用的分布式服务框架，基于团队成员有使用过「 Dubbo 」的经验，我们放弃了完全陌生的「">
 <meta name="twitter:image" content="http://blog.shoegaze.com/SpringBoot_5_1.png">
 
@@ -138,7 +139,7 @@
 
 
 
-  <title> | Symon Lin's Home</title>
+  <title>Spring Boot 项目实战（五）集成 Dubbo | Symon Lin's Home</title>
   
 
 
@@ -336,7 +337,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline"></h1>
+          <h1 class="post-title" itemprop="name headline">Spring Boot 项目实战（五）集成 Dubbo</h1>
         
 
         <div class="post-meta">
@@ -348,7 +349,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T18:14:20+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-15T18:14:42+08:00">
                 2019-03-15
               </time>
             
@@ -364,12 +365,34 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-03-18T11:57:35+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-03-18T12:01:59+08:00">
                 2019-03-18
               </time>
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -501,7 +524,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://symonlin.github.io/2019/03/15/springboot-5/" title="">https://symonlin.github.io/2019/03/15/springboot-5/</a>
+    <a href="https://symonlin.github.io/2019/03/15/springboot-5/" title="Spring Boot 项目实战（五）集成 Dubbo">https://symonlin.github.io/2019/03/15/springboot-5/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -513,6 +536,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+          
+        </div>
       
 
       

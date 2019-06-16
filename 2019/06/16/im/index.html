@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="mermaid,">
+  <meta name="keywords" content="im,">
 
 
 
@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="sequenceDiagram title: 医生服务订单状态全流程 participant patient as 患者 participant dawn as 患者端 participant pingxx participant doctor as 医生 participant eagle as 医生端 participant beyond as 基础中心 patient-&amp;gt;&amp;gt;dawn: 1.1">
-<meta name="keywords" content="mermaid">
+<meta name="description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
+<meta name="keywords" content="im">
 <meta property="og:type" content="article">
-<meta property="og:title" content="医生服务订单状态全流程">
-<meta property="og:url" content="https://symonlin.github.io/2019/05/15/sequence-1/index.html">
+<meta property="og:title" content="自定义IM消息类型">
+<meta property="og:url" content="https://symonlin.github.io/2019/06/16/im/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="sequenceDiagram title: 医生服务订单状态全流程 participant patient as 患者 participant dawn as 患者端 participant pingxx participant doctor as 医生 participant eagle as 医生端 participant beyond as 基础中心 patient-&amp;gt;&amp;gt;dawn: 1.1">
+<meta property="og:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-16T06:43:36.842Z">
+<meta property="og:updated_time" content="2019-06-16T07:21:24.953Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="医生服务订单状态全流程">
-<meta name="twitter:description" content="sequenceDiagram title: 医生服务订单状态全流程 participant patient as 患者 participant dawn as 患者端 participant pingxx participant doctor as 医生 participant eagle as 医生端 participant beyond as 基础中心 patient-&amp;gt;&amp;gt;dawn: 1.1">
+<meta name="twitter:title" content="自定义IM消息类型">
+<meta name="twitter:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
 
 
 
@@ -127,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://symonlin.github.io/2019/05/15/sequence-1/">
+  <link rel="canonical" href="https://symonlin.github.io/2019/06/16/im/">
 
 
 
 
 
-  <title>医生服务订单状态全流程 | Symon Lin's Home</title>
+  <title>自定义IM消息类型 | Symon Lin's Home</title>
   
 
 
@@ -314,7 +314,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/05/15/sequence-1/">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/06/16/im/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Symon Lin">
@@ -331,7 +331,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">医生服务订单状态全流程</h1>
+          <h1 class="post-title" itemprop="name headline">自定义IM消息类型</h1>
         
 
         <div class="post-meta">
@@ -343,8 +343,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-15T14:51:51+08:00">
-                2019-05-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T14:45:46+08:00">
+                2019-06-16
               </time>
             
 
@@ -359,7 +359,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-06-16T14:43:36+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-16T15:21:24+08:00">
                 2019-06-16
               </time>
             
@@ -378,8 +378,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/业务时序图/" itemprop="url" rel="index">
-                    <span itemprop="name">业务时序图</span>
+                  <a href="/categories/接口文档/" itemprop="url" rel="index">
+                    <span itemprop="name">接口文档</span>
                   </a>
                 </span>
 
@@ -396,8 +396,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/05/15/sequence-1/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/05/15/sequence-1/" itemprop="commentCount"></span>
+                <a href="/2019/06/16/im/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/16/im/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -424,7 +424,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  302
+                  599
                 </span>
               
 
@@ -440,7 +440,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  1
+                  2
                 </span>
               
             </div>
@@ -461,34 +461,73 @@
       
 
       
-        <pre class="mermaid">sequenceDiagram
-title: 医生服务订单状态全流程
-participant patient as 患者
-participant dawn as 患者端
-participant pingxx
-participant doctor as 医生
-participant eagle as 医生端
-participant beyond as 基础中心
-patient->>dawn: 1.1患者选择医生服务并填写问诊单
-dawn->>dawn: 1.2创建医生服务订单『待付款』
-dawn->>dawn: 1.3创建问诊单
-dawn-->>patient: 1.4返回医生服务订单ID
-patient->>dawn: 2.1患者预付款
-dawn->>pingxx: 2.2创建ping++订单
-pingxx->>dawn: 2.3返回支付凭据
-dawn-->>patient: 2.4返回支付凭据
-patient->>patient: 3.1患者付完款
-patient->>patient: 3.2跳转到订单详情页
-pingxx-->>dawn: 3.3返回支付结果
-dawn-->>dawn: 3.4更新医生服务订单状态『已付款』
-dawn-->>dawn: 3.5创建服务单「待开启」
-doctor->>eagle: 4.1开启服务
-eagle->>eagle: 4.2更新医生服务订单状态『服务中』
-eagle->>eagle: 4.3更新服务单状态「待结束」
-doctor->>eagle: 5.1结束服务
-eagle->>eagle: 5.2更新医生服务订单状态『待评价』
-eagle->>eagle: 5.3更新服务单状态「服务完成」
-beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已完成『已完成』</pre>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。</p>
+<h3 id="二、自定义消息类型"><a href="#二、自定义消息类型" class="headerlink" title="二、自定义消息类型"></a>二、自定义消息类型</h3><p>基于以上背景，我们目前共定义了9种自定义消息类型：</p>
+<table>
+<thead>
+<tr>
+<th>消息类型</th>
+<th>类型值</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>图库</td>
+<td>1</td>
+<td>用于患者图库，图片上传到七牛云</td>
+</tr>
+<tr>
+<td>问诊单</td>
+<td>2</td>
+<td>用于预约医生服务场景</td>
+</tr>
+<tr>
+<td>医生服务</td>
+<td>3</td>
+<td>用于顾问推荐医生场景</td>
+</tr>
+<tr>
+<td>照护服务</td>
+<td>4</td>
+<td>用于顾问推荐照护服务场景</td>
+</tr>
+<tr>
+<td>服务报告</td>
+<td>5</td>
+<td>用于顾问发送服务报告场景</td>
+</tr>
+<tr>
+<td>系统消息</td>
+<td>6</td>
+<td>用于各类系统通知消息场景</td>
+</tr>
+<tr>
+<td>模拟语音</td>
+<td>7</td>
+<td>由于患者端h5无法正确解析医生端发送的网易云信语音消息，故采用先将语音文件转存到七牛云，再由系统模拟发送语音消息给患者端来解决该问题，此类型消息不存储到数据库中</td>
+</tr>
+<tr>
+<td>强制退出</td>
+<td>8</td>
+<td>预留，暂未使用</td>
+</tr>
+<tr>
+<td>病情资料</td>
+<td>9</td>
+<td>用于患者上传服务必备材料场景，消息体结构与问诊单完全一致，由于产品上要求该类型消息在患者端不展示，随访中心跟上患者正常展示，故无法复用「问诊单」类型，只能新定义一种消息类型</td>
+</tr>
+</tbody>
+</table>
+<h3 id="三、消息体结构"><a href="#三、消息体结构" class="headerlink" title="三、消息体结构"></a>三、消息体结构</h3><h4 id="1-图库"><a href="#1-图库" class="headerlink" title="1. 图库"></a>1. 图库</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"galleryId"</span>:<span class="number">338653</span>,</span><br><span class="line">    <span class="attr">"galleryUrl"</span>:<span class="string">"https://imgtest.120yibao.com/test/assistant/o7kq9uk16f7lx1fy4dg.gif"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-问诊单"><a href="#2-问诊单" class="headerlink" title="2. 问诊单"></a>2. 问诊单</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"consultContent"</span>:<span class="string">""</span>,</span><br><span class="line">    <span class="attr">"consultImageList"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"origin"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg"</span>,</span><br><span class="line">            <span class="attr">"thumbnail"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg?imageView2/2/w/150/h/150"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"servingInquirySheetId"</span>:<span class="number">83</span>,</span><br><span class="line">    <span class="attr">"servingOrderId"</span>:<span class="number">44315</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-医生服务"><a href="#3-医生服务" class="headerlink" title="3. 医生服务"></a>3. 医生服务</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"doctorId"</span>:<span class="number">1144</span>,</span><br><span class="line">    <span class="attr">"doctorName"</span>:<span class="string">"李志宇"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-照护服务"><a href="#4-照护服务" class="headerlink" title="4. 照护服务"></a>4. 照护服务</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"servingPackageId"</span>:<span class="number">3</span>,</span><br><span class="line">    <span class="attr">"servingPackageName"</span>:<span class="string">"儿童鼾症监护服务"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-服务报告"><a href="#5-服务报告" class="headerlink" title="5. 服务报告"></a>5. 服务报告</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"patientId"</span>:<span class="number">76070</span>,</span><br><span class="line">    <span class="attr">"servingName"</span>:<span class="string">"呵呵测试单次服务2"</span>,</span><br><span class="line">    <span class="attr">"servingReportId"</span>:<span class="number">11</span>,</span><br><span class="line">    <span class="attr">"servingSheetId"</span>:<span class="number">28</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-系统消息"><a href="#6-系统消息" class="headerlink" title="6. 系统消息"></a>6. 系统消息</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"noticeContent"</span>:<span class="string">"患者修改了到院就诊的预期就诊时间:到院就诊-医生建议001从2019-05-19改为2019-06-17"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="7-模拟语音"><a href="#7-模拟语音" class="headerlink" title="7. 模拟语音"></a>7. 模拟语音</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"audioDuration"</span>:<span class="number">22000</span>,</span><br><span class="line">    <span class="attr">"audioUrl"</span>:<span class="string">"https://img.120yibao.com/beyond/d45029eaf19648fa81342490139ddc38.wav"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="8-强制退出"><a href="#8-强制退出" class="headerlink" title="8. 强制退出"></a>8. 强制退出</h4><p>预留，暂未使用</p>
+<h4 id="9-病情资料"><a href="#9-病情资料" class="headerlink" title="9. 病情资料"></a>9. 病情资料</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"consultContent"</span>:<span class="string">""</span>,</span><br><span class="line">    <span class="attr">"consultImageList"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"origin"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8ye05380ya9n69px49.jpeg"</span>,</span><br><span class="line">            <span class="attr">"thumbnail"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8ye05380ya9n69px49.jpeg?imageView2/2/w/150/h/150"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"servingInquirySheetId"</span>:<span class="number">86</span>,</span><br><span class="line">    <span class="attr">"servingOrderId"</span>:<span class="number">44335</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -508,7 +547,7 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://symonlin.github.io/2019/05/15/sequence-1/" title="医生服务订单状态全流程">https://symonlin.github.io/2019/05/15/sequence-1/</a>
+    <a href="https://symonlin.github.io/2019/06/16/im/" title="自定义IM消息类型">https://symonlin.github.io/2019/06/16/im/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -523,7 +562,7 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
       
         <div class="post-tags">
           
-            <a href="/tags/mermaid/" rel="tag"># mermaid</a>
+            <a href="/tags/im/" rel="tag"># im</a>
           
         </div>
       
@@ -536,8 +575,8 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/06/springboot-6/" rel="next" title="Spring Boot 项目实战（六）集成 Apollo">
-                <i class="fa fa-chevron-left"></i> Spring Boot 项目实战（六）集成 Apollo
+              <a href="/2019/05/15/sequence-1/" rel="next" title="医生服务订单状态全流程">
+                <i class="fa fa-chevron-left"></i> 医生服务订单状态全流程
               </a>
             
           </div>
@@ -545,10 +584,6 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/16/im/" rel="prev" title="自定义IM消息类型">
-                自定义IM消息类型 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -603,8 +638,17 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -682,6 +726,22 @@ beyond->>beyond: 6.1待评价状态超过72小时的服务订单状态变为已�
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、自定义消息类型"><span class="nav-text">二、自定义消息类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、消息体结构"><span class="nav-text">三、消息体结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-图库"><span class="nav-text">1. 图库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-问诊单"><span class="nav-text">2. 问诊单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-医生服务"><span class="nav-text">3. 医生服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-照护服务"><span class="nav-text">4. 照护服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-服务报告"><span class="nav-text">5. 服务报告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-系统消息"><span class="nav-text">6. 系统消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-模拟语音"><span class="nav-text">7. 模拟语音</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-强制退出"><span class="nav-text">8. 强制退出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-病情资料"><span class="nav-text">9. 病情资料</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

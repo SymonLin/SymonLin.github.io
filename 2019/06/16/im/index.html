@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
+<meta name="description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
 <meta name="keywords" content="im">
 <meta property="og:type" content="article">
 <meta property="og:title" content="自定义IM消息类型">
 <meta property="og:url" content="https://symonlin.github.io/2019/06/16/im/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
+<meta property="og:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-16T07:21:24.953Z">
+<meta property="og:updated_time" content="2019-06-16T07:32:44.133Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义IM消息类型">
-<meta name="twitter:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。 二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报告">
+<meta name="twitter:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
 
 
 
@@ -359,7 +359,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-06-16T15:21:24+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-16T15:32:44+08:00">
                 2019-06-16
               </time>
             
@@ -462,6 +462,7 @@
 
       
         <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。</p>
+<hr>
 <h3 id="二、自定义消息类型"><a href="#二、自定义消息类型" class="headerlink" title="二、自定义消息类型"></a>二、自定义消息类型</h3><p>基于以上背景，我们目前共定义了9种自定义消息类型：</p>
 <table>
 <thead>
@@ -519,6 +520,7 @@
 </tr>
 </tbody>
 </table>
+<hr>
 <h3 id="三、消息体结构"><a href="#三、消息体结构" class="headerlink" title="三、消息体结构"></a>三、消息体结构</h3><h4 id="1-图库"><a href="#1-图库" class="headerlink" title="1. 图库"></a>1. 图库</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"galleryId"</span>:<span class="number">338653</span>,</span><br><span class="line">    <span class="attr">"galleryUrl"</span>:<span class="string">"https://imgtest.120yibao.com/test/assistant/o7kq9uk16f7lx1fy4dg.gif"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="2-问诊单"><a href="#2-问诊单" class="headerlink" title="2. 问诊单"></a>2. 问诊单</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"consultContent"</span>:<span class="string">""</span>,</span><br><span class="line">    <span class="attr">"consultImageList"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"origin"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg"</span>,</span><br><span class="line">            <span class="attr">"thumbnail"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg?imageView2/2/w/150/h/150"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"servingInquirySheetId"</span>:<span class="number">83</span>,</span><br><span class="line">    <span class="attr">"servingOrderId"</span>:<span class="number">44315</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="3-医生服务"><a href="#3-医生服务" class="headerlink" title="3. 医生服务"></a>3. 医生服务</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"doctorId"</span>:<span class="number">1144</span>,</span><br><span class="line">    <span class="attr">"doctorName"</span>:<span class="string">"李志宇"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>

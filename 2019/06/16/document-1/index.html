@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Spring Boot,">
+  <meta name="keywords" content="im,">
 
 
 
@@ -86,23 +86,18 @@
 
 
 
-<meta name="description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
-<meta name="keywords" content="Spring Boot">
+<meta name="description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
+<meta name="keywords" content="im">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">
-<meta property="og:url" content="https://symonlin.github.io/2019/02/02/springboot-3/index.html">
+<meta property="og:title" content="自定义IM消息类型">
+<meta property="og:url" content="https://symonlin.github.io/2019/06/16/document-1/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
+<meta property="og:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_1.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_2.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_3.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_4.png">
-<meta property="og:updated_time" content="2019-03-03T03:06:14.961Z">
+<meta property="og:updated_time" content="2019-06-16T07:54:39.510Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">
-<meta name="twitter:description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
-<meta name="twitter:image" content="http://blog.shoegaze.com/SpringBoot_3_1.png">
+<meta name="twitter:title" content="自定义IM消息类型">
+<meta name="twitter:description" content="一、前言本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。  二、自定义消息类型基于以上背景，我们目前共定义了9种自定义消息类型：    消息类型 类型值 说明     图库 1 用于患者图库，图片上传到七牛云   问诊单 2 用于预约医生服务场景   医生服务 3 用于顾问推荐医生场景   照护服务 4 用于顾问推荐照护服务场景   服务报">
 
 
 
@@ -132,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="https://symonlin.github.io/2019/02/02/springboot-3/">
+  <link rel="canonical" href="https://symonlin.github.io/2019/06/16/document-1/">
 
 
 
 
 
-  <title>Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody | Symon Lin's Home</title>
+  <title>自定义IM消息类型 | Symon Lin's Home</title>
   
 
 
@@ -319,7 +314,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/02/02/springboot-3/">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/06/16/document-1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Symon Lin">
@@ -336,7 +331,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody</h1>
+          <h1 class="post-title" itemprop="name headline">自定义IM消息类型</h1>
         
 
         <div class="post-meta">
@@ -348,8 +343,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-02T18:18:45+08:00">
-                2019-02-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-16T14:45:46+08:00">
+                2019-06-16
               </time>
             
 
@@ -364,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-03-03T11:06:14+08:00">
-                2019-03-03
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-16T15:54:39+08:00">
+                2019-06-16
               </time>
             
           </span>
@@ -383,8 +378,8 @@
               
               
                 <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
-                  <a href="/categories/工作/" itemprop="url" rel="index">
-                    <span itemprop="name">工作</span>
+                  <a href="/categories/技术文档/" itemprop="url" rel="index">
+                    <span itemprop="name">技术文档</span>
                   </a>
                 </span>
 
@@ -401,8 +396,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/02/02/springboot-3/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/02/02/springboot-3/" itemprop="commentCount"></span>
+                <a href="/2019/06/16/document-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/06/16/document-1/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -429,7 +424,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.3k
+                  599
                 </span>
               
 
@@ -445,7 +440,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  5
+                  2
                 </span>
               
             </div>
@@ -466,65 +461,75 @@
       
 
       
-        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>本次重构使用了网易云信来实现业务中需要的IM功能，在实际业务场景中有很多需要自定义消息类型来满足业务需求。</p>
 <hr>
-<h3 id="二、Swagger"><a href="#二、Swagger" class="headerlink" title="二、Swagger"></a>二、Swagger</h3><p>随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就是一款让我们更好书写 API 文档的框架。</p>
-<h4 id="2-1-为什么要用-Swagger"><a href="#2-1-为什么要用-Swagger" class="headerlink" title="2.1 为什么要用 Swagger"></a>2.1 为什么要用 Swagger</h4><p>在日常开发过程中，有一个问题始终困扰着我们，那就是接口文档的可靠性。想必我们都经历过接口变动但接口文档没更新的窘境。单独维护接口文档不仅费时费力，而且会经常遗漏。Swagger 通过在接口及实体上添加几个注解的方式就能在项目启动后自动生成接口文档，尽管这样会带来一定的代码侵入性，但与其带来的好处相比就微不足道了。</p>
-<h4 id="2-2-集成-Swagger"><a href="#2-2-集成-Swagger" class="headerlink" title="2.2 集成 Swagger"></a>2.2 集成 Swagger</h4><p>① 首先在项目父 pom 文件中定义 Swagger 的版本号且声明 Swagger 依赖。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    <span class="tag">&lt;<span class="name">swagger.version</span>&gt;</span>2.8.0<span class="tag">&lt;/<span class="name">swagger.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        ...省略其余部分...</span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;swagger.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;swagger.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>② 其次在 demo-web 层中的 pom 文件中添加上述依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger2<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>io.springfox<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>springfox-swagger-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>③ 然后在 com.example.demo.web 包中添加 config 目录并新建 Swagger 配置文件，具体内容如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.web.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.ApiInfoBuilder;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.PathSelectors;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.builders.RequestHandlerSelectors;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.service.ApiInfo;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spi.DocumentationType;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.spring.web.plugins.Docket;</span><br><span class="line"><span class="keyword">import</span> springfox.documentation.swagger2.annotations.EnableSwagger2;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/2/2</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableSwagger</span>2</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SwaggerConfig</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Value</span>(value = <span class="string">"$&#123;swagger.enabled&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> Boolean swaggerEnabled;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Docket <span class="title">createRestApi</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Docket(DocumentationType.SWAGGER_2)</span><br><span class="line">                .apiInfo(apiInfo())</span><br><span class="line">                .enable(swaggerEnabled)</span><br><span class="line">                .select()</span><br><span class="line">                .apis(RequestHandlerSelectors.basePackage(<span class="string">"com.example.demo.web.controller"</span>))</span><br><span class="line">                .paths(PathSelectors.any())</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> ApiInfo <span class="title">apiInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApiInfoBuilder()</span><br><span class="line">                .title(<span class="string">"接口文档"</span>)</span><br><span class="line">                .description(<span class="string">"Spring Boot 集成 Swagger"</span>)</span><br><span class="line">                .termsOfServiceUrl(<span class="string">"https://symonlin.github.io"</span>)</span><br><span class="line">                .version(<span class="string">"1.0"</span>)</span><br><span class="line">                .build();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>其中 「 swaggerEnabled 」表示是否开启 Swagger，一般线上环境是关闭的，所以可在 application.properties 文件中设置配置项。「 apis 」设置了 controller 的包路径。</p>
-<p>④ 随后在先前创建的 DemoController 中添加 Swagger 的相关注解。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.example.demo.web.controller;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.demo.biz.service.DemoService;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.Api;</span><br><span class="line"><span class="keyword">import</span> io.swagger.annotations.ApiOperation;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> linjian</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2019/1/15</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Api</span>(tags = <span class="string">"demo"</span>)</span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"demo"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DemoController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> DemoService demoService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"test"</span>)</span><br><span class="line">    <span class="meta">@ApiOperation</span>(<span class="string">"测试"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> demoService.test();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>⑤ 最后启动项目，访问 <a href="http://localhost:8080/swagger-ui.html" target="_blank" rel="noopener">http://localhost:8080/swagger-ui.html</a> 测试 Swagger。<br><img src="http://blog.shoegaze.com/SpringBoot_3_1.png" alt="SpringBoot_3_1.png"></p>
-<p>⑥ 使用 Swagger UI 测试 test 接口，点击「 Try it out 」&gt;&gt; 「 Execute 」<br><img src="http://blog.shoegaze.com/SpringBoot_3_2.png" alt="SpringBoot_3_2.png"><br><img src="http://blog.shoegaze.com/SpringBoot_3_3.png" alt="SpringBoot_3_3.png"></p>
-<h4 id="2-3-Swagger-常用注解说明"><a href="#2-3-Swagger-常用注解说明" class="headerlink" title="2.3 Swagger 常用注解说明"></a>2.3 Swagger 常用注解说明</h4><table>
+<h3 id="二、自定义消息类型"><a href="#二、自定义消息类型" class="headerlink" title="二、自定义消息类型"></a>二、自定义消息类型</h3><p>基于以上背景，我们目前共定义了9种自定义消息类型：</p>
+<table>
 <thead>
 <tr>
-<th>注解</th>
+<th>消息类型</th>
+<th>类型值</th>
 <th>说明</th>
-<th>使用位置</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>@Api</td>
-<td>描述 controller 的作用</td>
-<td>用于 controller 类上</td>
+<td>图库</td>
+<td>1</td>
+<td>用于患者图库，图片上传到七牛云</td>
 </tr>
 <tr>
-<td>@ApiOperation</td>
-<td>描述 controller 方法的作用</td>
-<td>用于 controller 方法上</td>
+<td>问诊单</td>
+<td>2</td>
+<td>用于预约医生服务场景</td>
 </tr>
 <tr>
-<td>@ApiParam</td>
-<td>描述 controller 方法参数的作用</td>
-<td>用于 controller 方法的参数上</td>
+<td>医生服务</td>
+<td>3</td>
+<td>用于顾问推荐医生场景</td>
 </tr>
 <tr>
-<td>@ApiModel</td>
-<td>描述对象的作用</td>
-<td>用于请求对象或者返回结果对象上</td>
+<td>照护服务</td>
+<td>4</td>
+<td>用于顾问推荐照护服务场景</td>
 </tr>
 <tr>
-<td>@ApiModelProperty</td>
-<td>描述对象里字段的作用</td>
-<td>用于请求对象或者返回结果对象里的字段上</td>
+<td>服务报告</td>
+<td>5</td>
+<td>用于顾问发送服务报告场景</td>
+</tr>
+<tr>
+<td>系统消息</td>
+<td>6</td>
+<td>用于各类系统通知消息场景</td>
+</tr>
+<tr>
+<td>模拟语音</td>
+<td>7</td>
+<td>由于患者端h5无法正确解析医生端发送的网易云信语音消息，故采用先将语音文件转存到七牛云，再由系统模拟发送语音消息给患者端来解决该问题，此类型消息不存储到数据库中</td>
+</tr>
+<tr>
+<td>强制退出</td>
+<td>8</td>
+<td>预留，暂未使用</td>
+</tr>
+<tr>
+<td>病情资料</td>
+<td>9</td>
+<td>用于患者上传服务必备材料场景，消息体结构与问诊单完全一致，由于产品上要求该类型消息在患者端不展示，随访中心跟上患者正常展示，故无法复用「问诊单」类型，只能新定义一种消息类型</td>
 </tr>
 </tbody>
 </table>
-<blockquote>
-<p>注：其余注解大家可自行查阅文档</p>
-</blockquote>
 <hr>
-<h3 id="三、JavaMelody"><a href="#三、JavaMelody" class="headerlink" title="三、JavaMelody"></a>三、JavaMelody</h3><h4 id="3-1-JavaMelody-介绍"><a href="#3-1-JavaMelody-介绍" class="headerlink" title="3.1 JavaMelody 介绍"></a>3.1 JavaMelody 介绍</h4><p>JavaMelody 是用来在 QA 和实际运行生产环境中监控 Java 或 Java EE 应用程序服务器的一个开源框架。它不是一个工具来模拟来自用户的请求，而是一个测量和计算用户在实际操作中应用程序的使用情况的工具，并以图表的形式显示，图表可以按天，周，月，年或自定义时间段查看。</p>
-<h4 id="3-2-集成-JavaMelody"><a href="#3-2-集成-JavaMelody" class="headerlink" title="3.2 集成 JavaMelody"></a>3.2 集成 JavaMelody</h4><p>① 首先在项目父 pom 文件中声明 JavaMelody 依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.bull.javamelody<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javamelody-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.74.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>② 其次在 demo-web 层中的 pom 文件中添加上述依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.bull.javamelody<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javamelody-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>③ 最后启动项目，访问 <a href="http://localhost:8080/monitoring" target="_blank" rel="noopener">http://localhost:8080/monitoring</a> 查看<br><img src="http://blog.shoegaze.com/SpringBoot_3_4.png" alt="SpringBoot_3_4.png"><br>④ 为了加强安全性，修改默认访问地址以及设置为登录后才可访问，可在 application.properties 文件中添加以下配置项<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">javamelody.init-parameters.authorized-users</span> <span class="string">=</span> <span class="attr">admin:pwd</span></span><br><span class="line"><span class="string">javamelody.init-parameters.monitoring-path</span> <span class="string">=</span> <span class="string">/demo/monitoring</span></span><br></pre></td></tr></table></figure></p>
-<hr>
-<h3 id="四、结语"><a href="#四、结语" class="headerlink" title="四、结语"></a>四、结语</h3><p>至此，Swagger 及 JavaMelody 的集成步骤已介绍完毕。</p>
-
+<h3 id="三、消息体结构"><a href="#三、消息体结构" class="headerlink" title="三、消息体结构"></a>三、消息体结构</h3><h4 id="1-图库"><a href="#1-图库" class="headerlink" title="1. 图库"></a>1. 图库</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"galleryId"</span>:<span class="number">338653</span>,</span><br><span class="line">    <span class="attr">"galleryUrl"</span>:<span class="string">"https://imgtest.120yibao.com/test/assistant/o7kq9uk16f7lx1fy4dg.gif"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-问诊单"><a href="#2-问诊单" class="headerlink" title="2. 问诊单"></a>2. 问诊单</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"consultContent"</span>:<span class="string">""</span>,</span><br><span class="line">    <span class="attr">"consultImageList"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"origin"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg"</span>,</span><br><span class="line">            <span class="attr">"thumbnail"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8v5claxtses51gsno.jpeg?imageView2/2/w/150/h/150"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"servingInquirySheetId"</span>:<span class="number">83</span>,</span><br><span class="line">    <span class="attr">"servingOrderId"</span>:<span class="number">44315</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="3-医生服务"><a href="#3-医生服务" class="headerlink" title="3. 医生服务"></a>3. 医生服务</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"doctorId"</span>:<span class="number">1144</span>,</span><br><span class="line">    <span class="attr">"doctorName"</span>:<span class="string">"李志宇"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="4-照护服务"><a href="#4-照护服务" class="headerlink" title="4. 照护服务"></a>4. 照护服务</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"servingPackageId"</span>:<span class="number">3</span>,</span><br><span class="line">    <span class="attr">"servingPackageName"</span>:<span class="string">"儿童鼾症监护服务"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-服务报告"><a href="#5-服务报告" class="headerlink" title="5. 服务报告"></a>5. 服务报告</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"patientId"</span>:<span class="number">76070</span>,</span><br><span class="line">    <span class="attr">"servingName"</span>:<span class="string">"呵呵测试单次服务2"</span>,</span><br><span class="line">    <span class="attr">"servingReportId"</span>:<span class="number">11</span>,</span><br><span class="line">    <span class="attr">"servingSheetId"</span>:<span class="number">28</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="6-系统消息"><a href="#6-系统消息" class="headerlink" title="6. 系统消息"></a>6. 系统消息</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"noticeContent"</span>:<span class="string">"患者修改了到院就诊的预期就诊时间:到院就诊-医生建议001从2019-05-19改为2019-06-17"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="7-模拟语音"><a href="#7-模拟语音" class="headerlink" title="7. 模拟语音"></a>7. 模拟语音</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"audioDuration"</span>:<span class="number">22000</span>,</span><br><span class="line">    <span class="attr">"audioUrl"</span>:<span class="string">"https://img.120yibao.com/beyond/d45029eaf19648fa81342490139ddc38.wav"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="8-强制退出"><a href="#8-强制退出" class="headerlink" title="8. 强制退出"></a>8. 强制退出</h4><p>预留，暂未使用</p>
+<h4 id="9-病情资料"><a href="#9-病情资料" class="headerlink" title="9. 病情资料"></a>9. 病情资料</h4><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"consultContent"</span>:<span class="string">""</span>,</span><br><span class="line">    <span class="attr">"consultImageList"</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"origin"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8ye05380ya9n69px49.jpeg"</span>,</span><br><span class="line">            <span class="attr">"thumbnail"</span>:<span class="string">"https://imgtest.120yibao.com/dev/h5-erbihou/o8ye05380ya9n69px49.jpeg?imageView2/2/w/150/h/150"</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">"servingInquirySheetId"</span>:<span class="number">86</span>,</span><br><span class="line">    <span class="attr">"servingOrderId"</span>:<span class="number">44335</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -544,7 +549,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://symonlin.github.io/2019/02/02/springboot-3/" title="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">https://symonlin.github.io/2019/02/02/springboot-3/</a>
+    <a href="https://symonlin.github.io/2019/06/16/document-1/" title="自定义IM消息类型">https://symonlin.github.io/2019/06/16/document-1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -559,7 +564,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+            <a href="/tags/im/" rel="tag"># im</a>
           
         </div>
       
@@ -572,8 +577,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/29/logback-1/" rel="next" title="Logback XML 基础配置详解">
-                <i class="fa fa-chevron-left"></i> Logback XML 基础配置详解
+              <a href="/2019/05/15/sequence-1/" rel="next" title="医生服务订单状态全流程">
+                <i class="fa fa-chevron-left"></i> 医生服务订单状态全流程
               </a>
             
           </div>
@@ -582,8 +587,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/03/02/springboot-4/" rel="prev" title="Spring Boot 项目实战（四）集成 Redis">
-                Spring Boot 项目实战（四）集成 Redis <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/18/team-1/" rel="prev" title="组内工作规约">
+                组内工作规约 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -737,7 +742,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、Swagger"><span class="nav-text">二、Swagger</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-为什么要用-Swagger"><span class="nav-text">2.1 为什么要用 Swagger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-集成-Swagger"><span class="nav-text">2.2 集成 Swagger</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-Swagger-常用注解说明"><span class="nav-text">2.3 Swagger 常用注解说明</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、JavaMelody"><span class="nav-text">三、JavaMelody</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-JavaMelody-介绍"><span class="nav-text">3.1 JavaMelody 介绍</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-集成-JavaMelody"><span class="nav-text">3.2 集成 JavaMelody</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、结语"><span class="nav-text">四、结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、自定义消息类型"><span class="nav-text">二、自定义消息类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、消息体结构"><span class="nav-text">三、消息体结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-图库"><span class="nav-text">1. 图库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-问诊单"><span class="nav-text">2. 问诊单</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-医生服务"><span class="nav-text">3. 医生服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-照护服务"><span class="nav-text">4. 照护服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-服务报告"><span class="nav-text">5. 服务报告</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-系统消息"><span class="nav-text">6. 系统消息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-模拟语音"><span class="nav-text">7. 模拟语音</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-强制退出"><span class="nav-text">8. 强制退出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-病情资料"><span class="nav-text">9. 病情资料</span></a></li></ol></li></ol></div>
             
 
           </div>

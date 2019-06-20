@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
 <meta property="og:description" content="sequenceDiagram title: 微信用户注册及登录流程 participant user as 微信用户 participant dawn as 患者端 participant beyond as 基础中心 participant wechat as 微信公众号 note over user: 微信用户注册 user-&amp;gt;&amp;gt;wechat: 1.1 用户关注微信公众号 wechat--&amp;gt;">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-20T03:06:56.643Z">
+<meta property="og:updated_time" content="2019-06-20T03:09:07.188Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="微信用户注册及登录流程">
 <meta name="twitter:description" content="sequenceDiagram title: 微信用户注册及登录流程 participant user as 微信用户 participant dawn as 患者端 participant beyond as 基础中心 participant wechat as 微信公众号 note over user: 微信用户注册 user-&amp;gt;&amp;gt;wechat: 1.1 用户关注微信公众号 wechat--&amp;gt;">
@@ -359,7 +359,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-06-20T11:06:56+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-06-20T11:09:07+08:00">
                 2019-06-20
               </time>
             
@@ -481,8 +481,8 @@ user->>wechat: 2.1 获取用户票据
 wechat-->>user: 2.2 返回用户票据
 user->>dawn: 2.3 发起微信用户登录请求
 dawn->>beyond: 2.4 调用微信用户登录接口
-beyond->>wechat: 2.5 发起获取微信用户openId请求
-wechat-->>beyond: 2.6 返回微信用户openId
+beyond->>wechat: 2.5 发起获取微信用户 openId 请求
+wechat-->>beyond: 2.6 返回微信用户 openId
 beyond->>beyond: 2.7 查询用户信息
 beyond->>beyond: 2.8 生成 token
 beyond->>beyond: 2.9 将 token 及用户信息保存到 redis

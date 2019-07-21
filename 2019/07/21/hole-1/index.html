@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
+<meta name="description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。立即找到相应开发优化该 SQL，但重新部署后发现">
 <meta name="keywords" content="踩过的坑">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程">
 <meta property="og:url" content="https://symonlin.github.io/2019/07/21/hole-1/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
+<meta property="og:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。立即找到相应开发优化该 SQL，但重新部署后发现">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.shoegaze.com/hole_1_1.png">
 <meta property="og:image" content="http://blog.shoegaze.com/hole_1_2.png">
-<meta property="og:updated_time" content="2019-07-21T05:21:35.163Z">
+<meta property="og:updated_time" content="2019-07-21T05:25:51.111Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程">
-<meta name="twitter:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
+<meta name="twitter:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。立即找到相应开发优化该 SQL，但重新部署后发现">
 <meta name="twitter:image" content="http://blog.shoegaze.com/hole_1_1.png">
 
 
@@ -362,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-07-21T13:21:35+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-07-21T13:25:51+08:00">
                 2019-07-21
               </time>
             
@@ -427,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  538
+                  546
                 </span>
               
 
@@ -466,7 +466,7 @@
       
         <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。</p>
 <hr>
-<h3 id="二、初见端倪"><a href="#二、初见端倪" class="headerlink" title="二、初见端倪"></a>二、初见端倪</h3><p>然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。<br><img src="http://blog.shoegaze.com/hole_1_1.png" alt="hole_1_1.png"><br>找到相应开发优化该 SQL。重新部署后发现线上服务内存占用情况并未变化。理论上 300~400M 就足够了却占用了将近 1G 内存。</p>
+<h3 id="二、初见端倪"><a href="#二、初见端倪" class="headerlink" title="二、初见端倪"></a>二、初见端倪</h3><p>然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。<br><img src="http://blog.shoegaze.com/hole_1_1.png" alt="hole_1_1.png"><br>立即找到相应开发优化该 SQL，但重新部署后发现线上服务内存占用情况并未变化。理论上 300~400M 就足够了却占用了将近 1G 内存。黑人问号脸…</p>
 <hr>
 <h3 id="三、解决过程"><a href="#三、解决过程" class="headerlink" title="三、解决过程"></a>三、解决过程</h3><p>因为同一台服务器的其他服务均未出现内存占用异常的情况，所以判断应该是 Tomcat 或者是 JVM 配置的问题。</p>
 <p>① 首先让运维同学排查 JVM 配置与其他服务是否不同。发现除了有一个无效配置，其他均正常且该无效配置对内存并无影响。</p>

@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Spring Boot,">
+  <meta name="keywords" content="踩过的坑,">
 
 
 
@@ -86,26 +86,21 @@
 
 
 
-<meta name="description" content="一、前言上篇介绍了 Spring Boot 集成 Dubbo，使我们的系统打下了分布式的基础。随着程序功能的日益复杂，程序的配置日益增多：各种功能开关、参数配置、服务器地址等；对程序配置的期望值也越来越高：配置修改后实时生效，灰度发布，分环境、分集群管理配置，完善的权限、审核机制等；在这样的大环境下，传统的通过配置文件、数据库等方式已经越来越无法满足开发人员对配置管理的需求。分布式配置中心应运而生">
-<meta name="keywords" content="Spring Boot">
+<meta name="description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
+<meta name="keywords" content="踩过的坑">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Spring Boot 项目实战（六）集成 Apollo">
-<meta property="og:url" content="https://symonlin.github.io/2019/04/06/springboot-6/index.html">
+<meta property="og:title" content="记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程">
+<meta property="og:url" content="https://symonlin.github.io/2019/07/21/hole-1/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言上篇介绍了 Spring Boot 集成 Dubbo，使我们的系统打下了分布式的基础。随着程序功能的日益复杂，程序的配置日益增多：各种功能开关、参数配置、服务器地址等；对程序配置的期望值也越来越高：配置修改后实时生效，灰度发布，分环境、分集群管理配置，完善的权限、审核机制等；在这样的大环境下，传统的通过配置文件、数据库等方式已经越来越无法满足开发人员对配置管理的需求。分布式配置中心应运而生">
+<meta property="og:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_0.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_1.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_2.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_3.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_4.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_5.png">
-<meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_6_6.png">
-<meta property="og:updated_time" content="2019-04-06T10:37:28.587Z">
+<meta property="og:image" content="http://blog.shoegaze.com/hole_1_1.png">
+<meta property="og:image" content="http://blog.shoegaze.com/hole_1_2.png">
+<meta property="og:updated_time" content="2019-07-21T05:21:35.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spring Boot 项目实战（六）集成 Apollo">
-<meta name="twitter:description" content="一、前言上篇介绍了 Spring Boot 集成 Dubbo，使我们的系统打下了分布式的基础。随着程序功能的日益复杂，程序的配置日益增多：各种功能开关、参数配置、服务器地址等；对程序配置的期望值也越来越高：配置修改后实时生效，灰度发布，分环境、分集群管理配置，完善的权限、审核机制等；在这样的大环境下，传统的通过配置文件、数据库等方式已经越来越无法满足开发人员对配置管理的需求。分布式配置中心应运而生">
-<meta name="twitter:image" content="http://blog.shoegaze.com/SpringBoot_6_0.png">
+<meta name="twitter:title" content="记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程">
+<meta name="twitter:description" content="一、前言经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。  二、初见端倪然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。找到相应开发优化该 SQL。重新部署后发现线上服">
+<meta name="twitter:image" content="http://blog.shoegaze.com/hole_1_1.png">
 
 
 
@@ -135,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://symonlin.github.io/2019/04/06/springboot-6/">
+  <link rel="canonical" href="https://symonlin.github.io/2019/07/21/hole-1/">
 
 
 
 
 
-  <title>Spring Boot 项目实战（六）集成 Apollo | Symon Lin's Home</title>
+  <title>记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程 | Symon Lin's Home</title>
   
 
 
@@ -322,7 +317,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/04/06/springboot-6/">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2019/07/21/hole-1/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Symon Lin">
@@ -339,7 +334,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Spring Boot 项目实战（六）集成 Apollo</h1>
+          <h1 class="post-title" itemprop="name headline">记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程</h1>
         
 
         <div class="post-meta">
@@ -351,8 +346,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-06T18:20:29+08:00">
-                2019-04-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-21T12:00:06+08:00">
+                2019-07-21
               </time>
             
 
@@ -367,8 +362,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-04-06T18:37:28+08:00">
-                2019-04-06
+              <time title="更新于" itemprop="dateModified" datetime="2019-07-21T13:21:35+08:00">
+                2019-07-21
               </time>
             
           </span>
@@ -404,8 +399,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2019/04/06/springboot-6/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count valine-comment-count" data-xid="/2019/04/06/springboot-6/" itemprop="commentCount"></span>
+                <a href="/2019/07/21/hole-1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/07/21/hole-1/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -432,7 +427,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1.1k
+                  538
                 </span>
               
 
@@ -448,7 +443,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  4
+                  1
                 </span>
               
             </div>
@@ -469,32 +464,17 @@
       
 
       
-        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了 Spring Boot 集成 Dubbo，使我们的系统打下了分布式的基础。随着程序功能的日益复杂，程序的配置日益增多：各种功能开关、参数配置、服务器地址等；对程序配置的期望值也越来越高：配置修改后实时生效，灰度发布，分环境、分集群管理配置，完善的权限、审核机制等；在这样的大环境下，传统的通过配置文件、数据库等方式已经越来越无法满足开发人员对配置管理的需求。分布式配置中心应运而生。本篇将主要介绍分布式配置中心 Apollo 的集成过程。</p>
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>经过几个月的奋战，重构终于落下帷幕，并与5月底提前上线。同时我们为每个服务配上了 JavaMelody 用于监控应用实际使用情况。</p>
 <hr>
-<h3 id="二、部署-Apollo"><a href="#二、部署-Apollo" class="headerlink" title="二、部署 Apollo"></a>二、部署 Apollo</h3><p>① 部署教程见官方文档：<a href="https://github.com/ctripcorp/apollo/wiki/%E5%88%86%E5%B8%83%E5%BC%8F%E9%83%A8%E7%BD%B2%E6%8C%87%E5%8D%97" target="_blank" rel="noopener">https://github.com/ctripcorp/apollo/wiki/分布式部署指南</a></p>
-<p>② 架构剖析：<a href="https://mp.weixin.qq.com/s/-hUaQPzfsl9Lm3IqQW3VDQ" target="_blank" rel="noopener">https://mp.weixin.qq.com/s/-hUaQPzfsl9Lm3IqQW3VDQ</a><br><img src="http://blog.shoegaze.com/SpringBoot_6_0.png" alt="SpringBoot_6_0.png"></p>
+<h3 id="二、初见端倪"><a href="#二、初见端倪" class="headerlink" title="二、初见端倪"></a>二、初见端倪</h3><p>然而上线几天后发现线上某个服务经常 OOM。为了尽快恢复线上使用，暂时先将 JVM 内存调高，由之前的 1G 改为 2G。于此同时分析堆 dump 文件查找具体原因，结果发现内存中有很多长 SQL。<br><img src="http://blog.shoegaze.com/hole_1_1.png" alt="hole_1_1.png"><br>找到相应开发优化该 SQL。重新部署后发现线上服务内存占用情况并未变化。理论上 300~400M 就足够了却占用了将近 1G 内存。</p>
 <hr>
-<h3 id="三、使用-Apollo"><a href="#三、使用-Apollo" class="headerlink" title="三、使用 Apollo"></a>三、使用 Apollo</h3><p>① 登录 Apollo 管理控制台后创建项目，其中应用 ID 全局唯一。<br><img src="http://blog.shoegaze.com/SpringBoot_6_1.png" alt="SpringBoot_6_1.png"><br>② 创建成功后跳转到项目维护界面，左侧上方为环境列表，中间区域为项目信息，下方可操作集群及 namespace 。右侧为默认 namespace ：<strong>application</strong> ，具体配置项在此区域维护。<br><img src="http://blog.shoegaze.com/SpringBoot_6_2.png" alt="SpringBoot_6_2.png"></p>
-<hr>
-<h3 id="四、Spring-Boot-集成-Apollo"><a href="#四、Spring-Boot-集成-Apollo" class="headerlink" title="四、Spring Boot 集成 Apollo"></a>四、Spring Boot 集成 Apollo</h3><h4 id="4-1-引入-Apollo-依赖包"><a href="#4-1-引入-Apollo-依赖包" class="headerlink" title="4.1 引入 Apollo 依赖包"></a>4.1 引入 Apollo 依赖包</h4><p>① 首先在项目父 pom 文件中声明 Apollo 依赖。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    	...省略其余部分...</span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.ctrip.framework.apollo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>apollo-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<p>② 其次在 demo-biz 层中的 pom 文件添加上述 Apollo 依赖。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.ctrip.framework.apollo<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>apollo-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="4-2-添加-Apollo-配置项"><a href="#4-2-添加-Apollo-配置项" class="headerlink" title="4.2 添加 Apollo 配置项"></a>4.2 添加 Apollo 配置项</h4><p>① 在 application.properties 文件中的添加 Apollo 相关的配置项：<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 应用全局唯一的身份标识</span></span><br><span class="line"><span class="string">app.id</span> <span class="string">=</span> <span class="number">20000</span></span><br><span class="line"><span class="comment"># Apollo Meta Server 地址</span></span><br><span class="line"><span class="string">apollo.meta</span> <span class="string">=</span> <span class="attr">http://xxx.xxx.xxx.xxx:7881</span></span><br><span class="line"><span class="comment"># 自定义本地配置文件缓存路径</span></span><br><span class="line"><span class="string">apollo.cacheDir</span> <span class="string">=</span> <span class="string">./config</span></span><br><span class="line"><span class="comment"># 设置在应用启动阶段就加载 Apollo 配置</span></span><br><span class="line"><span class="string">apollo.bootstrap.enabled</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># 注入 application namespace</span></span><br><span class="line"><span class="string">apollo.bootstrap.namespaces</span> <span class="string">=</span> <span class="string">application</span></span><br></pre></td></tr></table></figure></p>
-<p>② 将 application.properties 文件中的除了 Apollo 及 Logback 的其他配置项都转移到 Apollo 控制台中维护。<br><img src="http://blog.shoegaze.com/SpringBoot_6_3.png" alt="SpringBoot_6_3.png"></p>
-<h4 id="4-3-验证-Apollo"><a href="#4-3-验证-Apollo" class="headerlink" title="4.3 验证 Apollo"></a>4.3 验证 Apollo</h4><p>① 启动日志中可以看到 Apollo 从 Meta Server 拉取配置项，并缓存到本地 config 目录。<br><img src="http://blog.shoegaze.com/SpringBoot_6_4.png" alt="SpringBoot_6_4.png"><br><img src="http://blog.shoegaze.com/SpringBoot_6_5.png" alt="SpringBoot_6_5.png"><br>② 访问 <a href="http://localhost:8080/demo/test?id=1" target="_blank" rel="noopener">http://localhost:8080/demo/test?id=1</a> 接口正常返回。</p>
-<h4 id="4-4-托管-Logback-配置项"><a href="#4-4-托管-Logback-配置项" class="headerlink" title="4.4 托管 Logback 配置项"></a>4.4 托管 Logback 配置项</h4><p>① Apollo 1.2.0 版本后支持托管日志相关配置项，只需要在 application.properties 文件中增加以下 Apollo 配置项。<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将 Apollo 配置加载提到初始化日志系统之前，需要托管日志配置时开启</span></span><br><span class="line"><span class="string">apollo.bootstrap.eagerLoad.enabled</span> <span class="string">=</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure></p>
-<p>② 将 Logback 配置项转移到 Apollo 控制台中维护。</p>
-<h4 id="4-5-本地开发模式"><a href="#4-5-本地开发模式" class="headerlink" title="4.5 本地开发模式"></a>4.5 本地开发模式</h4><p>某些情况下比如 Dubbo 接口本地联调，需要修改依赖方的接口版本，此时可以开启本地开发模式，在本地开发模式下，Apollo 只会从本地文件读取配置信息，不会从 Apollo 服务器读取配置。通过<strong>设置 JVM 参数</strong>开启。<br><img src="http://blog.shoegaze.com/SpringBoot_6_6.png" alt="SpringBoot_6_6.png"></p>
-<h4 id="4-6-Dubbo-及-Apollo-的兼容问题"><a href="#4-6-Dubbo-及-Apollo-的兼容问题" class="headerlink" title="4.6 Dubbo 及 Apollo 的兼容问题"></a>4.6 Dubbo 及 Apollo 的兼容问题</h4><p>官方在集成 Dubbo 及 Apollo 时提供了两种方式：</p>
-<ul>
-<li>① 纯 Spring Boot 方式；即依赖 dubbo-spring-boot-starter 包。</li>
-<li>② 原生 Dubbo 方式；即依赖 dubbo 、zookeeper 、 zkclient 、curator-framework 包，然后通过 XML 方式配置，配置项用 ${} 占位符。</li>
-</ul>
-<p>而我当时为了能清楚知道，对外提供了哪些 Dubbo 接口以及依赖了哪些外部 Dubbo 接口，使用 Spring XML 的形式配置 Dubbo，同时又依赖了 dubbo-spring-boot-starter 包，结果将 Dubbo 配置项托管至 Apollo 后，出现无法找到 Dubbo 配置项的情况。原因是<strong>通过 Spring XML 方式配置 Dubbo 时所依赖的 OverrideDubboConfigApplicationListener 执行时机太早了（远早于 Apollo 配置加载的时机）</strong>。Apollo 1.2.0 版本支持「 apollo.bootstrap.eagerLoad.enabled 」配置项后虽然能解决这个问题，但还是不推荐 dubbo-spring-boot-starter + XML 这种形式的配置方式，推荐纯 Spring Boot 方式。</p>
-<blockquote>
-<p>注：详见 <a href="https://github.com/ctripcorp/apollo/issues/1600" target="_blank" rel="noopener">https://github.com/ctripcorp/apollo/issues/1600</a></p>
-</blockquote>
-<hr>
-<h3 id="五、结语"><a href="#五、结语" class="headerlink" title="五、结语"></a>五、结语</h3><p>至此 Spring Boot 集成 Apollo 的过程介绍完毕，相关代码已同步至 GitHub 。</p>
+<h3 id="三、解决过程"><a href="#三、解决过程" class="headerlink" title="三、解决过程"></a>三、解决过程</h3><p>因为同一台服务器的其他服务均未出现内存占用异常的情况，所以判断应该是 Tomcat 或者是 JVM 配置的问题。</p>
+<p>① 首先让运维同学排查 JVM 配置与其他服务是否不同。发现除了有一个无效配置，其他均正常且该无效配置对内存并无影响。</p>
+<p>② 排除 JVM 的配置问题，那就聚焦到 Tomcat。于是就让运维同学将该 Tomcat 拷贝到一个空闲服务器上部署，拷贝过程中突然发现有很多前缀为 sql 的文件一闪而过，当时就引起了我们的注意。拷贝完成后我们定位到那些文件在 Tomcat 的 temp/javamelody 目录中。直觉告诉我们，应该就是这些 rrd 文件引起的，统计了一下个数，大概有两千多个。</p>
+<p><img src="http://blog.shoegaze.com/hole_1_2.png" alt="hole_1_2.png"></p>
+<p>③ 清理所有 sql.rrd 临时文件并重启服务，发现内存占用降低到三百多兆。</p>
+<p>④ 分析新的堆 dump 文件，之前那堆长 SQL 也已消失。</p>
+<h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><p>我们知道 JavaMelody 会把项目的运行情况持久化到 rrd 文件中，上述的 sql.rrd 临时文件应该是由于长 SQL 触发了 JavaMelody 的某个机制才被持久化起来做数据分析，并且在项目部署时加载到内存中，才导致内存占用过高的问题。</p>
 
       
     </div>
@@ -515,7 +495,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://symonlin.github.io/2019/04/06/springboot-6/" title="Spring Boot 项目实战（六）集成 Apollo">https://symonlin.github.io/2019/04/06/springboot-6/</a>
+    <a href="https://symonlin.github.io/2019/07/21/hole-1/" title="记 JavaMelody 间接导致线上服务占用内存过高的问题排查过程">https://symonlin.github.io/2019/07/21/hole-1/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -530,7 +510,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+            <a href="/tags/踩过的坑/" rel="tag"># 踩过的坑</a>
           
         </div>
       
@@ -543,8 +523,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/18/specification-1/" rel="next" title="开发规约（一）接口统一返回值格式">
-                <i class="fa fa-chevron-left"></i> 开发规约（一）接口统一返回值格式
+              <a href="/2019/06/20/sequence-2/" rel="next" title="微信用户注册及登录流程">
+                <i class="fa fa-chevron-left"></i> 微信用户注册及登录流程
               </a>
             
           </div>
@@ -552,10 +532,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/15/sequence-1/" rel="prev" title="医生服务订单状态全流程">
-                医生服务订单状态全流程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -708,7 +684,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、部署-Apollo"><span class="nav-text">二、部署 Apollo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、使用-Apollo"><span class="nav-text">三、使用 Apollo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、Spring-Boot-集成-Apollo"><span class="nav-text">四、Spring Boot 集成 Apollo</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1-引入-Apollo-依赖包"><span class="nav-text">4.1 引入 Apollo 依赖包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2-添加-Apollo-配置项"><span class="nav-text">4.2 添加 Apollo 配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3-验证-Apollo"><span class="nav-text">4.3 验证 Apollo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4-托管-Logback-配置项"><span class="nav-text">4.4 托管 Logback 配置项</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-5-本地开发模式"><span class="nav-text">4.5 本地开发模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-6-Dubbo-及-Apollo-的兼容问题"><span class="nav-text">4.6 Dubbo 及 Apollo 的兼容问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、结语"><span class="nav-text">五、结语</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、初见端倪"><span class="nav-text">二、初见端倪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、解决过程"><span class="nav-text">三、解决过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、总结"><span class="nav-text">四、总结</span></a></li></ol></div>
             
 
           </div>

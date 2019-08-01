@@ -96,7 +96,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.shoegaze.com/Redis_1_1.png">
 <meta property="og:image" content="http://blog.shoegaze.com/Redis_1_2.png">
-<meta property="og:updated_time" content="2019-08-01T10:37:01.034Z">
+<meta property="og:updated_time" content="2019-08-01T12:11:43.986Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="有关 Redis 缓存的一些应用场景及踩过的坑">
 <meta name="twitter:description" content="一、前言在上家公司用到 Redis 作为缓存的场景比较多，常用的数据结构除了 Hash 其他均有用到，总结下当时部分业务场景的实现方案以及上线之后遇到的问题。  二、业务场景如上图所示，这是个游戏评论页，整个页面的数据按照某些维度分开存储在 Redis 中，在返回 APP 端数据时拼装到一起。着重介绍一下「游戏评分」及「游戏评论」这两个典型案例。 2.1 游戏评分要求：  评分后实时展示最终结果">
@@ -362,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-08-01T18:37:01+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-08-01T20:11:43+08:00">
                 2019-08-01
               </time>
             
@@ -490,11 +490,50 @@
 <blockquote>
 <p>首次进入页面只加载前 50 条热点数据，同时将评论ID 及具体的评论内容分开存储到 Redis 中。评论ID 用 Zset 存储，评论内容用 String 或者 Hash 存储。这样做的好处是删除或修改某个热点评论时，能最大限度的减少影响的数据，只需要从 Zset 中删除一个 id，或者修改对应的评论内容缓存即可。排序通过 Zset 中的 score 属性实现。</p>
 </blockquote>
-<p>下面用时序图的方式介绍 CRUD 的流程：</p>
-<h5 id="①-获取评论列表"><a href="#①-获取评论列表" class="headerlink" title="① 获取评论列表"></a>① 获取评论列表</h5><p><pre class="mermaid">sequenceDiagram<br>title: 获取评论列表流程<br>participant user as 用户<br>participant hero as 服务端<br>user-&gt;&gt;hero: 用户进入评论列表页<br>hero-&gt;&gt;hero: 从数据库中查询前 50 条热点数据<br>hero-&gt;&gt;hero: 将 50 个评论ID 放入 Zset 中，评论内容用单独 key 存储<br>hero-&gt;&gt;hero: 根据页码计算偏移量，用 zrevrang 方法获取当前页评论ID 列表<br>hero-&gt;&gt;hero: 如果偏移量大于 50 则继续从数据库中查询并追加到 Zset 中<br>hero-&gt;&gt;hero: 拼装点赞数、回复数等附加数据<br>hero–&gt;&gt;user: 返回评论列表</pre></p>
-<h5 id="②-添加评论（影响评分）"><a href="#②-添加评论（影响评分）" class="headerlink" title="② 添加评论（影响评分）"></a>② 添加评论（影响评分）</h5><p><pre class="mermaid">sequenceDiagram<br>title: 添加评论流程<br>participant user as 用户<br>participant hero as 服务端<br>participant timer as 定时器<br>user-&gt;&gt;hero: 用户发表评论<br>hero-&gt;&gt;hero: 查询数据库中最大的评论ID 并放入 Redis 中<br>hero-&gt;&gt;hero: 缓存的最大评论ID + 1<br>hero-&gt;&gt;hero: 拼装评论内容并放入 Redis 中<br>hero-&gt;&gt;hero: 将评论ID 添加到热点评论ID 缓存列表中<br>note over hero: 实时变动游戏评分<br>hero-&gt;&gt;hero: 相应评分数 + 1<br>hero-&gt;&gt;hero: 总评论数 + 1 且总评分累加<br>hero–&gt;&gt;user: 返回评论成功<br>note over timer: 每隔半小时<br>note over timer: 数据库回写<br>timer-&gt;&gt;timer: 回写在「数据库最大评论ID 及 Redis 最大评论ID」 区间内的数据</pre></p>
-<h5 id="③-删除评论（不影响评分）"><a href="#③-删除评论（不影响评分）" class="headerlink" title="③ 删除评论（不影响评分）"></a>③ 删除评论（不影响评分）</h5><p><pre class="mermaid">sequenceDiagram<br>title: 删除评论流程<br>participant user as 用户<br>participant hero as 服务端<br>user-&gt;&gt;hero: 用户删除评论<br>hero-&gt;&gt;hero: 根据评论ID 查询数据库是否存在<br>hero-&gt;&gt;hero: 存在则逻辑删除数据库中的数据<br>hero-&gt;&gt;hero: 删除 Zset 中相应的元素<br>hero-&gt;&gt;hero: 删除对应的评论内容缓存<br>hero-&gt;&gt;hero: 删除对应的评论回复<br>hero-&gt;&gt;hero: 总评论数 - 1<br>hero–&gt;&gt;user: 返回删除成功</pre></p>
-<hr>
+<p>下面用时序图的方式介绍 CRUD 的流程：<br>① 获取评论列表</p>
+<pre class="mermaid">sequenceDiagram
+title: 获取评论列表流程
+participant user as 用户
+participant hero as 服务端
+user->>hero: 用户进入评论列表页
+hero->>hero: 从数据库中查询前 50 条热点数据
+hero->>hero: 将 50 个评论ID 放入 Zset 中，评论内容用单独 key 存储
+hero->>hero: 根据页码计算偏移量，用 zrevrang 方法获取当前页评论ID 列表
+hero->>hero: 如果偏移量大于 50 则继续从数据库中查询并追加到 Zset 中
+hero->>hero: 拼装点赞数、回复数等附加数据
+hero-->>user: 返回评论列表</pre>
+② 添加评论（影响评分）
+<pre class="mermaid">sequenceDiagram
+title: 添加评论流程
+participant user as 用户
+participant hero as 服务端
+participant timer as 定时器
+user->>hero: 用户发表评论
+hero->>hero: 查询数据库中最大的评论ID 并放入 Redis 中
+hero->>hero: 缓存的最大评论ID + 1
+hero->>hero: 拼装评论内容并放入 Redis 中
+hero->>hero: 将评论ID 添加到热点评论ID 缓存列表中
+note over hero: 实时变动游戏评分
+hero->>hero: 相应评分数 + 1
+hero->>hero: 总评论数 + 1 且总评分累加
+hero-->>user: 返回评论成功
+note over timer: 每隔半小时
+note over timer: 数据库回写
+timer->>timer: 回写在「数据库最大评论ID 及 Redis 最大评论ID」 区间内的数据</pre>
+③ 删除评论（不影响评分）
+<pre class="mermaid">sequenceDiagram
+title: 删除评论流程
+participant user as 用户
+participant hero as 服务端
+user->>hero: 用户删除评论
+hero->>hero: 根据评论ID 查询数据库是否存在
+hero->>hero: 存在则逻辑删除数据库中的数据
+hero->>hero: 删除 Zset 中相应的元素
+hero->>hero: 删除对应的评论内容缓存
+hero->>hero: 删除对应的评论回复
+hero->>hero: 总评论数 - 1
+hero-->>user: 返回删除成功</pre>
+
 <h3 id="四、线上遇到的问题"><a href="#四、线上遇到的问题" class="headerlink" title="四、线上遇到的问题"></a>四、线上遇到的问题</h3><h5 id="4-1-我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为-1-条，与个人主页的统计数不符"><a href="#4-1-我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为-1-条，与个人主页的统计数不符" class="headerlink" title="4.1 我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为 1 条，与个人主页的统计数不符"></a>4.1 我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为 1 条，与个人主页的统计数不符</h5><p>原因：列表缓存 10 分钟，有序集合类型，通过 zadd 命令追加数据，而缓存失效后如果用户点下载或者试玩，zadd 命令会自动创建一个空的列表，并将刚操作的游戏ID加入，导致列表只有一条数据。<br>解决方法：在追加数据前先判断缓存是否存在，不存在则从数据库加载并放入 Redis，之后再通过 zadd 命令往里追加。</p>
 <h5 id="4-2-腾讯视频人气从几百万突然变为几百，此前几天无异常"><a href="#4-2-腾讯视频人气从几百万突然变为几百，此前几天无异常" class="headerlink" title="4.2 腾讯视频人气从几百万突然变为几百，此前几天无异常"></a>4.2 腾讯视频人气从几百万突然变为几百，此前几天无异常</h5><p>原因：人气、点赞等数据缓存时间为一周，失效后通过 incr 命令会自动创建 key 并从 0 开始累加。<br>解决方法：累加前先判断缓存是否存在，不存在则从数据库加载并放入 Redis，之后再通过 incr 命令累加。</p>
 <h5 id="4-3-某个用户下拉游戏推荐列表到第-14-页时无返回数据"><a href="#4-3-某个用户下拉游戏推荐列表到第-14-页时无返回数据" class="headerlink" title="4.3 某个用户下拉游戏推荐列表到第 14 页时无返回数据"></a>4.3 某个用户下拉游戏推荐列表到第 14 页时无返回数据</h5><p>原因：该用户下拉到第 13 页后，过了将近 20 分钟后才继续下拉到第 14 页，此时 Redis 中游戏推荐列表的缓存已失效，重新加载是默认加载前50条，而第 14 页是需要 131~140 的数据，故而找不到对应的下标则返回空列表。<br>解决方法：适当延长缓存时间规避这种情况，当然这并不能百分百解决。</p>
@@ -710,7 +749,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、业务场景"><span class="nav-text">二、业务场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-游戏评分"><span class="nav-text">2.1 游戏评分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-游戏评论（含回复）"><span class="nav-text">2.2 游戏评论（含回复）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、实现方案"><span class="nav-text">三、实现方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-游戏评分"><span class="nav-text">3.1 游戏评分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-游戏评论（含回复）"><span class="nav-text">3.2 游戏评论（含回复）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#①-获取评论列表"><span class="nav-text">① 获取评论列表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#②-添加评论（影响评分）"><span class="nav-text">② 添加评论（影响评分）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#③-删除评论（不影响评分）"><span class="nav-text">③ 删除评论（不影响评分）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、线上遇到的问题"><span class="nav-text">四、线上遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为-1-条，与个人主页的统计数不符"><span class="nav-text">4.1 我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为 1 条，与个人主页的统计数不符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-腾讯视频人气从几百万突然变为几百，此前几天无异常"><span class="nav-text">4.2 腾讯视频人气从几百万突然变为几百，此前几天无异常</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-某个用户下拉游戏推荐列表到第-14-页时无返回数据"><span class="nav-text">4.3 某个用户下拉游戏推荐列表到第 14 页时无返回数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-判断当前用户是否点赞「点赞数为-0」的评论或者回复时每次都要查询数据库"><span class="nav-text">4.4 判断当前用户是否点赞「点赞数为 0」的评论或者回复时每次都要查询数据库</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#五、结语"><span class="nav-text">五、结语</span></a></li></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、业务场景"><span class="nav-text">二、业务场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1-游戏评分"><span class="nav-text">2.1 游戏评分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2-游戏评论（含回复）"><span class="nav-text">2.2 游戏评论（含回复）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、实现方案"><span class="nav-text">三、实现方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1-游戏评分"><span class="nav-text">3.1 游戏评分</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2-游戏评论（含回复）"><span class="nav-text">3.2 游戏评论（含回复）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、线上遇到的问题"><span class="nav-text">四、线上遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为-1-条，与个人主页的统计数不符"><span class="nav-text">4.1 我下载的、我试玩的、我喜欢的、我点评的列表数据经常变为 1 条，与个人主页的统计数不符</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-腾讯视频人气从几百万突然变为几百，此前几天无异常"><span class="nav-text">4.2 腾讯视频人气从几百万突然变为几百，此前几天无异常</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-某个用户下拉游戏推荐列表到第-14-页时无返回数据"><span class="nav-text">4.3 某个用户下拉游戏推荐列表到第 14 页时无返回数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-判断当前用户是否点赞「点赞数为-0」的评论或者回复时每次都要查询数据库"><span class="nav-text">4.4 判断当前用户是否点赞「点赞数为 0」的评论或者回复时每次都要查询数据库</span></a></li></ol></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#五、结语"><span class="nav-text">五、结语</span></a></li></div>
             
 
           </div>

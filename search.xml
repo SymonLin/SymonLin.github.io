@@ -190,6 +190,6 @@
   <entry>
     <title><![CDATA[Hello World]]></title>
     <url>%2F2018%2F12%2F09%2Fhello-world%2F</url>
-    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment API 接口设计规范1.接口版本化特别是针对 APP 端的接口一定要有版本的控制，因为 APP 发布时需要审核的，有可能后端已经发布但 APP 还没通过审核，如果直接修改原有接口可能会影响用户使用，所以要通过接口版本确保新版本的发布不影响旧版本的业务逻辑。 2.请求参数的规范性统一请求参数格式，如 json 、xml 或者 form 表单形式。 3.返回数据类型、返回码及信息提示的规范性 统一接口返回格式，保证主体结构一致 制定返回码规范，如 00000 代表调用成功，调用失败时返回错误码，错误码按不同业务场景分段设计，如 10001 代表用户登录失败。 4.接口安全验证及权限的控制在拦截器里做请求参数合法性校验，如签名验证、登录状态校验、权限校验等。 5.接口调用频率的控制也属于接口的安全性的范畴，主要为了防止恶意攻击或者异常调用。 6.请求接口日志的记录制定接口请求日志格式，针对每次请求都记录日志，便于排查问题及数据分析统计等。 7.接口文档的可读性团队统一使用业界比较好用的工具或者平台维护接口文档，便于前后端人员联调开发。]]></content>
   </entry>
 </search>

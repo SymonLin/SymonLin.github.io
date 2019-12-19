@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
 <meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-23T04:30:55.023Z">
+<meta property="og:updated_time" content="2019-12-09T09:17:29.046Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hello World">
 <meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
@@ -358,8 +358,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-10-23T12:30:55+08:00">
-                2019-10-23
+              <time title="更新于" itemprop="dateModified" datetime="2019-12-09T17:17:29+08:00">
+                2019-12-09
               </time>
             
           </span>
@@ -401,7 +401,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  463
+                  73
                 </span>
               
 
@@ -447,16 +447,6 @@
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-<h3 id="API-接口设计规范"><a href="#API-接口设计规范" class="headerlink" title="API 接口设计规范"></a>API 接口设计规范</h3><h4 id="1-接口版本化"><a href="#1-接口版本化" class="headerlink" title="1.接口版本化"></a>1.接口版本化</h4><p>特别是针对 APP 端的接口一定要有版本的控制，因为 APP 发布时需要审核的，有可能后端已经发布但 APP 还没通过审核，如果直接修改原有接口可能会影响用户使用，所以要通过接口版本确保新版本的发布不影响旧版本的业务逻辑。</p>
-<h4 id="2-请求参数的规范性"><a href="#2-请求参数的规范性" class="headerlink" title="2.请求参数的规范性"></a>2.请求参数的规范性</h4><p>统一请求参数格式，如 json 、xml 或者 form 表单形式。</p>
-<h4 id="3-返回数据类型、返回码及信息提示的规范性"><a href="#3-返回数据类型、返回码及信息提示的规范性" class="headerlink" title="3.返回数据类型、返回码及信息提示的规范性"></a>3.返回数据类型、返回码及信息提示的规范性</h4><ul>
-<li>统一接口返回格式，保证主体结构一致</li>
-<li>制定返回码规范，如 00000 代表调用成功，调用失败时返回错误码，错误码按不同业务场景分段设计，如 10001 代表用户登录失败。</li>
-</ul>
-<h4 id="4-接口安全验证及权限的控制"><a href="#4-接口安全验证及权限的控制" class="headerlink" title="4.接口安全验证及权限的控制"></a>4.接口安全验证及权限的控制</h4><p>在拦截器里做请求参数合法性校验，如签名验证、登录状态校验、权限校验等。</p>
-<h4 id="5-接口调用频率的控制"><a href="#5-接口调用频率的控制" class="headerlink" title="5.接口调用频率的控制"></a>5.接口调用频率的控制</h4><p>也属于接口的安全性的范畴，主要为了防止恶意攻击或者异常调用。</p>
-<h4 id="6-请求接口日志的记录"><a href="#6-请求接口日志的记录" class="headerlink" title="6.请求接口日志的记录"></a>6.请求接口日志的记录</h4><p>制定接口请求日志格式，针对每次请求都记录日志，便于排查问题及数据分析统计等。</p>
-<h4 id="7-接口文档的可读性"><a href="#7-接口文档的可读性" class="headerlink" title="7.接口文档的可读性"></a>7.接口文档的可读性</h4><p>团队统一使用业界比较好用的工具或者平台维护接口文档，便于前后端人员联调开发。</p>
 
       
     </div>
@@ -611,7 +601,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -671,7 +661,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#API-接口设计规范"><span class="nav-text">API 接口设计规范</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-接口版本化"><span class="nav-text">1.接口版本化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-请求参数的规范性"><span class="nav-text">2.请求参数的规范性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-返回数据类型、返回码及信息提示的规范性"><span class="nav-text">3.返回数据类型、返回码及信息提示的规范性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-接口安全验证及权限的控制"><span class="nav-text">4.接口安全验证及权限的控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-接口调用频率的控制"><span class="nav-text">5.接口调用频率的控制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-请求接口日志的记录"><span class="nav-text">6.请求接口日志的记录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-接口文档的可读性"><span class="nav-text">7.接口文档的可读性</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -712,7 +702,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">32.5k</span>
+    <span title="Site words total count">32.1k</span>
   
 </div>
 

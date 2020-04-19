@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_2.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_3.png">
 <meta property="og:image" content="http://blog.shoegaze.com/SpringBoot_3_4.png">
-<meta property="og:updated_time" content="2019-03-03T03:06:14.961Z">
+<meta property="og:updated_time" content="2020-04-19T10:51:02.743Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring Boot 项目实战（三）集成 Swagger 及 JavaMelody">
 <meta name="twitter:description" content="一、前言上篇介绍了 Logback 的集成过程，总体已经达到了基本可用的项目结构。本篇主要介绍两个常用工具，接口文档工具 Swagger 、项目监控工具 JavaMelody 的集成步骤。  二、Swagger随着互联网技术的发展，现在的网站架构基本都由原来的后端渲染变成了前端渲染、前后端分离的形态。前后端唯一的联系变成了 API 接口，API 文档成了前后端开发人员联系的纽带，Swagger 就">
@@ -364,8 +364,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-03-03T11:06:14+08:00">
-                2019-03-03
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-19T18:51:02+08:00">
+                2020-04-19
               </time>
             
           </span>
@@ -518,7 +518,7 @@
 <p>注：其余注解大家可自行查阅文档</p>
 </blockquote>
 <hr>
-<h3 id="三、JavaMelody"><a href="#三、JavaMelody" class="headerlink" title="三、JavaMelody"></a>三、JavaMelody</h3><h4 id="3-1-JavaMelody-介绍"><a href="#3-1-JavaMelody-介绍" class="headerlink" title="3.1 JavaMelody 介绍"></a>3.1 JavaMelody 介绍</h4><p>JavaMelody 是用来在 QA 和实际运行生产环境中监控 Java 或 Java EE 应用程序服务器的一个开源框架。它不是一个工具来模拟来自用户的请求，而是一个测量和计算用户在实际操作中应用程序的使用情况的工具，并以图表的形式显示，图表可以按天，周，月，年或自定义时间段查看。</p>
+<h3 id="三、JavaMelody"><a href="#三、JavaMelody" class="headerlink" title="三、JavaMelody"></a>三、JavaMelody</h3><h4 id="3-1-JavaMelody-介绍"><a href="#3-1-JavaMelody-介绍" class="headerlink" title="3.1 JavaMelody 介绍"></a>3.1 JavaMelody 介绍</h4><p>JavaMelody 是用来在 QA 和实际运行生产环境中监控 Java 或 Java EE 应用程序服务器的一个开源框架。它不是一个工具来模拟来自用户的请求，而是一个测量和计算用户在实际操作中应用程序的使用情况的工具，并以图表的形式显示，图表可以按天、周、月、年或自定义时间段查看。</p>
 <h4 id="3-2-集成-JavaMelody"><a href="#3-2-集成-JavaMelody" class="headerlink" title="3.2 集成 JavaMelody"></a>3.2 集成 JavaMelody</h4><p>① 首先在项目父 pom 文件中声明 JavaMelody 依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.bull.javamelody<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javamelody-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.74.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>② 其次在 demo-web 层中的 pom 文件中添加上述依赖<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    ...省略其余部分...</span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>net.bull.javamelody<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>javamelody-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>③ 最后启动项目，访问 <a href="http://localhost:8080/monitoring" target="_blank" rel="noopener">http://localhost:8080/monitoring</a> 查看<br><img src="http://blog.shoegaze.com/SpringBoot_3_4.png" alt="SpringBoot_3_4.png"><br>④ 为了加强安全性，修改默认访问地址以及设置为登录后才可访问，可在 application.properties 文件中添加以下配置项<br><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">javamelody.init-parameters.authorized-users</span> <span class="string">=</span> <span class="attr">admin:pwd</span></span><br><span class="line"><span class="string">javamelody.init-parameters.monitoring-path</span> <span class="string">=</span> <span class="string">/demo/monitoring</span></span><br></pre></td></tr></table></figure></p>
@@ -666,7 +666,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -729,7 +729,7 @@
     <h3 class="widget-title">Tag Cloud</h3>
     <div id="myCanvasContainer" class="widget tagcloud">
         <canvas width="250" height="250" id="resCanvas" style="width=100%">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logback/">Logback</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/">Tools</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发规约/">开发规约</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/踩过的坑/">踩过的坑</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Elasticsearch/">Elasticsearch</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Logback/">Logback</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Redis/">Redis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Spring-Boot/">Spring Boot</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tools/">Tools</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/开发规约/">开发规约</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/踩过的坑/">踩过的坑</a><span class="tag-list-count">2</span></li></ul>
         </canvas>
     </div>
 </div>
@@ -775,7 +775,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -789,7 +789,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">32.1k</span>
+    <span title="Site words total count">33.6k</span>
   
 </div>
 

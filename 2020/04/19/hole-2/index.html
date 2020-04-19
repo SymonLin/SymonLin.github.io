@@ -75,7 +75,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="踩过的坑,">
 
 
 
@@ -86,13 +86,23 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Symon Lin&#39;s Home">
-<meta property="og:url" content="https://symonlin.github.io/tags/Logback/index.html">
+<meta name="description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
+<meta name="keywords" content="踩过的坑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nexus 私服无法下载远程 Jar 包问题排查指南">
+<meta property="og:url" content="https://symonlin.github.io/2020/04/19/hole-2/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
+<meta property="og:description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzekug8bhj213p0jnq6y.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezch14vj227m14818c.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezxlw25j227q14cnc9.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzbg43bejj21h805qacy.jpg">
+<meta property="og:updated_time" content="2020-04-19T13:55:04.993Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Symon Lin&#39;s Home">
+<meta name="twitter:title" content="Nexus 私服无法下载远程 Jar 包问题排查指南">
+<meta name="twitter:description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzekug8bhj213p0jnq6y.jpg">
 
 
 
@@ -122,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://symonlin.github.io/tags/Logback/">
+  <link rel="canonical" href="https://symonlin.github.io/2020/04/19/hole-2/">
 
 
 
 
 
-  <title>标签: Logback | Symon Lin's Home</title>
+  <title>Nexus 私服无法下载远程 Jar 包问题排查指南 | Symon Lin's Home</title>
   
 
 
@@ -157,7 +167,7 @@
     
   
 
-  <div class="container sidebar-position-right ">
+  <div class="container sidebar-position-right page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
@@ -295,52 +305,276 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>Logback<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://symonlin.github.io/2020/04/19/hole-2/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Symon Lin">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://thirdwx.qlogo.cn/mmopen/Q3auHgzwzM6RIpHcbOy1W5SJSqq5rIGibVjZo5pgU9oNkL3HZsXZFQXKAlicdWGL8P3psWf13TkmWydkg0gufuCg/132">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Symon Lin's Home">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/01/29/logback-1/" itemprop="url">
-              
-                <span itemprop="name">Logback XML 基础配置详解</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Nexus 私服无法下载远程 Jar 包问题排查指南</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-01-29T11:24:19+08:00" content="2019-01-29">
-          01-29
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-19T21:52:29+08:00">
+                2020-04-19
+              </time>
+            
 
-    </header>
-  </article>
+            
+              <span class="post-meta-divider">|</span>
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-check-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">更新于&#58;</span>
+              
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-19T21:55:04+08:00">
+                2020-04-19
+              </time>
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/19/hole-2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2020/04/19/hole-2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-file-o"></i>
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1.6k
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  6
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。</p>
+<p>不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下载远程 Jar 包的问题，这种情况在最早期系统重构时就有遇到，但后来又不知怎么滴就自己好了，时间关系也就没深究原因。既然这次又碰到了，那干脆就彻底解决掉。</p>
+<hr>
+<h3 id="二、问题起因"><a href="#二、问题起因" class="headerlink" title="二、问题起因"></a>二、问题起因</h3><p>那天下午我在本地搭好 Spring Boot Admin Server 后，打算找个应用充当 Client 看下效果。Client 端需要依赖 spring-boot-admin-starter-client 包。<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-admin-starter-client<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>谁知这个依赖包死活下载不下来，带着疑问我打开公司的 Nexus 私服搜索这个包，发现是可以搜到的。<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzekug8bhj213p0jnq6y.jpg" alt="WX20200419-213520.png"></p>
+<hr>
+<h3 id="三、排查过程"><a href="#三、排查过程" class="headerlink" title="三、排查过程"></a>三、排查过程</h3><p>① 由于公司 Nexus 私服中的中央仓库还是用的默认值<code>http://repo1.maven.org/maven2/</code>。所以第一时间更换为阿里云的<code>http://maven.aliyun.com/nexus/content/groups/public/</code>，重启之后发现还是下载不了。</p>
+<p>② 对比了仓库组「Public Repositories」的「Browse Index」及「Browse Storage」，发现「Browse Storage」没有相应依赖包，但既然主界面搜索能搜到那就排除了仓库索引的问题，于是死马当活马医尝试执行了 <strong>Rebuild Metadata</strong>、<strong>Update Index</strong> 操作后还是不行。</p>
+<blockquote>
+<p>Public Repositories：这是个 Repository Group，它的作用是我们只需要在自己的项目中配置该 Repository Group 这一个地址就行了，它将自动从其所包含的 Repository 中下载依赖。</p>
+</blockquote>
+<p>③ 随后仓库列表里的 Repository Status 栏引起我的注意，发现包括中央仓库在内的三个远程仓库呈如下状态：<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezch14vj227m14818c.jpg" alt="5D189D37-DFCD-46A1-8D28-0C9BE82DA1BC.png"><br>尝试右键 Allow Proxy 发现一会状态又变回 Auto Block 。</p>
+<blockquote>
+<p>Nexus 有一个 Auto Block 特性。当客户端发送请求到 Nexus 拉取 Jar 包时，如果 Nexus 当前没有，就会到远程仓库上去找；但如果连不到远程仓库，就会造成客户端的大规模等待，因此 Nexus 设计了 Auto Block 特性，在连接不上远程仓库时会将仓库设置为 Auto Block 状态，不再去连接远程仓库，而是直接告诉客户端连接不上然后返回。当然此时 Nexus 内部还会有一个健康检查的机制定时去连接远程仓库，如果能连接上就将仓库状态自动设置为有效，否则延长重试的时间，直到 60 分钟重试一次。</p>
+</blockquote>
+<p>知道上述原理后，只需要修改相应配置项即可。将选中仓库「Configuration」栏的「Auto Blocking Enabled」配置项改为 false，重新 Allow Proxy 发现状态正常了。<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezxlw25j227q14cnc9.jpg" alt="364F2C4A-1257-49F0-8531-748290958B0C.png"><br>带着一丝期待再次下载依赖包，发现还是不行。<br>(╯‵□′)╯︵┻━┻</p>
+<p>④ 理智告诉我要冷静，到这会我才想起来去看服务器上 Nexus 的日志，在 wrapper.log 文件中发现如下日志信息：<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzbg43bejj21h805qacy.jpg" alt="nexus_log.png"><br>怎么会连不上阿里云远程仓库，明明浏览器访问能正常打开，但服务器却 ping 不通，黑人问号脸？？？<br>没办法，只能回到 Nexus 管理后台重新换了一个仓库地址，重启之后发现依赖包终于可以下载了。<br>✿✿ヽ(°▽°)ノ✿</p>
+<p>⑤ 依赖包问题是解决了，但是连不上阿里云远程仓库让我很费解，最后发现原来是在服务器的 hosts 里配了「maven.aliyun.com」的 IP 映射，该 IP 应该是早前的解析地址，现在早已失效，所以删掉就好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">59.110.144.164 maven.aliyun.com</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><p>上述排查过程其实并不合理，没有第一时间找到根本原因，也是因为当时不知道从何下手。回到现在，已经可以总结出一套相对合理的排查步骤：</p>
+<ul>
+<li>首先关注服务器上 Nexus 的<strong>日志</strong>，一般情况下从日志就能看出到底是什么原因引起的</li>
+<li>其次检查本地 <strong>setting.xml</strong> 文件里的配置是否正常</li>
+<li>然后检查远程仓库的 <strong>Repository Status</strong> 是否正常，必要时将「Auto Blocking Enabled」配置项改为 false，中央仓库地址最好改为国内仓库地址</li>
+<li>再检查 Nexus 仓库组「<strong>Public Repositories</strong>」的 Ordered Group Repositories 是否配置正确，一般除了 Snapshots 的远程仓库在右侧之外，其余均在左侧</li>
+<li>如果搜索都搜不到，那就要检查仓库组<strong>索引</strong>是否正常，必要时右键执行 Rebuild Metadata 及 Update Index</li>
+</ul>
+<hr>
+<h3 id="五、其他"><a href="#五、其他" class="headerlink" title="五、其他"></a>五、其他</h3><p>贴一份 setting.xml 文件的常规配置以供参考：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">...省略其余部分...</span><br><span class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://127.0.0.1:8080/nexus/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>*<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">profiles</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">profile</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">id</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">repositories</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">repository</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">id</span>&gt;</span>central<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://central<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">releases</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">repository</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">repositories</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">pluginRepositories</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">id</span>&gt;</span>central<span class="tag">&lt;/<span class="name">id</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://central<span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">releases</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">releases</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">snapshots</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">enabled</span>&gt;</span>true<span class="tag">&lt;/<span class="name">enabled</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">snapshots</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">pluginRepository</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">pluginRepositories</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">profile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">profiles</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">activeProfiles</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">activeProfile</span>&gt;</span>nexus<span class="tag">&lt;/<span class="name">activeProfile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activeProfiles</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>通过 mirror 和 profile 的方式将 Central Repository 全部转向到我们自己的Public Repositories，包括 release 版本和 snapshot 版本。这样一来，我们项目中的所有依赖都从 Nexus 的 Public Repositories 下载，由于其中包含了对 Maven Central Repository 的代理，所以此时 Maven Central Repository 中的类库也是可以间接下载到的。</p>
+</blockquote>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Symon Lin
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://symonlin.github.io/2020/04/19/hole-2/" title="Nexus 私服无法下载远程 Jar 包问题排查指南">https://symonlin.github.io/2020/04/19/hole-2/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/踩过的坑/" rel="tag"># 踩过的坑</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/02/sequence-3/" rel="next" title="医生端小程序登录及绑定手机号流程">
+                <i class="fa fa-chevron-left"></i> 医生端小程序登录及绑定手机号流程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -348,6 +582,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -368,8 +609,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -458,6 +708,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、前言"><span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、问题起因"><span class="nav-text">二、问题起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、排查过程"><span class="nav-text">三、排查过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、总结"><span class="nav-text">四、总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、其他"><span class="nav-text">五、其他</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -644,6 +910,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -95,10 +95,11 @@
 <meta property="og:description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzekug8bhj213p0jnq6y.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95ly1ge1782v57lj227m13q4cb.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezch14vj227m14818c.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezxlw25j227q14cnc9.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzbg43bejj21h805qacy.jpg">
-<meta property="og:updated_time" content="2020-04-21T02:48:55.199Z">
+<meta property="og:updated_time" content="2020-04-21T02:54:16.961Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus 私服无法下载远程 Jar 包问题排查指南">
 <meta name="twitter:description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
@@ -364,7 +365,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-21T10:48:55+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-21T10:54:16+08:00">
                 2020-04-21
               </time>
             
@@ -476,9 +477,9 @@
 </blockquote>
 <hr>
 <h3 id="三、排查过程"><a href="#三、排查过程" class="headerlink" title="三、排查过程"></a>三、排查过程</h3><p>① 由于公司 Nexus 私服中的中央仓库还是用的默认值<code>http://repo1.maven.org/maven2/</code>。所以第一时间更换为阿里云的<code>http://maven.aliyun.com/nexus/content/groups/public/</code>，重启之后发现还是下载不了。</p>
-<p>② 对比了仓库组「Public Repositories」的「Browse Index」及「Browse Storage」，发现「Browse Storage」没有相应依赖包，但既然主界面搜索能搜到那就排除了仓库索引的问题，于是死马当活马医尝试执行了 <strong>Rebuild Metadata</strong>、<strong>Update Index</strong> 操作后还是不行。</p>
+<p>② 对比了仓库组「Public Repositories」的「Browse Index」及「Browse Storage」，发现「Browse Storage」没有相应依赖包，但既然主界面搜索能搜到那就排除了仓库索引的问题，于是死马当活马医尝试执行了 <strong>Rebuild Metadata</strong>、<strong>Update Index</strong> 操作后还是不行。<br><img src="http://ww1.sinaimg.cn/large/b607cb95ly1ge1782v57lj227m13q4cb.jpg" alt="WX20200421-105148@2x.png"></p>
 <blockquote>
-<p>Public Repositories：这是个 Repository Group，它的作用是我们只需要在自己的项目中配置该 Repository Group 这一个地址就行了，它将自动从其所包含的 Repository 中下载依赖。</p>
+<p>Public Repositories：这是个 Repository Group，它的作用是我们只需要在 setting.xml 文件中配置该 Repository Group 这一个地址就行了，它将自动从其所包含的 Repository 中下载构件。</p>
 </blockquote>
 <p>③ 随后仓库列表里的 Repository Status 栏引起我的注意，发现包括中央仓库在内的三个远程仓库呈如下状态：<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezch14vj227m14818c.jpg" alt="5D189D37-DFCD-46A1-8D28-0C9BE82DA1BC.png"><br>尝试右键 Allow Proxy 发现一会状态又变回 Auto Block 。</p>
 <blockquote>

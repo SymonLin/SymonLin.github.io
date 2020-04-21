@@ -98,7 +98,7 @@
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezch14vj227m14818c.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzezxlw25j227q14cnc9.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95gy1gdzbg43bejj21h805qacy.jpg">
-<meta property="og:updated_time" content="2020-04-21T02:35:56.463Z">
+<meta property="og:updated_time" content="2020-04-21T02:48:55.199Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Nexus 私服无法下载远程 Jar 包问题排查指南">
 <meta name="twitter:description" content="一、前言前几天线上 ZooKeeper 出了一次不大不小的问题，由于缺少监控报警，导致事发第二天才引起我们的注意，所幸没有造成太大的影响。这起事情也督促我们尽快建立完备的监控体系，目前项目中使用 JavaMelody 监控应用状态，但是缺少实时报警。所以最近团队内部都在调研相关监控工具，初步选型 Sentry。 不过本篇跟 Sentry 其实没啥关系，主要是在调研过程中碰到 Nexus 私服无法下">
@@ -364,7 +364,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-04-21T10:35:56+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-04-21T10:48:55+08:00">
                 2020-04-21
               </time>
             
@@ -488,7 +488,7 @@
 <p>④ 理智告诉我要冷静，到这会我才想起来去看服务器上 Nexus 的日志，在 wrapper.log 文件中发现如下日志信息：<br><img src="http://ww1.sinaimg.cn/large/b607cb95gy1gdzbg43bejj21h805qacy.jpg" alt="nexus_log.png"><br>怎么会连不上阿里云远程仓库，明明浏览器访问能正常打开，但服务器却 ping 不通，黑人问号脸？？？<br>没办法，只能回到 Nexus 管理后台重新换了一个仓库地址，重启之后发现依赖包终于可以下载了。<br>✿✿ヽ(°▽°)ノ✿</p>
 <p>⑤ 依赖包问题是解决了，但是连不上阿里云远程仓库让我很费解，最后发现原来是在服务器的 hosts 里配了「maven.aliyun.com」的 IP 映射，该 IP 应该是早前的解析地址，现在早已失效，所以删掉就好了。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">59.110.144.164 maven.aliyun.com</span><br></pre></td></tr></table></figure></p>
 <hr>
-<h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><p>上述排查过程其实并不高效，没有第一时间找到根本原因，也是因为当时有些迷茫。回到现在，已经可以总结出一套相对有效的排查步骤：</p>
+<h3 id="四、总结"><a href="#四、总结" class="headerlink" title="四、总结"></a>四、总结</h3><p>上述排查过程其实并不高效，没有第一时间找到根本原因。回到现在，可以总结出一套相对有效的排查步骤：</p>
 <ul>
 <li>首先关注服务器上 Nexus 的<strong>日志</strong>，一般情况下从日志就能看出到底是什么原因引起的</li>
 <li>其次检查本地 <strong>setting.xml</strong> 文件里的配置是否正常</li>

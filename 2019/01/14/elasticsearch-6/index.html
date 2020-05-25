@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定">
+<meta name="description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 「 _score 」 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，">
 <meta name="keywords" content="Elasticsearch">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从零搭建 ES 搜索服务（六）相关性排序优化">
 <meta property="og:url" content="https://symonlin.github.io/2019/01/14/elasticsearch-6/index.html">
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
-<meta property="og:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定">
+<meta property="og:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 「 _score 」 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-28T11:24:36.000Z">
+<meta property="og:updated_time" content="2020-05-25T07:29:37.632Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从零搭建 ES 搜索服务（六）相关性排序优化">
-<meta name="twitter:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，可指定">
+<meta name="twitter:description" content="一、前言上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。  二、相关概念2.1 排序默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。 2.1.1 相关性排序（默认）在 ES 中相关性评分由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 「 _score 」 降序排列。 2.1.2 按照字段值排序使用「 sort 」参数实现，">
 
 
 
@@ -359,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-01-28T19:24:36+08:00">
-                2019-01-28
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-25T15:29:37+08:00">
+                2020-05-25
               </time>
             
           </span>
@@ -463,9 +463,9 @@
       
         <h3 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h3><p>上篇介绍了搜索结果高亮的实现方法，本篇主要介绍搜索结果相关性排序优化。</p>
 <hr>
-<h3 id="二、相关概念"><a href="#二、相关概念" class="headerlink" title="二、相关概念"></a>二、相关概念</h3><h4 id="2-1-排序"><a href="#2-1-排序" class="headerlink" title="2.1 排序"></a>2.1 排序</h4><p>默认情况下，返回结果是按照「相关性」进行排序的——最相关的文档排在最前。</p>
-<h5 id="2-1-1-相关性排序（默认）"><a href="#2-1-1-相关性排序（默认）" class="headerlink" title="2.1.1 相关性排序（默认）"></a>2.1.1 相关性排序（默认）</h5><p>在 ES 中<em>相关性评分</em> 由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 _score 降序排列。</p>
-<h5 id="2-1-2-按照字段值排序"><a href="#2-1-2-按照字段值排序" class="headerlink" title="2.1.2 按照字段值排序"></a>2.1.2 按照字段值排序</h5><p>使用「 sort 」参数实现，可指定一个或多个字段。然而使用 sort 排序过于绝对，它会直接忽略文档本身的相关度，因此仅适合在某些特殊场景使用。</p>
+<h3 id="二、相关概念"><a href="#二、相关概念" class="headerlink" title="二、相关概念"></a>二、相关概念</h3><h4 id="2-1-排序"><a href="#2-1-排序" class="headerlink" title="2.1 排序"></a>2.1 排序</h4><p>默认情况下，返回结果是按照<code>「相关性」</code>进行排序的——最相关的文档排在最前。</p>
+<h5 id="2-1-1-相关性排序（默认）"><a href="#2-1-1-相关性排序（默认）" class="headerlink" title="2.1.1 相关性排序（默认）"></a>2.1.1 相关性排序（默认）</h5><p>在 ES 中<em>相关性评分</em>由一个浮点数表示，并在搜索结果中通过「 _score 」参数返回，默认是按照 「 _score 」 降序排列。</p>
+<h5 id="2-1-2-按照字段值排序"><a href="#2-1-2-按照字段值排序" class="headerlink" title="2.1.2 按照字段值排序"></a>2.1.2 按照字段值排序</h5><p>使用「 sort 」参数实现，可指定一个或多个字段。然而使用「 sort 」排序过于绝对，它会直接忽略文档本身的相关度，因此仅适合在某些特殊场景使用。</p>
 <blockquote>
 <p>注：如果以字符串字段进行排序，除了索引一份用于全文查询的数据，还需要索引一份原始的未经分析器处理（即 not_analyzed ）的数据。这就需要使用<code>「 fields 」</code>参数实现同一个字段多种索引方式，这里的「索引」是动词相当于「存储」的概念。</p>
 </blockquote>

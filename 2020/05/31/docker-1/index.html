@@ -96,7 +96,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95ly1gfbslabc6yj20gv0a30t9.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95ly1gfbprexvcdj2280192wjg.jpg">
-<meta property="og:updated_time" content="2020-05-31T10:23:46.194Z">
+<meta property="og:updated_time" content="2020-05-31T10:32:06.056Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 实战（一）核心概念及常用命令">
 <meta name="twitter:description" content="一、前言近期因为产品方案尚未确定，有些许空闲时间调研下火了挺久的容器技术 Docker。  二、初识 Docker如果说主机时代比拼的是单个服务器物理性能（如 CPU 主频和内存）的强弱，那么在云时代，最为看重的则是凭借虚拟化技术所构建的集群处理能力。 2.1 虚拟化及容器技术在计算机领域，虚拟化一般指的是「计算机虚拟化」或「服务器虚拟化」。维基百科上的定义如下：  在计算机技术中，虚拟化是一种资">
@@ -362,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-31T18:23:46+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-31T18:32:06+08:00">
                 2020-05-31
               </time>
             
@@ -574,7 +574,7 @@
 <li>执行完毕后容器被自动终止</li>
 </ul>
 <p>示例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 91:80 nginx</span><br></pre></td></tr></table></figure></p>
-<p>新建并启动一个 Nginx 容器，-d 代表后台运行，-p 代表端口映射，将 Nginx 容器默认的 80 端口映射到宿主主机的 91 端口。访问 http://宿主主机IP:91 可以看到如下界面：<br><img src="http://ww1.sinaimg.cn/large/b607cb95ly1gfbprexvcdj2280192wjg.jpg" alt="WX20200531-162958@2x.png"></p>
+<p>新建并启动一个 Nginx 容器，-d 代表后台运行，-p 代表端口映射，将 Nginx 容器默认的 80 端口映射到宿主主机的 91 端口。<br>访问 http://宿主主机IP:91 可以看到如下界面：<br><img src="http://ww1.sinaimg.cn/large/b607cb95ly1gfbprexvcdj2280192wjg.jpg" alt="WX20200531-162958@2x.png"></p>
 <h4 id="5-2-列出容器"><a href="#5-2-列出容器" class="headerlink" title="5.2 列出容器"></a>5.2 列出容器</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>使用 docker ps 命令即可列出运行中的容器。得到类似如下的表格。</p>

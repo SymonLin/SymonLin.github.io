@@ -96,7 +96,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95ly1gfbslabc6yj20gv0a30t9.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/b607cb95ly1gfbprexvcdj2280192wjg.jpg">
-<meta property="og:updated_time" content="2020-05-31T10:22:00.092Z">
+<meta property="og:updated_time" content="2020-05-31T10:23:46.194Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 实战（一）核心概念及常用命令">
 <meta name="twitter:description" content="一、前言近期因为产品方案尚未确定，有些许空闲时间调研下火了挺久的容器技术 Docker。  二、初识 Docker如果说主机时代比拼的是单个服务器物理性能（如 CPU 主频和内存）的强弱，那么在云时代，最为看重的则是凭借虚拟化技术所构建的集群处理能力。 2.1 虚拟化及容器技术在计算机领域，虚拟化一般指的是「计算机虚拟化」或「服务器虚拟化」。维基百科上的定义如下：  在计算机技术中，虚拟化是一种资">
@@ -362,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2020-05-31T18:22:00+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2020-05-31T18:23:46+08:00">
                 2020-05-31
               </time>
             
@@ -539,11 +539,14 @@
 <ul>
 <li>镜像（Image）</li>
 <li>容器（Container）</li>
-<li>仓库（Repository）<h4 id="3-1-Docker-镜像"><a href="#3-1-Docker-镜像" class="headerlink" title="3.1 Docker 镜像"></a>3.1 Docker 镜像</h4>Docker 镜像类似于虚拟机镜像，可以将它理解为一个只读的模板。镜像是创建 Docker 容器的基础。<h4 id="3-2-Docker-容器"><a href="#3-2-Docker-容器" class="headerlink" title="3.2 Docker 容器"></a>3.2 Docker 容器</h4>Docker 容器类似于一个轻量级沙箱，它是从镜像创建的<strong>应用运行实例</strong>，可以启动、开始、停止、删除。容器彼此相互隔离、互不可见。<h4 id="3-3-Docker-仓库"><a href="#3-3-Docker-仓库" class="headerlink" title="3.3 Docker 仓库"></a>3.3 Docker 仓库</h4>Docker 仓库类似于代码仓库，是 Docker 集中存放镜像文件的场所。可以分为公开仓库（Public）和私有仓库（Private）两种形式。<blockquote>
+<li>仓库（Repository）</li>
+</ul>
+<h4 id="3-1-Docker-镜像"><a href="#3-1-Docker-镜像" class="headerlink" title="3.1 Docker 镜像"></a>3.1 Docker 镜像</h4><p>Docker 镜像类似于虚拟机镜像，可以将它理解为一个只读的模板。镜像是创建 Docker 容器的基础。</p>
+<h4 id="3-2-Docker-容器"><a href="#3-2-Docker-容器" class="headerlink" title="3.2 Docker 容器"></a>3.2 Docker 容器</h4><p>Docker 容器类似于一个轻量级沙箱，它是从镜像创建的<strong>应用运行实例</strong>，可以启动、开始、停止、删除。容器彼此相互隔离、互不可见。</p>
+<h4 id="3-3-Docker-仓库"><a href="#3-3-Docker-仓库" class="headerlink" title="3.3 Docker 仓库"></a>3.3 Docker 仓库</h4><p>Docker 仓库类似于代码仓库，是 Docker 集中存放镜像文件的场所。可以分为公开仓库（Public）和私有仓库（Private）两种形式。</p>
+<blockquote>
 <p>Docker 利用仓库管理镜像的设计理念与 Git 代码仓库的概念非常相似，设计上借鉴了 Git 的很多优秀思想。</p>
 </blockquote>
-</li>
-</ul>
 <hr>
 <h3 id="四、CentOS-环境下安装-Docker"><a href="#四、CentOS-环境下安装-Docker" class="headerlink" title="四、CentOS 环境下安装 Docker"></a>四、CentOS 环境下安装 Docker</h3><p>大致了解 Docker 的核心概念后，我们先在服务器上安装 Docker 进行实操。</p>
 <blockquote>
@@ -585,9 +588,9 @@
 <li>CREATED：容器的创建时间</li>
 <li>STATUS：容器的运行状态</li>
 <li>PORTS：容器对外端口号</li>
-<li>NAMES：容器名称，默认由 Docker 自动生成<h4 id="5-3-查看容器日志"><a href="#5-3-查看容器日志" class="headerlink" title="5.3 查看容器日志"></a>5.3 查看容器日志</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs CONTAINER</span><br></pre></td></tr></table></figure>
-</li>
+<li>NAMES：容器名称，默认由 Docker 自动生成</li>
 </ul>
+<h4 id="5-3-查看容器日志"><a href="#5-3-查看容器日志" class="headerlink" title="5.3 查看容器日志"></a>5.3 查看容器日志</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs CONTAINER</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>该命令可以查看容器的输出信息</p>
 </blockquote>

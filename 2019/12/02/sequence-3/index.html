@@ -94,7 +94,7 @@
 <meta property="og:site_name" content="Symon Lin&#39;s Home">
 <meta property="og:description" content="`mermaidsequenceDiagramtitle: 医生端小程序登录及绑定手机号流程participant mini as 小程序participant eagle as 医生端participant beyond as 基础中心participant wechat as 微信接口服务note over mini: 首次登录mini-&amp;gt;&amp;gt;mini: wx.login()获取co">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-09T08:50:09.249Z">
+<meta property="og:updated_time" content="2020-10-11T07:55:49.326Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="医生端小程序登录及绑定手机号流程">
 <meta name="twitter:description" content="`mermaidsequenceDiagramtitle: 医生端小程序登录及绑定手机号流程participant mini as 小程序participant eagle as 医生端participant beyond as 基础中心participant wechat as 微信接口服务note over mini: 首次登录mini-&amp;gt;&amp;gt;mini: wx.login()获取co">
@@ -359,8 +359,8 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-12-09T16:50:09+08:00">
-                2019-12-09
+              <time title="更新于" itemprop="dateModified" datetime="2020-10-11T15:55:49+08:00">
+                2020-10-11
               </time>
             
           </span>
@@ -424,7 +424,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  602
+                  837
                 </span>
               
 
@@ -440,7 +440,7 @@
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
                 <span title="阅读时长">
-                  2
+                  3
                 </span>
               
             </div>
@@ -461,8 +461,9 @@
       
 
       
-        <p><code>`</code>mermaid<br>sequenceDiagram<br>title: 医生端小程序登录及绑定手机号流程<br>participant mini as 小程序<br>participant eagle as 医生端<br>participant beyond as 基础中心<br>participant wechat as 微信接口服务<br>note over mini: 首次登录<br>mini-&gt;&gt;mini: wx.login()获取code<br>mini-&gt;&gt;eagle: wx.request()发送code<br>eagle-&gt;&gt;beyond: 调用登录凭证校验接口<br>beyond-&gt;&gt;wechat: 发送登录凭证校验请求<br>wechat–&gt;&gt;beyond: 返回openid、session_key及unionid<br>beyond–&gt;&gt;eagle: 返回openid、session_key及unionid<br>eagle-&gt;&gt;eagle: 判断医生是否关注小程序关联的公众号<br>eagle-&gt;&gt;eagle: 若已关注，则根据unionid查询医生<br>eagle-&gt;&gt;eagle: 若查询不到数据，则生成一个与unionid对应的临时ticket<br>eagle–&gt;&gt;mini: 返回ticket<br>mini-&gt;&gt;mini: 跳转到绑定手机号页面<br>mini-&gt;&gt;eagle: wx.request()发送手机号、验证码及ticket<br>eagle-&gt;&gt;eagle: 校验手机号及验证码是否有效<br>eagle-&gt;&gt;eagle: 判断ticket是否有效<br>eagle–&gt;&gt;mini: ticket无效则提示【绑定手机号失败】<br>eagle-&gt;&gt;eagle: ticket有效则再根据手机号查询医生<br>eagle–&gt;&gt;mini: 若手机号不存在则提示【手机号未注册】<br>eagle–&gt;&gt;mini: 若手机号存在但已绑定微信则提示【该手机号已绑定其他微信】<br>eagle-&gt;&gt;eagle: 拿到与ticket对应的unionid<br>eagle–&gt;&gt;mini: 校验unionid是否存在，若存在则提示【该微信已绑定其他手机号】<br>eagle-&gt;&gt;eagle: 若不存在，则手机号及unionid绑定成功<br>eagle-&gt;&gt;eagle: 生成token<br>eagle-&gt;&gt;eagle: 将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token<br>mini-&gt;&gt;mini: 绑定并登录成功</p>
-<p>note over mini: 二次登录<br>mini-&gt;&gt;mini: wx.login()获取code<br>mini-&gt;&gt;eagle: wx.request()发送code<br>eagle-&gt;&gt;beyond: 调用登录凭证校验接口<br>beyond-&gt;&gt;wechat: 发送登录凭证校验请求<br>wechat–&gt;&gt;beyond: 返回openid、session_key及unionid<br>beyond–&gt;&gt;eagle: 返回unionid<br>eagle-&gt;&gt;eagle: 根据unionid查询医生信息<br>eagle-&gt;&gt;eagle: 查询到数据则生成token<br>eagle-&gt;&gt;eagle: 将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token<br>mini-&gt;&gt;mini: 登录成功</p>
+        <p><code>`</code>mermaid<br>sequenceDiagram<br>title: 医生端小程序登录及绑定手机号流程<br>participant mini as 小程序<br>participant eagle as 医生端<br>participant beyond as 基础中心<br>participant wechat as 微信接口服务<br>note over mini: 首次登录<br>mini-&gt;&gt;mini: wx.login()获取code<br>mini-&gt;&gt;eagle: wx.request()发送code<br>eagle-&gt;&gt;beyond: 调用登录凭证校验接口<br>beyond-&gt;&gt;wechat: 发送登录凭证校验请求<br>wechat–&gt;&gt;beyond: 返回openid、session_key及unionid<br>beyond–&gt;&gt;eagle: 返回openid、session_key及unionid<br>eagle-&gt;&gt;eagle: 根据unionid查询医生<br>note over eagle: 未绑定医生账号<br>eagle-&gt;&gt;eagle: 若查询不到数据，则将session_key作为ticket，并记录ticket与unionid的映射关系<br>eagle–&gt;&gt;mini: 返回ticket<br>mini-&gt;&gt;mini: 跳转到绑定手机号页面<br>note over eagle: 已绑定医生账号<br>eagle-&gt;&gt;eagle: 判断该医生账号是否为审核号<br>note over eagle: 是审核号<br>eagle-&gt;&gt;eagle: 生成token，并将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token，登录成功<br>mini-&gt;&gt;mini: 跳转至首页<br>note over eagle: 非审核号<br>eagle-&gt;&gt;eagle: 判断是否关注小程序关联的公众号<br>note over eagle: 未关注<br>eagle–&gt;&gt;mini: 提示【未关注公众号】<br>mini-&gt;&gt;mini: 跳转到引导关注公众号页面<br>note over eagle: 已关注<br>eagle-&gt;&gt;eagle: 生成token，并将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token，登录成功<br>mini-&gt;&gt;mini: 跳转至首页</p>
+<p>note over mini: 绑定手机号<br>mini-&gt;&gt;eagle: wx.request()发送手机号、验证码及ticket<br>eagle-&gt;&gt;eagle: 校验手机号及验证码是否有效<br>eagle–&gt;&gt;mini: 验证码无效，则提示【您输入的验证码有误】<br>eagle-&gt;&gt;eagle: 校验ticket是否有效<br>eagle–&gt;&gt;mini: ticket无效，则提示【绑定手机号失败】<br>eagle-&gt;&gt;eagle: ticket有效，则再根据手机号查询医生<br>eagle–&gt;&gt;mini: 若手机号不存在，则提示【手机号未注册】<br>eagle–&gt;&gt;mini: 若手机号存在，但已绑定微信则提示【该手机号已绑定其他微信】<br>eagle-&gt;&gt;eagle: 拿到与ticket对应的unionid<br>eagle–&gt;&gt;mini: 校验unionid是否存在，若存在则提示【该微信已绑定其他手机号】<br>eagle-&gt;&gt;eagle: 若不存在，则手机号及unionid绑定成功<br>eagle-&gt;&gt;eagle: 生成token<br>eagle-&gt;&gt;eagle: 将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token<br>mini-&gt;&gt;mini: 绑定并登录成功</p>
+<p>note over mini: 二次登录<br>mini-&gt;&gt;mini: wx.login()获取code<br>mini-&gt;&gt;eagle: wx.request()发送code<br>eagle-&gt;&gt;beyond: 调用登录凭证校验接口<br>beyond-&gt;&gt;wechat: 发送登录凭证校验请求<br>wechat–&gt;&gt;beyond: 返回openid、session_key及unionid<br>beyond–&gt;&gt;eagle: 返回unionid<br>eagle-&gt;&gt;eagle: 根据unionid查询医生信息<br>eagle-&gt;&gt;eagle: 若查询到数据，则判断医生是否关注小程序关联的公众号<br>eagle-&gt;&gt;eagle: 若已关注，生成token<br>eagle-&gt;&gt;eagle: 查询到数据则生成token<br>eagle-&gt;&gt;eagle: 将token及医生信息保存到redis<br>eagle–&gt;&gt;mini: 返回token，登录成功<br>mini-&gt;&gt;mini: 跳转至首页</p>
 <p>note over mini: 解绑微信<br>mini-&gt;&gt;mini: 跳转到解绑微信页面<br>mini-&gt;&gt;eagle: wx.request()发送解绑请求，请求头携带token<br>eagle-&gt;&gt;eagle: 清空数据库中医生的openid及unionid<br>eagle-&gt;&gt;eagle: 注销登录状态<br>eagle–&gt;&gt;mini: 返回解绑成功<br>mini-&gt;&gt;mini: 解绑成功</p>
 
       
@@ -597,7 +598,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -690,7 +691,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
@@ -704,7 +705,7 @@
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">35.8k</span>
+    <span title="Site words total count">47.2k</span>
   
 </div>
 
